@@ -76,7 +76,7 @@ const FAQsItems = () => {
       {faqsData.map(({ question, answer }, idx) => (
         <details
           key={idx}
-          className="group [&_summary::-webkit-details-marker]:hidden rounded-md border border-gray-300"
+          className="group [&_summary::-webkit-details-marker]:hidden rounded-md border border-primary-foreground cursor-pointer"
           open={openIndex === idx}
         >
           <summary
@@ -84,11 +84,11 @@ const FAQsItems = () => {
               e.preventDefault();
               setOpenIndex(openIndex === idx ? null : idx);
             }}
-            className={`flex items-center justify-between gap-1.5 ${
+            className={`flex items-center justify-between gap-1.5 bg-primary-foreground ${
               openIndex === idx ? "rounded-t-md" : "rounded-md"
             } border-gray-100 bg-gray-50 p-4 text-gray-900`}
           >
-            <h2 className="text-lg font-medium">
+            <h2 className="md:text-lg font-medium">
               {idx + 1}. {question}
             </h2>
 

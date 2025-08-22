@@ -38,8 +38,8 @@ export default function Navbar() {
               >
                 <svg
                   className="pointer-events-none"
-                  width={16}
-                  height={16}
+                  width={20}
+                  height={20}
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -106,7 +106,7 @@ export default function Navbar() {
             <Link to="/login">Sign In</Link>
           </Button>
           <Button asChild size="sm" className="text-sm">
-            <a href="/register">Get Started</a>
+            <Link to="/register">Get Started</Link>
           </Button>
         </div>
       </div>
