@@ -1,9 +1,8 @@
 import FAQsItems from "@/components/modules/FAQpage/FAQsItems";
+import { Mail, Phone } from "lucide-react";
 import { Link } from "react-router";
 
 const FAQs = () => {
-
-
   return (
     <>
       <div className="flex flex-col md:flex-row mx-auto px-4 sm:px-6 lg:px-8 py-16 gap-4">
@@ -22,21 +21,21 @@ const FAQs = () => {
                 </h3>
 
                 <div className="pt-4">
-                  <p className="mt-1 text-[16px] text-gray-700">
-                  info@walletmanagement.com
-                </p>
-                <p className="mt-1 text-[16px] text-gray-700">
-                  +880 1619028278
-                </p>
+                  <div className="mt-1 text-[16px] text-gray-700 flex gap-2">
+                    <Mail className="w-[16px]" />
+                    info@walletmanagement.com
+                  </div>
+                  <div className="mt-1 text-[16px] text-gray-700 flex gap-2">
+                    <Phone className="w-[16px]" />
+                    +880 1619028278
+                  </div>
                 </div>
               </div>
             </div>
           </Link>
         </div>
         <div className="grow-1">
-
           <FAQsItems />
-          
         </div>
       </div>
     </>
