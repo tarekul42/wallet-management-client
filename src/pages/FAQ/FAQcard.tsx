@@ -1,4 +1,4 @@
-import { Mail, Phone } from "lucide-react";
+import { Mail, PhoneCall } from "lucide-react";
 import { Link } from "react-router";
 
 const FAQcard = () => {
@@ -19,8 +19,8 @@ const FAQcard = () => {
               info@walletmanagement.com
             </div>
             <div className="mt-1 text-[16px] text-sidebar-border flex gap-2">
-              <Phone className="w-[16px]" />
-              +880 1619028278
+              <PhoneCall className="w-[16px]" />
+              +44 20 7946 0958
             </div>
           </div>
         </div>
