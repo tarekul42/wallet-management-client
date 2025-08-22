@@ -1,7 +1,7 @@
-import FAQcard from "@/components/modules/FAQpage/FAQcard";
-import FAQNeedHelp from "@/components/modules/FAQpage/FAQNeedHelp";
-import FAQsItems from "@/components/modules/FAQpage/FAQsItems";
-import FAQTitle from "@/components/modules/FAQpage/FAQTitle";
+import FAQcard from "@/pages/FAQ/FAQcard";
+import FAQNeedHelp from "@/pages/FAQ/FAQNeedHelp";
+import FAQsItems from "@/pages/FAQ/FAQsItems";
+import FAQTitle from "@/pages/FAQ/FAQTitle";
 
 const FAQs = () => {
   return (
