@@ -1,8 +1,9 @@
 import App from "@/App";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
-import FAQ from "@/pages/FAQ";
+import FAQs from "@/pages/FAQs";
 import Features from "@/pages/Features";
+import Home from "@/pages/Home/Home";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import { createBrowserRouter } from "react-router";
@@ -12,6 +13,7 @@ export const router = createBrowserRouter([
     path: "/",
     Component: App,
     children: [
+      { index: true, Component: Home },
       {
         path: "about",
         Component: About,
@@ -25,8 +27,8 @@ export const router = createBrowserRouter([
         Component: Contact,
       },
       {
-        path: "faq",
-        Component: FAQ,
+        path: "faqs",
+        Component: FAQs,
       },
     ],
   },
