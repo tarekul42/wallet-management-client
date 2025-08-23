@@ -2,7 +2,7 @@ import App from "@/App";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact/Contact";
 import FAQs from "@/pages/FAQ/FAQs";
-import Features from "@/pages/Features";
+import Features from "@/pages/Features/Features";
 import Home from "@/pages/Home/Home";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";

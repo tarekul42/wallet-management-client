@@ -3,7 +3,7 @@ import { Mail, MapPinHouse, PhoneCall } from "lucide-react";
 const ContactAndLocation = () => {
   return (
     <div className="space-y-4 pt-4">
-      <div className="flex items-center gap-4">
+      <div className="flex items-start gap-4">
         <MapPinHouse className="bg-primary h-16 w-16 text-white p-4 rounded" />
         <div>
           <h1 className="text-foreground md:text-lg font-medium">Our Address</h1>

@@ -48,13 +48,13 @@ const ContactForm = () => {
 
   return (
     <>
-      <section className="w-full">
+      <section className="">
         <div className="flex h-full items-center justify-center">
           <div className="flex flex-col items-center gap-6 lg:justify-start">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="min-w-sm min-h-full border-primary-foreground bg-background w-full gap-y-4 rounded-md border px-6 py-8 shadow-md"
+                className="min-w-max lg:min-w-sm min-h-full border-primary-foreground bg-background w-full gap-y-4 rounded-md border px-2 md:px-6 py-4 md:py-8 shadow-md"
               >
                 <FormField
                   control={form.control}
