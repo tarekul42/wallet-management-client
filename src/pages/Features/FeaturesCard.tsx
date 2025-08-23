@@ -27,7 +27,7 @@ const FeaturesCard = ({
         <CardHeader className="space-y-2">
           <div className="flex items-center justify-between">
             <div className="inline-flex items-center gap-2">
-              <div className="p-2 rounded-xl bg-primary/10 text-primary">
+              <div className="p-2 rounded-md bg-primary/10 text-primary">
                 {icon}
               </div>
               <CardTitle className="text-base font-semibold leading-tight">
