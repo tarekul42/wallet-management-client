@@ -13,7 +13,7 @@ const FeaturesHeader = () => {
   return (
     <header className="mb-4 lg:mb-12 grid grid-cols-1 md:grid-cols-2 justify-between items-center gap-4 md:gap-8 lg:gap-16">
       <div className="justify-self-center md:justify-self-start text-center md:text-start">
-        <h1 className="text-primary font-medium md:text-xl">Core Features</h1>
+        <h1 className="text-primary font-medium md:text-xl">Features</h1>
         <h1 className="text-lg md:text-4xl font-medium mb-4">
           Powerful, role‑based features for a modern wallet
         </h1>

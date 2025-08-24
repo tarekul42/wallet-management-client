@@ -4,7 +4,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import FeaturesTag from "./FeaturesTag";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const FeaturesCard = ({
+const CoreFeaturesCard = ({
     id,
     icon,
     title,
@@ -58,4 +58,4 @@ const FeaturesCard = ({
   );
 };
 
-export default FeaturesCard;
+export default CoreFeaturesCard;

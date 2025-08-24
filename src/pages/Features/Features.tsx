@@ -1,28 +1,33 @@
-import { features } from "@/assets/data/featuresData";
-import FeaturesCard from "./FeaturesCard";
+import { coreFeatures } from "@/assets/data/Features/coreFeatures";
 import FeaturesHeader from "./FeaturesHeader";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Bell,
-  Clock,
-  Globe,
-  LayoutDashboard,
-  Shield,
-  Smartphone,
-  Users,
-} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Bell, LayoutDashboard, Shield, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import CoreFeaturesCard from "./CoreFeaturesCard";
+import AdvancedFeaturesCard from "./advancedFeaturesCard";
+import { advancedFeatures } from "@/assets/data/Features/advancedFeatures";
 
 const Features = () => {
   return (
-    <>
-      <section className="mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-16">
+    <div className="mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-16">
+      <section>
         <FeaturesHeader />
 
+        <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="text-3xl font-bold text-center mb-12"
+          >
+            Core Features
+          </motion.h2>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 2xl:gap-8">
-          {features.map(({ id, icon, title, description, isKey, tags }) => (
-            <FeaturesCard
+          {coreFeatures.map(({ id, icon, title, description, isKey, tags }) => (
+            <CoreFeaturesCard
+            key={id}
               id={id}
               icon={icon}
               title={title}
@@ -36,7 +41,7 @@ const Features = () => {
       {/* // start the existing basic part */}
       <section className="py-16 space-y-24">
         {/* Advanced Features */}
-        <div id="advanced-features" className="max-w-6xl mx-auto px-4">
+        <div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -46,45 +51,18 @@ const Features = () => {
           >
             Advanced Features
           </motion.h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <motion.div whileHover={{ y: -6 }} transition={{ duration: 0.3 }}>
-              <Card className="h-full shadow-md">
-                <CardHeader>
-                  <Globe className="w-8 h-8 text-cyan-500 mb-2" />
-                  <CardTitle>Multi-Currency Support</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  Manage multiple fiat and cryptocurrencies in one wallet, ideal
-                  for global transactions and diversified holdings.
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div whileHover={{ y: -6 }} transition={{ duration: 0.3 }}>
-              <Card className="h-full shadow-md">
-                <CardHeader>
-                  <Clock className="w-8 h-8 text-purple-500 mb-2" />
-                  <CardTitle>Automated Payments & Reminders</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  Set up recurring payments and get reminders to avoid missed
-                  bills and subscriptions.
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div whileHover={{ y: -6 }} transition={{ duration: 0.3 }}>
-              <Card className="h-full shadow-md">
-                <CardHeader>
-                  <Users className="w-8 h-8 text-green-500 mb-2" />
-                  <CardTitle>Payment Requests & Bill Splitting</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  Easily request money from contacts or split bills seamlessly
-                  among friends and family.
-                </CardContent>
-              </Card>
-            </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 2xl:gap-8">
+            {advancedFeatures.map(
+              ({ icon, title, description, variant }, idx) => (
+                <AdvancedFeaturesCard
+                  key={idx}
+                  icon={icon}
+                  title={title}
+                  description={description}
+                  variant={variant}
+                />
+              )
+            )}
           </div>
         </div>
 
@@ -189,7 +167,7 @@ const Features = () => {
           </Button>
         </motion.div>
       </section>
-    </>
+    </div>
   );
 };
 
