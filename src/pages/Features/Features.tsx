@@ -1,7 +1,5 @@
 import { coreFeatures } from "@/assets/data/Features/coreFeatures";
 import FeaturesHeader from "./FeaturesHeader";
-import { Card, CardContent } from "@/components/ui/card";
-import { Bell, LayoutDashboard, Shield, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import CoreFeaturesCard from "./CoreFeaturesCard";
@@ -9,6 +7,8 @@ import AdvancedFeaturesCard from "./advancedFeaturesCard";
 import { advancedFeatures } from "@/assets/data/Features/advancedFeatures";
 import { benefits } from "@/assets/data/benefits";
 import BenefitCard from "./BenefitCard";
+import { visualShowcase } from "@/assets/data/visualShowcase";
+import VisualShowcaseCard from "./VisualShowcaseCard";
 
 const Features = () => {
   return (
@@ -90,7 +90,7 @@ const Features = () => {
         </section>
 
         {/* Visual Showcase */}
-        <div id="visual-showcase" className="max-w-6xl mx-auto px-4">
+        <section>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -101,40 +101,17 @@ const Features = () => {
             Visual Showcase
           </motion.h2>
           <div className="grid md:grid-cols-4 gap-6">
-            <motion.div whileHover={{ scale: 1.05 }}>
-              <Card>
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <LayoutDashboard className="w-12 h-12 text-indigo-500 mb-3" />
-                  <p>Dashboard</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }}>
-              <Card>
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <Smartphone className="w-12 h-12 text-pink-500 mb-3" />
-                  <p>Money Transfer</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }}>
-              <Card>
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <Shield className="w-12 h-12 text-teal-500 mb-3" />
-                  <p>Transaction History</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }}>
-              <Card>
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <Bell className="w-12 h-12 text-amber-500 mb-3" />
-                  <p>Notifications</p>
-                </CardContent>
-              </Card>
-            </motion.div>
+            {visualShowcase.map(({ title, icon, description }, idx) => (
+              <VisualShowcaseCard
+                key={idx}
+                title={title}
+                icon={icon}
+                description={description}
+                idx={idx}
+              />
+            ))}
           </div>
-        </div>
+        </section>
 
         {/* Call to Action */}
         <motion.div
