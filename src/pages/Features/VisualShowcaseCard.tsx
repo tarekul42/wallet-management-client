@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { motion } from "framer-motion";
+import type { JSX } from "react";
 
 const VisualShowcaseCard = ({
   idx,
@@ -7,10 +7,10 @@ const VisualShowcaseCard = ({
   icon,
   description,
 }: {
-  idx: any;
-  title: any;
-  icon: any;
-  description: any;
+  idx: number;
+  title: string;
+  icon: JSX.Element;
+  description: string;
 }) => {
   return (
     <motion.div

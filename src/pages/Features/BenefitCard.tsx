@@ -1,5 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const BenefitCard = ({ title, description, icon: Icon }: {title: any, description: any, icon: any}) => {
+import type React from "react";
+
+const BenefitCard = ({
+  title,
+  description,
+  icon: Icon,
+}: {
+  title: string;
+  description: string;
+  icon: React.ElementType;
+}) => {
   return (
     <div className="p-6 rounded-xl bg-white dark:bg-gray-900 shadow hover:shadow-lg transition">
       <Icon className="w-10 h-10 text-green-500 mb-4" />
