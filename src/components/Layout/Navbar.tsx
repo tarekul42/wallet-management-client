@@ -70,6 +70,7 @@ export default function Navbar() {
                     <NavigationMenuItem key={index} className="w-full">
                       <NavigationMenuLink
                         className="py-1.5"
+                        asChild
                       >
                         <NavLink to={link.href}>{link.label}</NavLink>
                       </NavigationMenuLink>
@@ -91,6 +92,7 @@ export default function Navbar() {
                   <NavigationMenuItem key={index}>
                     <NavigationMenuLink
                       className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                    asChild
                     >
                       <NavLink to={link.href}>{link.label}</NavLink>
                     </NavigationMenuLink>

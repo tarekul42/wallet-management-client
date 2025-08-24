@@ -100,7 +100,7 @@ const Features = () => {
           >
             Visual Showcase
           </motion.h2>
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 2xl:gap-8">
             {visualShowcase.map(({ title, icon, description }, idx) => (
               <VisualShowcaseCard
                 key={idx}
