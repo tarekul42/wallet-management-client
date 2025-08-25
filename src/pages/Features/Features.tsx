@@ -3,12 +3,12 @@ import FeaturesHeader from "./FeaturesHeader";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import CoreFeaturesCard from "./CoreFeaturesCard";
-import AdvancedFeaturesCard from "./advancedFeaturesCard";
 import { advancedFeatures } from "@/assets/data/Features/advancedFeatures";
 import { benefits } from "@/assets/data/benefits";
 import BenefitCard from "./BenefitCard";
 import { visualShowcase } from "@/assets/data/visualShowcase";
 import VisualShowcaseCard from "./VisualShowcaseCard";
+import AdvancedFeaturesCard from "./AdvancedFeaturesCard";
 
 const Features = () => {
   return (
