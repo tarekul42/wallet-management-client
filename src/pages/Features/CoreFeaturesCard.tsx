@@ -1,0 +1,68 @@
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import FeaturesTag from "./FeaturesTag";
+import type { JSX } from "react";
+
+const CoreFeaturesCard = ({
+  id,
+  icon,
+  title,
+  description,
+  tags,
+  isKey,
+}: {
+  id: string;
+  icon: JSX.Element;
+  title: string;
+  description: string;
+  tags: string[];
+  isKey: boolean | undefined;
+}) => {
+  return (
+    <Card
+      id={`feature-card-${id}`}
+      className={`h-full border-0 rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 ${
+        isKey ? "ring-1 ring-primary" : ""
+      }`}
+    >
+      <CardHeader className="space-y-2">
+        <div className="flex items-center justify-between">
+          <div className="inline-flex items-center gap-2">
+            <div className="p-2 rounded-md bg-primary/10 text-primary">
+              {icon}
+            </div>
+            <CardTitle className="text-base font-semibold leading-tight">
+              {title}
+            </CardTitle>
+          </div>
+          {isKey && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Badge className="rounded-full" variant="secondary">
+                    Key
+                  </Badge>
+                </TooltipTrigger>
+                <TooltipContent>High-impact feature</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </div>
+        <p className="text-sm text-muted-foreground">{description}</p>
+      </CardHeader>
+      <CardContent className="flex flex-wrap gap-2">
+        {tags.map((t: string) => (
+          <FeaturesTag key={t} label={t} />
+        ))}
+      </CardContent>
+    </Card>
+  );
+};
+
+export default CoreFeaturesCard;

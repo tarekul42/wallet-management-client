@@ -18,7 +18,7 @@ import {
   Wallet,
 } from "lucide-react";
 
-export const features = [
+export const coreFeatures = [
   // General (public)
   {
     id: "secure-auth",

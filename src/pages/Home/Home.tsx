@@ -1,8 +1,42 @@
+import HeroSection from "./HeroSection";
+import StatsSection from "./StatsSection";
+import ServicesSection from "./ServicesSection";
+import FooterCTA from "./FooterCTA";
+import HomeCTASection from "./HomeCTASection";
+import TrustAndSecurity from "./TrustAndSecurity";
+import Testimonials from "./Testimonials";
+import HowItWorks from "./HowItWorks";
+import FeaturesSection from "./FeaturesSection";
+
 const Home = () => {
   return (
-    <div>
-      <h1>This is Home component</h1>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci numquam nihil impedit esse nulla voluptatem repellat, vero molestiae, dignissimos tempore sed, eos cumque nam consequuntur repellendus ut ducimus doloribus assumenda maxime blanditiis neque voluptate quisquam nesciunt soluta! Impedit ab laudantium obcaecati nam quaerat odit voluptate molestiae tempora praesentium inventore consectetur velit, dicta nihil officia eos corporis minus, totam quae commodi quidem quam optio, soluta enim ducimus? Quod adipisci, voluptas, laudantium, molestiae eum provident aut tempore fuga reprehenderit tenetur ipsam possimus incidunt nisi accusantium? Quibusdam numquam reiciendis iure ipsa, tempora veritatis. Explicabo asperiores quo, ea expedita, quos aliquid, laboriosam incidunt delectus magnam rerum nam pariatur accusamus voluptatem quibusdam numquam! Recusandae quaerat a odit nesciunt quas consequatur praesentium facere magnam voluptatibus? Unde pariatur, modi corrupti laboriosam cupiditate quae possimus aliquam delectus eaque suscipit repudiandae illo, veritatis non voluptatum! Commodi voluptatem architecto illo reiciendis at vitae laudantium corporis quae molestiae nihil, ab, possimus laboriosam blanditiis sint nam aliquid quia, aperiam quam sunt expedita reprehenderit iusto ad cupiditate totam. Fuga quis debitis sequi earum, accusamus doloribus, asperiores obcaecati eligendi, ullam minus deserunt eveniet unde quibusdam reprehenderit labore expedita? Quasi tempore consequatur aut inventore. Amet et quis laboriosam eaque reprehenderit similique nihil explicabo eos obcaecati, molestias nobis aliquam doloremque neque provident quos? Impedit magni eos sunt, amet accusantium aspernatur sequi quisquam, quibusdam ab id praesentium, incidunt expedita unde quae! Quae deserunt distinctio quasi cum magnam, et modi. Soluta dolor aperiam ea nobis fuga itaque porro impedit harum cumque veritatis temporibus tenetur accusamus dicta officiis nemo ipsum, est corrupti eos culpa totam error magni eius? Molestias assumenda autem cupiditate voluptates consequuntur soluta libero quas similique cumque dolores iste tempore ratione voluptatum consequatur dolorum iusto adipisci omnis beatae magnam sit quam laudantium quaerat, quibusdam non? Voluptatum vel aliquam voluptate illum nulla, fugit assumenda, autem dignissimos rerum, molestiae numquam tempora dolores? Obcaecati minus sunt sequi commodi eos aperiam quae iste excepturi, nisi laboriosam. Est omnis hic quibusdam voluptatem ex beatae ratione qui iste atque esse! Deleniti praesentium et quidem laboriosam voluptate magnam, officiis non id voluptates aspernatur ducimus quas animi quia fuga maiores, rem fugiat delectus impedit consequuntur magni nisi omnis qui aliquam eos? Aut quam quos odio tenetur provident in quas suscipit magni dicta voluptatem totam corporis ducimus molestiae quod distinctio, adipisci aspernatur rerum commodi voluptatum nobis officiis minima. Id laboriosam eveniet officiis voluptatum nesciunt incidunt cumque! Molestias vero eligendi voluptatibus neque excepturi aperiam enim architecto non sint similique officiis, cum labore repudiandae. Obcaecati officiis officia enim assumenda sapiente quod id. Ut debitis maxime repellat, deserunt laboriosam quibusdam repellendus accusamus magnam quis possimus aliquam perferendis optio fugit autem obcaecati, exercitationem ducimus nisi non unde dolorem doloribus, necessitatibus temporibus corrupti! Doloribus sint voluptatem aspernatur, culpa doloremque ratione reprehenderit veritatis nesciunt molestias totam eos omnis cumque fuga itaque fugiat ipsum adipisci sit maxime enim voluptate, mollitia natus praesentium! Iste dolor unde quae, in culpa voluptatem rerum soluta eveniet velit tempore illum. Libero nobis, odit tempore fuga at dicta aspernatur porro magnam sed architecto nulla fugiat expedita quas officiis! Repudiandae!</p>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <HeroSection />
+
+      {/* Stats Section */}
+      <StatsSection />
+
+      {/* Features Section */}
+      <FeaturesSection />
+
+      {/* Services Section */}
+      <ServicesSection />
+
+      {/* How It Works */}
+      <HowItWorks />
+
+      {/* Testimonials */}
+      <Testimonials />
+
+      {/* Trust & Security */}
+      <TrustAndSecurity />
+
+      {/* CTA Section */}
+      <HomeCTASection />
+
+      {/* Footer CTA */}
+      <FooterCTA />
     </div>
   );
 };
