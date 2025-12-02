@@ -1,17 +1,11 @@
+import { steps } from "@/assets/data/register/steps";
 import { Check } from "lucide-react";
 
-export const RegisterProgressSteps = ({ currentStep }: { currentStep: number }) => {
-  const steps = [
-    { id: 1, title: "Basic Info", description: "Personal details" },
-    { id: 2, title: "Email Verification", description: "Verify email address" },
-    {
-      id: 3,
-      title: "Phone Verification",
-      description: "Optional verification",
-    },
-    { id: 4, title: "Security Setup", description: "Password & terms" },
-  ];
-
+export const RegisterProgressSteps = ({
+  currentStep,
+}: {
+  currentStep: number;
+}) => {
   return (
     <div className="mb-8">
       <div className="flex items-center justify-between">
@@ -23,8 +17,8 @@ export const RegisterProgressSteps = ({ currentStep }: { currentStep: number }) 
                   currentStep > step.id
                     ? "bg-green-600 border-green-600 text-white"
                     : currentStep === step.id
-                    ? "bg-primary border-primary text-white"
-                    : "bg-background border-muted-foreground text-muted-foreground"
+                      ? "bg-primary border-primary text-white"
+                      : "bg-background border-muted-foreground text-muted-foreground"
                 }`}
               >
                 {currentStep > step.id ? (

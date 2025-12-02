@@ -6,7 +6,7 @@ import { services } from "@/assets/data/Home/services";
 
 const ServicesSection = () => {
   return (
-    <section className="py-16 lg:py-24 bg-primary-foreground">
+    <section className="py-16 lg:py-24 bg-muted/50">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -198,7 +198,7 @@ const About = () => {
         </section>
 
         {/* Stats Section */}
-        <section className="py-16 bg-primary-foreground">
+        <section className="py-16 bg-muted/50">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {stats.map((stat, index) => (
@@ -307,7 +307,7 @@ const About = () => {
         </section>
 
         {/* Values Section */}
-        <section className="py-16 bg-primary-foreground">
+        <section className="py-16 bg-muted/50">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -427,7 +427,7 @@ const About = () => {
         </section>
 
         {/* Journey/Timeline Section */}
-        <section className="py-16 bg-primary-foreground">
+        <section className="py-16 bg-muted/50">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -586,8 +586,7 @@ const About = () => {
                 </Button>
                 <Button
                   size="lg"
-                  variant="outline"
-                  className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+                  className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
                   asChild
                 >
                   <Link to="/features">Explore Features</Link>

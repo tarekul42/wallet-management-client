@@ -20,7 +20,7 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-primary-foreground">
+    <section className="py-16 lg:py-24 bg-muted/50">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -97,9 +97,8 @@ const Testimonials = () => {
               {testimonials.map((_, index) => (
                 <button
                   key={index}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    index === currentTestimonial ? "bg-primary" : "bg-muted"
-                  }`}
+                  className={`w-2 h-2 rounded-full transition-colors ${index === currentTestimonial ? "bg-primary" : "bg-muted"
+                    }`}
                   onClick={() => setCurrentTestimonial(index)}
                 />
               ))}

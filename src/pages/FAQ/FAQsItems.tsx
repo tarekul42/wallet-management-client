@@ -9,7 +9,7 @@ const FAQsItems = () => {
       {faqsData.map(({ question, answer }, idx) => (
         <details
           key={idx}
-          className="group [&_summary::-webkit-details-marker]:hidden rounded-md border border-primary-foreground cursor-pointer"
+          className="group [&_summary::-webkit-details-marker]:hidden rounded-md border border-border cursor-pointer"
           open={openIndex === idx}
         >
           <summary
@@ -17,16 +17,15 @@ const FAQsItems = () => {
               e.preventDefault();
               setOpenIndex(openIndex === idx ? null : idx);
             }}
-            className={`flex items-center justify-between gap-1.5 bg-primary-foreground ${
-              openIndex === idx ? "rounded-t-md" : "rounded-md"
-            } border-gray-100 bg-gray-50 p-4 text-gray-900`}
+            className={`flex items-center justify-between gap-1.5 ${openIndex === idx ? "rounded-t-md" : "rounded-md"
+              } bg-muted/50 p-4 text-foreground hover:bg-muted transition-colors`}
           >
             <h2 className="md:text-lg font-medium">
               {idx + 1}. {question}
             </h2>
 
             <svg
-              className="size-5 shrink-0 transition-transform duration-300 group-open:-rotate-180"
+              className="size-5 shrink-0 transition-transform duration-300 group-open:-rotate-180 text-muted-foreground"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -41,7 +40,7 @@ const FAQsItems = () => {
             </svg>
           </summary>
 
-          <p className="px-4 py-4 text-gray-900">{answer}</p>
+          <p className="px-4 py-4 text-muted-foreground">{answer}</p>
         </details>
       ))}
     </div>

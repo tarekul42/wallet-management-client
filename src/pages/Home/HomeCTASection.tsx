@@ -36,7 +36,7 @@ const HomeCTASection = () => {
             <Button
               size="lg"
               variant="outline"
-              className="border-primary-foreground text-primary hover:bg-primary-foreground hover:text-foreground text-lg px-8"
+              className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary text-lg px-8"
               asChild
             >
               <Link to="/features">Explore Features</Link>

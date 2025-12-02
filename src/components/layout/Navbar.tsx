@@ -24,7 +24,7 @@ const navigationLinks = [
 
 export default function Navbar() {
   return (
-    <header className="border-b px-4 md:px-6 w-full backdrop-blur-2xl bg-primary-foreground z-10 fixed top">
+    <header className="border-b px-4 md:px-6 w-full backdrop-blur-2xl bg-primary-foreground dark:bg-background/80 z-10 fixed top">
       <div className="flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-2">
@@ -92,7 +92,7 @@ export default function Navbar() {
                   <NavigationMenuItem key={index}>
                     <NavigationMenuLink
                       className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                    asChild
+                      asChild
                     >
                       <NavLink to={link.href}>{link.label}</NavLink>
                     </NavigationMenuLink>

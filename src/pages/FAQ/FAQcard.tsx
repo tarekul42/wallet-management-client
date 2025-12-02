@@ -14,11 +14,11 @@ const FAQcard = () => {
           </h3>
 
           <div className="pt-4">
-            <div className="mt-1 text-[16px] text-sidebar-border flex gap-2">
+            <div className="mt-1 text-[16px] text-primary-foreground/90 flex gap-2">
               <Mail className="w-[16px]" />
               info@walletmanagement.com
             </div>
-            <div className="mt-1 text-[16px] text-sidebar-border flex gap-2">
+            <div className="mt-1 text-[16px] text-primary-foreground/90 flex gap-2">
               <PhoneCall className="w-[16px]" />
               +44 20 7946 0958
             </div>
