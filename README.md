@@ -1,69 +1,63 @@
-# React + TypeScript + Vite
+# Wallet Management Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A digital wallet management SPA built with React and Redux Toolkit, featuring role-based dashboards for users, agents, and admins with secure transaction handling.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Role-based dashboards**: Separate views for User, Agent, and Admin roles
+- **Multi-step registration**: 4-step wizard (basic info → email OTP → phone OTP → password)
+- **Transaction management**: Send money, deposit, withdraw with fee calculation
+- **Token refresh queue**: Prevents concurrent token refresh race conditions
+- **Theme system**: Light, dark, and system preference modes
+- **Form validation**: Zod schemas with React Hook Form integration
+- **Landing page**: Full marketing site with hero, features, stats, testimonials, and FAQ
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Layer | Technology |
+|-------|-----------|
+| Framework | React 19 + Vite 7 |
+| Language | TypeScript 5.8 |
+| State | Redux Toolkit + RTK Query |
+| Routing | React Router 7 |
+| Styling | Tailwind CSS 4 + shadcn/ui (Radix) |
+| Forms | React Hook Form + Zod |
+| HTTP | Axios with interceptors |
+| Animation | Framer Motion |
+| UI | Sonner, Lucide React |
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Create a `.env` file:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_API_URL=http://localhost:5000
 ```
+
+## Project Structure
+
+```
+src/
+├── components/       # shadcn/ui component library
+├── config/           # App configuration
+├── constants/        # Role constants
+├── context/          # Theme context
+├── hooks/            # Custom hooks (useTheme)
+├── lib/              # Axios instance, utilities
+├── pages/            # Route pages (Home, Login, Register, Dashboard, About, FAQ, Contact)
+├── providers/        # Theme provider
+├── redux/            # Store, slices, RTK Query APIs (auth, user, agent, admin)
+├── routes/           # Router config + withAuth HOC
+├── schemas/          # Zod validation schemas
+├── types/            # Shared TypeScript types
+└── utils/            # JWT decode, auth helpers
+```
+
+## API
+
+Connects to the [wallet-management-api](https://github.com/tarekul42/wallet-management-api) backend.
