@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
+import logger from "@/utils/logger";
 import { toast } from "sonner";
 
 const FormSchema = z.object({
@@ -43,7 +44,7 @@ const ContactForm = () => {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast("Message has been sent successfully");
-    console.log(data);
+    logger.log(data);
   }
 
   return (

@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import logger from "@/utils/logger";
 import { step4Schema } from "@/schemas/register/steps";
 import {
   Lock,
@@ -68,7 +69,7 @@ const Step4Register = () => {
       setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       toast.error("Registration failed. Please try again.");
-      console.log(error);
+      logger.error(error);
     } finally {
       dispatch(setIsLoading(false));
     }

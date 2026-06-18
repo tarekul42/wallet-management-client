@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import logger from "@/utils/logger";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { useEffect } from "react";
 import {
@@ -59,7 +60,7 @@ const Step2Register = () => {
       dispatch(setCanResendOtp(false));
     } catch (error) {
       toast.error(`Failed to resend OTP. Please try again.`);
-      console.log(error);
+      logger.error(error);
     } finally {
       dispatch(setIsLoading(false));
     }
@@ -92,7 +93,7 @@ const Step2Register = () => {
       dispatch(setCanResendOtp(false));
     } catch (error) {
       toast.error("Invalid verification code. Please try again.");
-      console.log(error);
+      logger.error(error);
     } finally {
       dispatch(setIsLoading(false));
     }

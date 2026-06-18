@@ -22,6 +22,7 @@ import { Link, useNavigate } from "react-router";
 import Logo from "@/assets/icons/Logo";
 
 import { loginSchema } from "@/schemas/login";
+import logger from "@/utils/logger";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -46,7 +47,7 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       toast.error("Failed to login. Please check your credentials.");
-      console.log(error);
+      logger.error(error);
     }
   };
 

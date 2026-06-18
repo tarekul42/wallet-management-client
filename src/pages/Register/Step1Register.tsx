@@ -16,6 +16,7 @@ import RoleSelection from "./RoleSelection";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, ArrowRight, Mail, Phone, User } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import logger from "@/utils/logger";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { useEffect } from "react";
@@ -72,7 +73,7 @@ const Step1Register = () => {
       dispatch(setCanResendOtp(false));
     } catch (error) {
       toast.error("Failed to send verification code. Please try again.");
-      console.log(error);
+      logger.error(error);
     } finally {
       dispatch(setIsLoading(false));
     }
