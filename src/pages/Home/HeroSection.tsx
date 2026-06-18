@@ -13,8 +13,14 @@ import {
   Wallet,
 } from "lucide-react";
 import { Link } from "react-router";
+import { useGetPlatformStatsQuery } from "@/redux/features/public/public.api";
 
 const HeroSection = () => {
+  const { data: statsRes } = useGetPlatformStatsQuery();
+  const stats = statsRes?.data;
+  const userCount = stats?.activeUsers
+    ? `${(stats.activeUsers / 1_000_000).toFixed(1)}M+`
+    : "2.5M+";
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-primary/5 pt-8 pb-16 lg:pt-16 lg:pb-24">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -29,7 +35,7 @@ const HeroSection = () => {
               className="mb-6 bg-primary/10 text-primary border-primary/20"
               variant="outline"
             >
-              🚀 Trusted by 2.5M+ Users Worldwide
+              🚀 Trusted by {userCount} Users Worldwide
             </Badge>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">

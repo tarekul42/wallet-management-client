@@ -12,45 +12,41 @@ import {
   CheckCircle2,
   ThumbsUp,
 } from "lucide-react";
-import { exploreServices } from "@/assets/data/exploreServices";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-
-const reviewsData = [
-  {
-    id: 1,
-    name: "Sarah Johnson",
-    role: "Small Business Owner",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
-    rating: 5,
-    date: "2 weeks ago",
-    content: "Absolutely seamless experience! The transaction was processed instantly and the fees are incredibly low. I've been using this service for all my utility payments and it has saved me hours of time.",
-  },
-  {
-    id: 2,
-    name: "Marcus Chen",
-    role: "Freelancer",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Marcus",
-    rating: 4,
-    date: "1 month ago",
-    content: "Very reliable service. The integration with my wallet was smooth and the customer support team was responsive when I had a question about my transaction history.",
-  },
-  {
-    id: 3,
-    name: "Priya Patel",
-    role: "Regular User",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
-    rating: 5,
-    date: "3 months ago",
-    content: "I've recommended this to all my friends and family. The security features give me peace of mind, and the loyalty rewards are a nice bonus. Five stars!",
-  },
-];
+import { Skeleton } from "@/components/ui/skeleton";
+import { useGetServiceByIdQuery, useGetRelatedServicesQuery } from "@/redux/features/services/services.api";
 
 const ServiceDetails = () => {
   const { id } = useParams();
-  const service = exploreServices.find((s) => s.id === id);
+  const { data: serviceRes, isLoading } = useGetServiceByIdQuery(id || "");
+  const { data: relatedRes } = useGetRelatedServicesQuery(id || "", { skip: !id });
+
+  const service = serviceRes?.data;
+  const relatedServices = relatedRes?.data ?? [];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen pt-20 pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Skeleton className="h-8 w-32 mb-8" />
+          <div className="grid lg:grid-cols-3 gap-12">
+            <div className="lg:col-span-2 space-y-8">
+              <Skeleton className="h-[400px] w-full rounded-3xl" />
+              <Skeleton className="h-12 w-3/4" />
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-32 w-full" />
+            </div>
+            <div>
+              <Skeleton className="h-96 w-full rounded-3xl" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!service) {
     return (
@@ -65,10 +61,23 @@ const ServiceDetails = () => {
     );
   }
 
+  const reviews = service.reviews || [];
+  const securityFeatures = [
+    "End-to-end encryption",
+    "Multi-factor authentication",
+    "Fraud protection",
+    "24/7 Monitoring",
+  ];
+  const whyUse = [
+    "Zero hidden fees",
+    "Instant processing",
+    "Tax-ready receipts",
+    "Loyalty rewards",
+  ];
+
   return (
     <div className="min-h-screen pt-20 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Back Button */}
         <Button
           variant="ghost"
           asChild
@@ -81,7 +90,6 @@ const ServiceDetails = () => {
         </Button>
 
         <div className="grid lg:grid-cols-3 gap-12">
-          {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -105,7 +113,7 @@ const ServiceDetails = () => {
                 </h1>
                 <div className="flex items-center gap-2 bg-yellow-500/10 text-yellow-600 px-4 py-2 rounded-full font-bold">
                   <Star className="h-5 w-5 fill-current" />
-                  {service.rating} (120+ Reviews)
+                  {service.rating} ({reviews.length}+ Reviews)
                 </div>
               </div>
 
@@ -127,10 +135,7 @@ const ServiceDetails = () => {
               <div className="prose prose-lg max-w-none">
                 <h3 className="text-2xl font-bold mb-4">Service Description</h3>
                 <p className="text-muted-foreground leading-relaxed text-lg">
-                  {service.description} This service allows you to use your
-                  Wallet Management balance to fulfill your needs seamlessly.
-                  We've partnered with top-tier providers to ensure that every
-                  transaction is secure, fast, and reliable.
+                  {service.description}
                 </p>
               </div>
 
@@ -141,12 +146,7 @@ const ServiceDetails = () => {
                     Security Features
                   </h4>
                   <ul className="space-y-3">
-                    {[
-                      "End-to-end encryption",
-                      "Multi-factor authentication",
-                      "Fraud protection",
-                      "24/7 Monitoring",
-                    ].map((item, i) => (
+                    {securityFeatures.map((item, i) => (
                       <li
                         key={i}
                         className="flex items-center gap-2 text-sm text-muted-foreground"
@@ -163,12 +163,7 @@ const ServiceDetails = () => {
                     Why use this?
                   </h4>
                   <ul className="space-y-3">
-                    {[
-                      "Zero hidden fees",
-                      "Instant processing",
-                      "Tax-ready receipts",
-                      "Loyalty rewards",
-                    ].map((item, i) => (
+                    {whyUse.map((item, i) => (
                       <li
                         key={i}
                         className="flex items-center gap-2 text-sm text-muted-foreground"
@@ -181,65 +176,61 @@ const ServiceDetails = () => {
                 </Card>
               </div>
 
-              {/* Reviews */}
-              <div className="pt-12">
-                <h3 className="text-2xl font-bold mb-8">Customer Reviews</h3>
-                <div className="space-y-6">
-                  {reviewsData.map((review) => (
-                    <Card key={review.id} className="border-0 bg-muted/30 shadow-none p-6 rounded-2xl">
-                      <div className="flex items-start gap-4">
-                        <img
-                          src={review.avatar}
-                          alt={review.name}
-                          className="w-12 h-12 rounded-full bg-primary/10"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between gap-2 mb-1">
-                            <div>
-                              <h4 className="font-bold">{review.name}</h4>
-                              <p className="text-xs text-muted-foreground">{review.role}</p>
+              {reviews.length > 0 && (
+                <div className="pt-12">
+                  <h3 className="text-2xl font-bold mb-8">Customer Reviews</h3>
+                  <div className="space-y-6">
+                    {reviews.map((review) => (
+                      <Card key={review._id} className="border-0 bg-muted/30 shadow-none p-6 rounded-2xl">
+                        <div className="flex items-start gap-4">
+                          <img
+                            src={review.avatar}
+                            alt={review.name}
+                            className="w-12 h-12 rounded-full bg-primary/10"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-2 mb-1">
+                              <div>
+                                <h4 className="font-bold">{review.name}</h4>
+                                <p className="text-xs text-muted-foreground">{review.role}</p>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                  <Star
+                                    key={i}
+                                    className={`h-4 w-4 ${
+                                      i < review.rating
+                                        ? "text-yellow-500 fill-yellow-500"
+                                        : "text-muted-foreground/30"
+                                    }`}
+                                  />
+                                ))}
+                              </div>
                             </div>
-                            <div className="flex items-center gap-1">
-                              {Array.from({ length: 5 }).map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`h-4 w-4 ${
-                                    i < review.rating
-                                      ? "text-yellow-500 fill-yellow-500"
-                                      : "text-muted-foreground/30"
-                                  }`}
-                                />
-                              ))}
+                            <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
+                              {review.content}
+                            </p>
+                            <div className="flex items-center gap-4 mt-4 text-xs text-muted-foreground">
+                              <span>{review.date}</span>
+                              <span className="flex items-center gap-1">
+                                <ThumbsUp className="h-3 w-3" /> Helpful
+                              </span>
                             </div>
-                          </div>
-                          <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
-                            {review.content}
-                          </p>
-                          <div className="flex items-center gap-4 mt-4 text-xs text-muted-foreground">
-                            <span>{review.date}</span>
-                            <span className="flex items-center gap-1">
-                              <ThumbsUp className="h-3 w-3" /> Helpful
-                            </span>
                           </div>
                         </div>
-                      </div>
-                    </Card>
-                  ))}
+                      </Card>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* Related Services */}
-              <div className="pt-12">
-                <h3 className="text-2xl font-bold mb-8">Related Services</h3>
-                <div className="grid sm:grid-cols-2 gap-6">
-                  {exploreServices
-                    .filter(
-                      (s) => s.id !== id && s.category === service.category,
-                    )
-                    .slice(0, 2)
-                    .map((item) => (
+              {relatedServices.length > 0 && (
+                <div className="pt-12">
+                  <h3 className="text-2xl font-bold mb-8">Related Services</h3>
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    {relatedServices.map((item) => (
                       <Card
-                        key={item.id}
+                        key={item._id}
                         className="overflow-hidden border-0 shadow-lg group"
                       >
                         <div className="relative h-40 overflow-hidden">
@@ -256,17 +247,17 @@ const ServiceDetails = () => {
                             asChild
                             className="p-0 h-auto text-primary"
                           >
-                            <Link to={`/explore/${item.id}`}>View Details</Link>
+                            <Link to={`/explore/${item._id}`}>View Details</Link>
                           </Button>
                         </CardContent>
                       </Card>
                     ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </motion.div>
           </div>
 
-          {/* Sidebar Action */}
           <div className="lg:col-span-1">
             <motion.div
               initial={{ opacity: 0, x: 20 }}

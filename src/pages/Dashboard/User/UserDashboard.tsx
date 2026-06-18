@@ -12,6 +12,7 @@ import {
   useGetAccountBalanceQuery,
   useGetTransactionHistoryQuery,
 } from "@/redux/features/user/user.api";
+import { useGetMyCardsQuery } from "@/redux/features/cards/cards.api";
 import { useAppSelector } from "@/redux/hook";
 import { useMemo } from "react";
 
@@ -40,6 +41,9 @@ const UserDashboard = () => {
   }, [txRes]);
 
   const txList = txRes?.data ?? [];
+  const { data: cardsRes } = useGetMyCardsQuery();
+  const cards = cardsRes?.data ?? [];
+  const primaryCard = cards.find((c) => c.type === "VIRTUAL" && c.status === "ACTIVE") || cards[0];
 
   const DashboardSkeleton = () => (
     <div className="space-y-8 pb-12">
@@ -154,19 +158,21 @@ const UserDashboard = () => {
           <div className="bg-primary text-primary-foreground p-6 rounded-3xl shadow-xl relative overflow-hidden">
             <div className="relative z-10">
               <p className="text-sm opacity-80 mb-6 font-medium uppercase tracking-wider">
-                Virtual Card
+                {primaryCard?.type === "PHYSICAL" ? "Physical Card" : "Virtual Card"}
               </p>
-              <h3 className="text-2xl font-mono mb-8">**** **** **** 4291</h3>
+              <h3 className="text-2xl font-mono mb-8">
+                {primaryCard ? `**** **** **** ${primaryCard.lastFourDigits}` : "No card available"}
+              </h3>
               <div className="flex justify-between items-end">
                 <div>
                   <p className="text-xs opacity-60 uppercase mb-1">
                     Card Holder
                   </p>
-                  <p className="font-medium">{user?.name || "John Doe"}</p>
+                  <p className="font-medium">{primaryCard?.cardholderName || user?.name || "—"}</p>
                 </div>
                 <div>
                   <p className="text-xs opacity-60 uppercase mb-1">Expires</p>
-                  <p className="font-medium">12/26</p>
+                  <p className="font-medium">{primaryCard?.expiryDate || "—"}</p>
                 </div>
               </div>
             </div>

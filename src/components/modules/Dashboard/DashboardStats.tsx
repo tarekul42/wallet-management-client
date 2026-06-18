@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowUpRight, ArrowDownLeft, Wallet, CreditCard } from "lucide-react";
+import { useGetMyCardsQuery } from "@/redux/features/cards/cards.api";
 
 interface StatsProps {
   balance: number;
@@ -8,6 +9,15 @@ interface StatsProps {
 }
 
 const DashboardStats = ({ balance, income, expenses }: StatsProps) => {
+  const { data: cardsRes } = useGetMyCardsQuery();
+  const cards = cardsRes?.data ?? [];
+  const virtualCards = cards.filter((c) => c.type === "VIRTUAL" && c.status === "ACTIVE").length;
+  const physicalCards = cards.filter((c) => c.type === "PHYSICAL" && c.status === "ACTIVE").length;
+  const totalCards = cards.filter((c) => c.status === "ACTIVE").length;
+
+  const incomeChange = income > 0 ? "+" : "";
+  const expenseChange = expenses > 0 ? "" : "";
+
   const stats = [
     {
       title: "Total Balance",
@@ -20,21 +30,21 @@ const DashboardStats = ({ balance, income, expenses }: StatsProps) => {
       title: "Monthly Income",
       value: `$${income.toLocaleString()}`,
       icon: <ArrowUpRight className="h-6 w-6 text-green-600" />,
-      description: "+12% from last month",
+      description: income > 0 ? `${incomeChange}$${income.toLocaleString()} this month` : "No income this month",
       color: "bg-green-100",
     },
     {
       title: "Monthly Expenses",
       value: `$${expenses.toLocaleString()}`,
       icon: <ArrowDownLeft className="h-6 w-6 text-red-600" />,
-      description: "-5% from last month",
+      description: expenses > 0 ? `${expenseChange}$${expenses.toLocaleString()} this month` : "No expenses this month",
       color: "bg-red-100",
     },
     {
       title: "Active Cards",
-      value: "3",
+      value: `${totalCards}`,
       icon: <CreditCard className="h-6 w-6 text-blue-600" />,
-      description: "2 virtual, 1 physical",
+      description: `${virtualCards} virtual, ${physicalCards} physical`,
       color: "bg-blue-100",
     },
   ];

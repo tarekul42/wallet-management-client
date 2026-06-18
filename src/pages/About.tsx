@@ -18,27 +18,37 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
+import { useGetPlatformStatsQuery } from "@/redux/features/public/public.api";
 
 const About = () => {
+  const { data: statsRes } = useGetPlatformStatsQuery();
+  const s = statsRes?.data;
+
+  const formatNum = (n: number) => {
+    if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M+`;
+    if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K+`;
+    return `${n}+`;
+  };
+
   const stats = [
     {
       label: "Active Users",
-      value: "2.5M+",
+      value: s ? formatNum(s.activeUsers) : "2.5M+",
       icon: <Users className="w-6 h-6" />,
     },
     {
       label: "Transactions Daily",
-      value: "50K+",
+      value: s ? `${(s.transactionsDaily / 1000).toFixed(0)}K+` : "50K+",
       icon: <Zap className="w-6 h-6" />,
     },
     {
       label: "Countries Served",
-      value: "45+",
+      value: `${s?.countriesServed || 45}+`,
       icon: <Globe className="w-6 h-6" />,
     },
     {
       label: "Security Rating",
-      value: "99.9%",
+      value: s?.securityRating || "99.9%",
       icon: <Shield className="w-6 h-6" />,
     },
   ];
@@ -530,17 +540,17 @@ const About = () => {
                   },
                   {
                     icon: <Users className="w-8 h-8" />,
-                    title: "2.5M+ Users",
+                    title: s ? `${formatNum(s.activeUsers)} Users` : "2.5M+ Users",
                     desc: "Trusted worldwide",
                   },
                   {
                     icon: <Globe className="w-8 h-8" />,
-                    title: "45+ Countries",
+                    title: `${s?.countriesServed || 45}+ Countries`,
                     desc: "Global presence",
                   },
                   {
                     icon: <Trophy className="w-8 h-8" />,
-                    title: "99.9% Uptime",
+                    title: s?.uptime || "99.9%",
                     desc: "Always available",
                   },
                 ].map((item, index) => (

@@ -8,29 +8,40 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-interface ChartDataPoint {
-  name: string;
-  income: number;
-  expenses: number;
-}
-
-const defaultData: ChartDataPoint[] = [
-  { name: "Mon", income: 400, expenses: 240 },
-  { name: "Tue", income: 300, expenses: 139 },
-  { name: "Wed", income: 200, expenses: 980 },
-  { name: "Thu", income: 278, expenses: 390 },
-  { name: "Fri", income: 189, expenses: 480 },
-  { name: "Sat", income: 239, expenses: 380 },
-  { name: "Sun", income: 349, expenses: 430 },
-];
+import { Skeleton } from "@/components/ui/skeleton";
+import { useGetSpendingOverviewQuery } from "@/redux/features/dashboard/dashboard.api";
 
 interface SpendingChartProps {
-  data?: ChartDataPoint[];
   title?: string;
 }
 
-const SpendingChart = ({ data = defaultData, title = "Spending Analysis" }: SpendingChartProps) => {
+const defaultData = [
+  { name: "Mon", income: 0, expenses: 0 },
+  { name: "Tue", income: 0, expenses: 0 },
+  { name: "Wed", income: 0, expenses: 0 },
+  { name: "Thu", income: 0, expenses: 0 },
+  { name: "Fri", income: 0, expenses: 0 },
+  { name: "Sat", income: 0, expenses: 0 },
+  { name: "Sun", income: 0, expenses: 0 },
+];
+
+const SpendingChart = ({ title = "Spending Analysis" }: SpendingChartProps) => {
+  const { data: chartRes, isLoading } = useGetSpendingOverviewQuery();
+  const chartData = chartRes?.data ?? defaultData;
+
+  if (isLoading) {
+    return (
+      <Card className="border-0 shadow-md">
+        <CardHeader>
+          <Skeleton className="h-6 w-40" />
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-[300px] w-full" />
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="border-0 shadow-md col-span-1 lg:col-span-2">
       <CardHeader>
@@ -40,7 +51,7 @@ const SpendingChart = ({ data = defaultData, title = "Spending Analysis" }: Spen
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-              data={data}
+              data={chartData}
               margin={{
                 top: 10,
                 right: 30,

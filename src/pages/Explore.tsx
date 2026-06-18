@@ -12,7 +12,6 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { exploreServices } from "@/assets/data/exploreServices";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,6 +23,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useGetServicesQuery, useGetServiceCategoriesQuery } from "@/redux/features/services/services.api";
 
 const Explore = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,42 +31,29 @@ const Explore = () => {
   const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState("rating");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
   const itemsPerPage = 4;
 
+  const params: Record<string, unknown> = {
+    search: searchTerm,
+    category: selectedCategory === "All" ? undefined : selectedCategory,
+    minRating: minRating || undefined,
+    sortBy,
+    page: currentPage,
+    limit: itemsPerPage,
+  };
+
+  const { data: servicesRes, isLoading } = useGetServicesQuery(params);
+  const { data: categoriesRes } = useGetServiceCategoriesQuery();
+
+  const services = servicesRes?.data ?? [];
+  const meta = servicesRes?.meta;
+  const categories = categoriesRes?.data ?? [];
+
+  const totalPages = meta?.totalPage ?? 0;
+
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const categories = [
-    "All",
-    ...new Set(exploreServices.map((s) => s.category)),
-  ];
-
-  const filteredItems = useMemo(() => {
-    return exploreServices
-      .filter((item) => {
-        const matchesSearch =
-          item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesCategory =
-          selectedCategory === "All" || item.category === selectedCategory;
-        const matchesRating = item.rating >= minRating;
-        return matchesSearch && matchesCategory && matchesRating;
-      })
-      .sort((a, b) => {
-        if (sortBy === "rating") return b.rating - a.rating;
-        if (sortBy === "title") return a.title.localeCompare(b.title);
-        return 0;
-      });
+    setCurrentPage(1);
   }, [searchTerm, selectedCategory, minRating, sortBy]);
-
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const paginatedItems = filteredItems.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
 
   const ServiceSkeleton = () => (
     <Card className="h-full flex flex-col overflow-hidden border-0 shadow-md">
@@ -95,7 +82,6 @@ const Explore = () => {
   return (
     <div className="min-h-screen pt-20 pb-16 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header & Search */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div>
             <h1 className="text-4xl font-bold mb-2">Explore Services</h1>
@@ -114,17 +100,13 @@ const Explore = () => {
           </div>
         </div>
 
-        {/* Filters & Sorting */}
         <div className="flex flex-wrap items-center gap-4 mb-8">
           <div className="flex items-center gap-2 bg-background p-1 rounded-lg border shadow-sm overflow-x-auto no-scrollbar max-w-full">
             <Filter className="h-4 w-4 ml-2 text-muted-foreground shrink-0" />
-            {categories.map((category) => (
+            {["All", ...categories].map((category) => (
               <button
                 key={category}
-                onClick={() => {
-                  setSelectedCategory(category);
-                  setCurrentPage(1);
-                }}
+                onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
                   selectedCategory === category
                     ? "bg-primary text-primary-foreground"
@@ -141,7 +123,7 @@ const Explore = () => {
             <select
               className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/20"
               value={minRating}
-              onChange={(e) => { setMinRating(Number(e.target.value)); setCurrentPage(1); }}
+              onChange={(e) => setMinRating(Number(e.target.value))}
             >
               <option value={0}>Any Rating</option>
               <option value={3}>3+ Stars</option>
@@ -154,7 +136,7 @@ const Explore = () => {
             <select
               className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/20"
               value={sortBy}
-              onChange={(e) => { setSortBy(e.target.value); setCurrentPage(1); }}
+              onChange={(e) => setSortBy(e.target.value)}
             >
               <option value="rating">Top Rated</option>
               <option value="title">Alphabetical</option>
@@ -162,15 +144,14 @@ const Explore = () => {
           </div>
         </div>
 
-        {/* Results Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {isLoading ? (
             Array.from({ length: 4 }).map((_, i) => <ServiceSkeleton key={i} />)
           ) : (
             <AnimatePresence mode="popLayout">
-              {paginatedItems.map((item) => (
+              {services.map((item) => (
                 <motion.div
-                  key={item.id}
+                  key={item._id}
                   layout
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -225,7 +206,7 @@ const Explore = () => {
                           variant="ghost"
                           className="gap-1 group/btn"
                         >
-                          <Link to={`/explore/${item.id}`}>
+                          <Link to={`/explore/${item._id}`}>
                             View Details
                             <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                           </Link>
@@ -239,8 +220,7 @@ const Explore = () => {
           )}
         </div>
 
-        {/* Empty State */}
-        {!isLoading && filteredItems.length === 0 && (
+        {!isLoading && services.length === 0 && (
           <div className="text-center py-20 bg-background rounded-2xl border shadow-sm">
             <div className="bg-muted w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <Search className="h-8 w-8 text-muted-foreground" />
@@ -252,20 +232,19 @@ const Explore = () => {
             <Button
               variant="outline"
               className="mt-6"
-                      onClick={() => {
-                        setSearchTerm("");
-                        setSelectedCategory("All");
-                        setMinRating(0);
-                        setSortBy("rating");
-                        setCurrentPage(1);
-                      }}
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedCategory("All");
+                setMinRating(0);
+                setSortBy("rating");
+                setCurrentPage(1);
+              }}
             >
               Clear all filters
             </Button>
           </div>
         )}
 
-        {/* Pagination */}
         {!isLoading && totalPages > 1 && (
           <div className="flex justify-center items-center gap-4 mt-12">
             <Button
