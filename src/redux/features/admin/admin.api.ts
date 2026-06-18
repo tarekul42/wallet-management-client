@@ -1,38 +1,40 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/baseApi";
+
+type QueryParams = Record<string, unknown>;
+type ApiResponse = Record<string, unknown>;
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getDashboardStatistics: builder.query<any, void>({
+    getDashboardStatistics: builder.query<ApiResponse, void>({
       query: () => ({ url: "/admin/dashboard-statistics" }),
     }),
-    getUsers: builder.query<any, any>({
+    getUsers: builder.query<ApiResponse, QueryParams>({
       query: (params) => ({
         url: "/admin/users",
         params,
       }),
     }),
-    manageUser: builder.mutation<any, any>({
+    manageUser: builder.mutation<ApiResponse, QueryParams>({
       query: (data) => ({
         url: "/admin/manage-user",
         method: "POST",
         data,
       }),
     }),
-    getAgents: builder.query<any, any>({
+    getAgents: builder.query<ApiResponse, QueryParams>({
       query: (params) => ({
         url: "/admin/agents",
         params,
       }),
     }),
-    manageAgent: builder.mutation<any, any>({
+    manageAgent: builder.mutation<ApiResponse, QueryParams>({
       query: (data) => ({
         url: "/admin/manage-agent",
         method: "POST",
         data,
       }),
     }),
-    getAllTransactions: builder.query<any, any>({
+    getAllTransactions: builder.query<ApiResponse, QueryParams>({
       query: (params) => ({
         url: "/admin/transactions",
         params,

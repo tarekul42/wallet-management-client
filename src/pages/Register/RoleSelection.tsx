@@ -8,9 +8,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { CheckCircle } from "lucide-react";
+import type { UseFormReturn } from "react-hook-form";
+import { z } from "zod";
+import { step1Schema } from "@/schemas/register/steps";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const RoleSelection = ({step1Form}: any) => {
+type Step1FormType = UseFormReturn<z.infer<typeof step1Schema>>;
+
+interface RoleSelectionProps {
+  step1Form: Step1FormType;
+}
+
+const RoleSelection = ({step1Form}: RoleSelectionProps) => {
   return (
     <FormField
       control={step1Form.control}

@@ -1,10 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// OTP Timer functionality
-export const startOtpTimer = ({ setOtpTimer, setCanResendOtp }: any) => {
+type Setter<T> = (value: T | ((prev: T) => T)) => void;
+
+interface OtpTimerParams {
+  setOtpTimer: Setter<number>;
+  setCanResendOtp: Setter<boolean>;
+}
+
+export const startOtpTimer = ({ setOtpTimer, setCanResendOtp }: OtpTimerParams) => {
   setOtpTimer(60);
   setCanResendOtp(false);
   const timer = setInterval(() => {
-    setOtpTimer((prev: any) => {
+    setOtpTimer((prev: number) => {
       if (prev <= 1) {
         setCanResendOtp(true);
         clearInterval(timer);

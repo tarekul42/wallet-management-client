@@ -1,26 +1,28 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/baseApi";
+
+type QueryParams = Record<string, unknown>;
+type ApiResponse = Record<string, unknown>;
 
 const agentApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getDashboardSummary: builder.query<any, void>({
+    getDashboardSummary: builder.query<ApiResponse, void>({
       query: () => ({ url: "/agent/dashboard-summary" }),
     }),
-    addMoneyToUser: builder.mutation<any, any>({
+    addMoneyToUser: builder.mutation<ApiResponse, QueryParams>({
       query: (data) => ({
         url: "/agent/add-money",
         method: "POST",
         data,
       }),
     }),
-    withdrawMoneyFromUser: builder.mutation<any, any>({
+    withdrawMoneyFromUser: builder.mutation<ApiResponse, QueryParams>({
       query: (data) => ({
         url: "/agent/withdraw-money",
         method: "POST",
         data,
       }),
     }),
-    getTransactionHistory: builder.query<any, any>({
+    getTransactionHistory: builder.query<ApiResponse, QueryParams>({
       query: (params) => ({
         url: "/agent/transactions",
         params,
