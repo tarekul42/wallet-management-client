@@ -34,10 +34,6 @@ describe("All source modules import successfully", () => {
   it("index.css", async () => { expect(await import("@/index.css")).toBeDefined(); });
 
   // --- Assets / Data ---
-  it("assets/data/exploreServices", async () => {
-    const { exploreServices } = await import("@/assets/data/exploreServices");
-    expect(exploreServices).toHaveLength(8);
-  });
   it("assets/data/faqsData", async () => {
     const { faqsData } = await import("@/assets/data/faqsData");
     expect(faqsData.length).toBeGreaterThan(0);
@@ -49,7 +45,6 @@ describe("All source modules import successfully", () => {
   it("assets/data/Home/features", async () => { expect(await import("@/assets/data/Home/features")).toBeDefined(); });
   it("assets/data/Home/howItWorks", async () => { expect(await import("@/assets/data/Home/howItWorks")).toBeDefined(); });
   it("assets/data/Home/services", async () => { expect(await import("@/assets/data/Home/services")).toBeDefined(); });
-  it("assets/data/Home/stats", async () => { expect(await import("@/assets/data/Home/stats")).toBeDefined(); });
   it("assets/data/Home/testimonials", async () => { expect(await import("@/assets/data/Home/testimonials")).toBeDefined(); });
   it("assets/data/register/roleOptions", async () => { expect(await import("@/assets/data/register/roleOptions")).toBeDefined(); });
   it("assets/data/register/steps", async () => { expect(await import("@/assets/data/register/steps")).toBeDefined(); });

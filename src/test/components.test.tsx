@@ -24,9 +24,11 @@ describe("Explore page renders", () => {
   it("renders search input and filters", async () => {
     const Explore = (await import("@/pages/Explore")).default;
     render(
-      <BrowserRouter>
-        <Explore />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Explore />
+        </BrowserRouter>
+      </Provider>
     );
     expect(screen.getByPlaceholderText("Search services...")).toBeInTheDocument();
   });
@@ -34,9 +36,11 @@ describe("Explore page renders", () => {
   it("shows loading skeleton initially", async () => {
     const Explore = (await import("@/pages/Explore")).default;
     render(
-      <BrowserRouter>
-        <Explore />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Explore />
+        </BrowserRouter>
+      </Provider>
     );
     const skeletons = document.querySelectorAll(".animate-pulse");
     expect(skeletons.length).toBeGreaterThan(0);
@@ -85,9 +89,11 @@ describe("Home page renders", () => {
   it("renders the hero heading", async () => {
     const Home = (await import("@/pages/Home/Home")).default;
     render(
-      <BrowserRouter>
-        <Home />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Home />
+        </BrowserRouter>
+      </Provider>
     );
     expect(screen.getByRole("heading", { name: /digital wallet/i, level: 1 })).toBeInTheDocument();
   });
@@ -97,9 +103,11 @@ describe("About page renders", () => {
   it("renders about content", async () => {
     const About = (await import("@/pages/About")).default;
     render(
-      <BrowserRouter>
-        <About />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <About />
+        </BrowserRouter>
+      </Provider>
     );
     expect(screen.getAllByText(/about/i).length).toBeGreaterThan(0);
   });
