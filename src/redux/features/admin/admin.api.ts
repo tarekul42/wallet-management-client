@@ -1,43 +1,68 @@
 import { baseApi } from "@/redux/baseApi";
+import type { ApiResponse, IAdminSummary, IUserProfile, ITransaction, IWallet, ISystemConfig } from "@/types/api";
 
 type QueryParams = Record<string, unknown>;
-type ApiResponse = Record<string, unknown>;
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getDashboardStatistics: builder.query<ApiResponse, void>({
-      query: () => ({ url: "/admin/dashboard-statistics" }),
+    getDashboardStatistics: builder.query<ApiResponse<IAdminSummary>, void>({
+      query: () => ({ url: "/admin/summary" }),
     }),
-    getUsers: builder.query<ApiResponse, QueryParams>({
+    getUsers: builder.query<ApiResponse<IUserProfile[]>, QueryParams>({
       query: (params) => ({
-        url: "/admin/users",
+        url: "/users",
         params,
       }),
     }),
-    manageUser: builder.mutation<ApiResponse, QueryParams>({
+    manageUser: builder.mutation<ApiResponse<unknown>, { userId: string; action: "block" | "unblock" }>({
+      query: ({ userId, action }) => ({
+        url: `/users/${userId}/${action}`,
+        method: "PATCH",
+      }),
+    }),
+    getAgents: builder.query<ApiResponse<IUserProfile[]>, QueryParams>({
+      query: (params) => ({
+        url: "/users",
+        params: { ...params, role: "AGENT" },
+      }),
+    }),
+    manageAgent: builder.mutation<ApiResponse<unknown>, { agentId: string; action: string; data?: Record<string, unknown> }>({
+      query: ({ agentId, action, data }) => ({
+        url: `/users/${agentId}/${action}`,
+        method: "PATCH",
+        data: action === "approval" ? { approvalStatus: data?.approvalStatus, commissionRate: data?.commissionRate } : { status: data?.status },
+      }),
+    }),
+    getAllTransactions: builder.query<ApiResponse<ITransaction[]>, QueryParams>({
+      query: (params) => ({
+        url: "/transactions/history",
+        params,
+      }),
+    }),
+    createAdmin: builder.mutation<ApiResponse<unknown>, { name: string; email: string; password: string }>({
       query: (data) => ({
-        url: "/admin/manage-user",
+        url: "/users/create-admin",
         method: "POST",
         data,
       }),
     }),
-    getAgents: builder.query<ApiResponse, QueryParams>({
-      query: (params) => ({
-        url: "/admin/agents",
-        params,
+    getWallets: builder.query<ApiResponse<IWallet[]>, void>({
+      query: () => ({ url: "/wallets" }),
+    }),
+    manageWallet: builder.mutation<ApiResponse<unknown>, { walletId: string; action: "block" | "unblock" }>({
+      query: ({ walletId, action }) => ({
+        url: `/wallets/${walletId}/${action}`,
+        method: "PATCH",
       }),
     }),
-    manageAgent: builder.mutation<ApiResponse, QueryParams>({
+    getSystemConfig: builder.query<ApiResponse<ISystemConfig>, void>({
+      query: () => ({ url: "/system-config" }),
+    }),
+    updateSystemConfig: builder.mutation<ApiResponse<ISystemConfig>, Record<string, unknown>>({
       query: (data) => ({
-        url: "/admin/manage-agent",
-        method: "POST",
+        url: "/system-config",
+        method: "PATCH",
         data,
-      }),
-    }),
-    getAllTransactions: builder.query<ApiResponse, QueryParams>({
-      query: (params) => ({
-        url: "/admin/transactions",
-        params,
       }),
     }),
   }),
@@ -50,4 +75,9 @@ export const {
   useGetAgentsQuery,
   useManageAgentMutation,
   useGetAllTransactionsQuery,
+  useCreateAdminMutation,
+  useGetWalletsQuery,
+  useManageWalletMutation,
+  useGetSystemConfigQuery,
+  useUpdateSystemConfigMutation,
 } = adminApi;

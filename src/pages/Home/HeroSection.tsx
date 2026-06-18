@@ -57,12 +57,16 @@ const HeroSection = () => {
                 size="lg"
                 variant="outline"
                 className="text-lg px-8"
-                asChild
+                onClick={() => {
+                  document
+                    .getElementById("how-it-works")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
               >
-                <Link to="#demo" className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                   <Play className="w-5 h-5" />
                   Watch Demo
-                </Link>
+                </div>
               </Button>
             </div>
 

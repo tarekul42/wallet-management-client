@@ -5,8 +5,13 @@ import FAQs from "@/pages/FAQ/FAQs";
 import Features from "@/pages/Features/Features";
 import Home from "@/pages/Home/Home";
 import Login from "@/pages/Login";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
+import AuthCallback from "@/pages/AuthCallback";
 import NotFound from "@/pages/NotFound";
 import Register from "@/pages/Register";
+import Explore from "@/pages/Explore";
+import ServiceDetails from "@/pages/ServiceDetails";
 import { createBrowserRouter } from "react-router";
 import { dashboardRoutes } from "./dashboard";
 
@@ -37,6 +42,14 @@ export const router = createBrowserRouter([
             path: "faqs",
             Component: FAQs,
           },
+          {
+            path: "explore",
+            Component: Explore,
+          },
+          {
+            path: "explore/:id",
+            Component: ServiceDetails,
+          },
         ],
       },
       ...dashboardRoutes,
@@ -47,6 +60,18 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         Component: Register,
+      },
+      {
+        path: "/forgot-password",
+        Component: ForgotPassword,
+      },
+      {
+        path: "/reset-password",
+        Component: ResetPassword,
+      },
+      {
+        path: "/auth/callback",
+        Component: AuthCallback,
       },
       {
         path: "*",

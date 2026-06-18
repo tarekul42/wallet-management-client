@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 
 const HowItWorks = () => {
   return (
-    <section className="py-16 lg:py-24">
+    <section id="how-it-works" className="py-16 lg:py-24">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

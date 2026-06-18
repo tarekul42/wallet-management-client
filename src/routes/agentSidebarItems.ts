@@ -18,6 +18,10 @@ export const agentSidebarItems: ISidebarItem[] = [
     path: "/dashboard/agent/transactions",
   },
   {
+    name: "Commission History",
+    path: "/dashboard/agent/commissions",
+  },
+  {
     name: "Profile",
     path: "/dashboard/agent/profile",
   },

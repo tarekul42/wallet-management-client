@@ -20,6 +20,7 @@ import { setCredentials } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hook";
 import { Link, useNavigate } from "react-router";
 import Logo from "@/assets/icons/Logo";
+import config from "@/config";
 
 import { loginSchema } from "@/schemas/login";
 import logger from "@/utils/logger";
@@ -42,13 +43,29 @@ const Login = () => {
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     try {
       const result = await login(data).unwrap();
-      dispatch(setCredentials(result));
+      const payload = result?.data || result;
+      dispatch(setCredentials({ token: payload.accessToken, user: payload.user }));
+      localStorage.setItem("token", payload.accessToken);
       toast.success("Login successful!");
       navigate("/");
     } catch (error) {
       toast.error("Failed to login. Please check your credentials.");
       logger.error(error);
     }
+  };
+
+  const handleDemoLogin = () => {
+    const demoData = {
+      email: import.meta.env.VITE_DEMO_USER_EMAIL || "demo.user@example.com",
+      password: import.meta.env.VITE_DEMO_USER_PASSWORD || "DemoUser123!",
+    };
+    form.setValue("email", demoData.email);
+    form.setValue("password", demoData.password);
+    onSubmit(demoData);
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${config.baseUrl}/auth/google`;
   };
 
   return (
@@ -135,15 +152,54 @@ const Login = () => {
                 </Link>
               </div>
 
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Signing In..." : "Sign In"}
-              </Button>
+              <div className="space-y-4">
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Signing In..." : "Sign In"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="w-full"
+                  onClick={handleDemoLogin}
+                  disabled={isLoading}
+                >
+                  Login as Demo User
+                </Button>
+              </div>
             </form>
           </Form>
 
+          <div className="relative my-8">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Button
+              variant="outline"
+              type="button"
+              onClick={handleGoogleLogin}
+            >
+              Google
+            </Button>
+            <Button
+              variant="outline"
+              type="button"
+              onClick={() => toast.info("Facebook login coming soon!")}
+            >
+              Facebook
+            </Button>
+          </div>
+
           <div className="text-center mt-6">
             <p className="text-sm text-muted-foreground">
-              Don't have an account?
+              Don't have an account?{" "}
               <Link
                 to="/register"
                 className="text-primary hover:underline font-medium"

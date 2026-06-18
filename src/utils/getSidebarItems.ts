@@ -4,7 +4,7 @@ import { agentSidebarItems } from "@/routes/agentSidebarItems";
 import { userSidebarItems } from "@/routes/userSidebarItems";
 import type { TRole } from "@/types";
 
-export const getSidebarItems = (userRole: TRole) => {
+export const getSidebarItems = (userRole: TRole | undefined) => {
   switch (userRole) {
     case role.superAdmin:
       return [...adminSidebarItems];
