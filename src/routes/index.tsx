@@ -12,6 +12,9 @@ import NotFound from "@/pages/NotFound";
 import Register from "@/pages/Register";
 import Explore from "@/pages/Explore";
 import ServiceDetails from "@/pages/ServiceDetails";
+import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms";
+import Support from "@/pages/Support";
 import { createBrowserRouter } from "react-router";
 import { dashboardRoutes } from "./dashboard";
 
@@ -32,6 +35,9 @@ export const router = createBrowserRouter([
           { path: "faqs", Component: FAQs },
           { path: "explore", Component: Explore },
           { path: "explore/:id", Component: ServiceDetails },
+          { path: "privacy-policy", Component: Privacy },
+          { path: "terms-of-service", Component: Terms },
+          { path: "support", Component: Support },
         ],
       },
       ...dashboardRoutes,

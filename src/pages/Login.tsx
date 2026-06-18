@@ -56,9 +56,13 @@ const Login = () => {
 
   const handleDemoLogin = () => {
     const demoData = {
-      email: import.meta.env.VITE_DEMO_USER_EMAIL || "demo.user@example.com",
-      password: import.meta.env.VITE_DEMO_USER_PASSWORD || "DemoUser123!",
+      email: import.meta.env.VITE_DEMO_USER_EMAIL,
+      password: import.meta.env.VITE_DEMO_USER_PASSWORD,
     };
+    if (!demoData.email || !demoData.password) {
+      toast.error("Demo credentials not configured. Please check your environment variables.");
+      return;
+    }
     form.setValue("email", demoData.email);
     form.setValue("password", demoData.password);
     onSubmit(demoData);
@@ -66,6 +70,10 @@ const Login = () => {
 
   const handleGoogleLogin = () => {
     window.location.href = `${config.baseUrl}/auth/google`;
+  };
+
+  const handleFacebookLogin = () => {
+    window.location.href = `${config.baseUrl}/auth/facebook`;
   };
 
   return (
@@ -191,7 +199,7 @@ const Login = () => {
             <Button
               variant="outline"
               type="button"
-              onClick={() => toast.info("Facebook login coming soon!")}
+              onClick={handleFacebookLogin}
             >
               Facebook
             </Button>

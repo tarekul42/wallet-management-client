@@ -1,5 +1,13 @@
 import Logo from "@/assets/icons/Logo";
 import { Link } from "react-router";
+import { Github, Linkedin, Twitter, Facebook } from "lucide-react";
+
+const socialLinks = [
+  { icon: <Github className="h-5 w-5" />, href: "https://github.com", label: "GitHub" },
+  { icon: <Linkedin className="h-5 w-5" />, href: "https://linkedin.com", label: "LinkedIn" },
+  { icon: <Twitter className="h-5 w-5" />, href: "https://twitter.com", label: "Twitter" },
+  { icon: <Facebook className="h-5 w-5" />, href: "https://facebook.com", label: "Facebook" },
+];
 
 const Footer = () => {
   return (
@@ -12,6 +20,21 @@ const Footer = () => {
             <p className="mt-4 max-w-xs text-muted-foreground">
               A secure and easy way to manage your finances. All in one place.
             </p>
+
+            <div className="flex items-center gap-3 mt-6">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="p-2 rounded-full border text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
