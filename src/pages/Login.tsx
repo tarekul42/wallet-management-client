@@ -42,7 +42,6 @@ const Login = () => {
     try {
       const result = await login(data).unwrap();
       dispatch(setCredentials(result));
-      localStorage.setItem("token", result.token);
       toast.success("Login successful!");
       navigate("/");
     } catch (error) {

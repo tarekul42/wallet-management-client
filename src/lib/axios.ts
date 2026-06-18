@@ -44,19 +44,15 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    // console.log("Request failed", error.response.data.message);
-
     const originalRequest = error.config as AxiosRequestConfig & {
       _retry: boolean;
     };
 
     if (
-      error.response.status === 500 &&
-      error.response.data.message === "jwt expired" &&
+      error.response?.status === 401 &&
+      error.response?.data?.message?.includes("expired") &&
       !originalRequest._retry
     ) {
-
-
       originalRequest._retry = true;
 
       if (isRefreshing) {
@@ -71,7 +67,6 @@ axiosInstance.interceptors.response.use(
       try {
         await axiosInstance.post("/auth/refresh-token");
 
-
         processQueue(null);
 
         return axiosInstance(originalRequest);
@@ -83,7 +78,6 @@ axiosInstance.interceptors.response.use(
       }
     }
 
-    //* For Everything
     return Promise.reject(error);
   },
 );
