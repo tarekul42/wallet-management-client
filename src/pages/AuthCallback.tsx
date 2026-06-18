@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { useAppDispatch } from "@/redux/hook";
 import { setCredentials } from "@/redux/features/auth/authSlice";
@@ -9,23 +9,31 @@ const AuthCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const processed = useRef(false);
+
+  const token = searchParams.get("token");
+  const refreshToken = searchParams.get("refreshToken");
 
   useEffect(() => {
-    const token = searchParams.get("token");
-    const refreshToken = searchParams.get("refreshToken");
+    if (processed.current) return;
+    processed.current = true;
 
     if (token) {
-      const user = decodedToken(token);
-      dispatch(setCredentials({ token, user }));
-      localStorage.setItem("token", token);
-      if (refreshToken) {
-        localStorage.setItem("refreshToken", refreshToken);
+      try {
+        const user = decodedToken(token);
+        dispatch(setCredentials({ token, user }));
+        localStorage.setItem("token", token);
+        if (refreshToken) {
+          localStorage.setItem("refreshToken", refreshToken);
+        }
+        navigate("/dashboard", { replace: true });
+      } catch {
+        navigate("/login?error=auth_failed", { replace: true });
       }
-      navigate("/dashboard", { replace: true });
     } else {
       navigate("/login?error=auth_failed", { replace: true });
     }
-  }, [searchParams, dispatch, navigate]);
+  }, [token, refreshToken, dispatch, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

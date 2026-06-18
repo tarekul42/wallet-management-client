@@ -23,7 +23,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { useRegisterMutation } from "@/redux/features/auth/auth.api";
@@ -37,6 +37,7 @@ const Step4Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
+  const navigateTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const dispatch = useAppDispatch();
   const { isLoading, registrationData } = useAppSelector(
@@ -54,11 +55,24 @@ const Step4Register = () => {
 
   const [register] = useRegisterMutation();
 
+  useEffect(() => {
+    return () => {
+      if (navigateTimerRef.current) clearTimeout(navigateTimerRef.current);
+    };
+  }, []);
+
   // Handle Step 4 Submission (Final)
   const handleStep4Submit = async (data: z.infer<typeof step4Schema>) => {
     dispatch(setIsLoading(true));
     try {
-      const finalData = { ...registrationData, ...data };
+      const finalData = {
+        name: `${registrationData.firstName} ${registrationData.lastName}`.trim(),
+        email: registrationData.email,
+        password: data.password,
+        confirmPassword: data.confirmPassword,
+        phone: registrationData.phone || undefined,
+        role: registrationData.role?.toUpperCase(),
+      };
       await register(finalData).unwrap();
 
       toast.success("Account created successfully!");
@@ -66,7 +80,7 @@ const Step4Register = () => {
       // Reset registration state
       dispatch(resetRegistration());
 
-      setTimeout(() => navigate("/login"), 2000);
+      navigateTimerRef.current = setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       toast.error("Registration failed. Please try again.");
       logger.error(error);

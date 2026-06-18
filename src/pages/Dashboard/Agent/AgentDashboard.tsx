@@ -3,6 +3,7 @@ import TransactionTable from "@/components/modules/Dashboard/TransactionTable";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DollarSign, HandCoins, Users, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   useGetDashboardSummaryQuery,
@@ -12,10 +13,11 @@ import { useAppSelector } from "@/redux/hook";
 
 const AgentDashboard = () => {
   const user = useAppSelector((state) => state.auth.user);
-  const { data: summaryRes, isLoading: summaryLoading } = useGetDashboardSummaryQuery();
-  const { data: txRes, isLoading: txLoading } = useGetAgentTransactionHistoryQuery({ limit: 50 });
+  const { data: summaryRes, isLoading: summaryLoading, isError: summaryError } = useGetDashboardSummaryQuery();
+  const { data: txRes, isLoading: txLoading, isError: txError } = useGetAgentTransactionHistoryQuery({ limit: 50 });
 
   const isLoading = summaryLoading || txLoading;
+  const hasError = summaryError || txError;
   const summary = summaryRes?.data;
   const txList = txRes?.data ?? [];
 
@@ -111,15 +113,24 @@ const AgentDashboard = () => {
   return (
     <div className="space-y-8 pb-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Agent Dashboard</h1>
-          <p className="text-muted-foreground">
-            Welcome back{user?.name ? `, ${user.name}` : ""}! Manage your cash-in/out services and track commissions.
-          </p>
-        </div>
+      <div>
+        {hasError && (
+          <div className="p-3 mb-4 rounded-lg bg-destructive/10 text-destructive text-sm">
+            Some data failed to load. Showing available information.
+          </div>
+        )}
+        <h1 className="text-3xl font-bold">Agent Dashboard</h1>
+        <p className="text-muted-foreground">
+          Welcome back{user?.name ? `, ${user.name}` : ""}! Manage your agent operations.
+        </p>
+      </div>
         <div className="flex items-center gap-3">
-          <Button className="gap-2">Process Cash-In</Button>
-          <Button variant="outline">View Commission History</Button>
+          <Button asChild className="gap-2">
+            <Link to="/dashboard/agent/add-money">Process Cash-In</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link to="/dashboard/agent/commissions">View Commission History</Link>
+          </Button>
         </div>
       </div>
 

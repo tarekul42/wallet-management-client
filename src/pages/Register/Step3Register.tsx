@@ -61,10 +61,7 @@ const Step3Register = () => {
       await verifyPhoneOtp({ ...data, phone: registrationData.phone }).unwrap();
 
       dispatch(
-        updateRegistrationData({
-          ...data,
-          phoneVerified: true,
-        }),
+        updateRegistrationData({ phoneVerified: true }),
       );
       toast.success("Phone verified successfully!");
       dispatch(setCurrentStep(4));

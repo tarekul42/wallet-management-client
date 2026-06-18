@@ -18,10 +18,11 @@ import { useMemo } from "react";
 const UserDashboard = () => {
   const user = useAppSelector((state) => state.auth.user);
 
-  const { data: balanceRes, isLoading: balanceLoading } = useGetAccountBalanceQuery();
-  const { data: txRes, isLoading: txLoading } = useGetTransactionHistoryQuery({ limit: 50 });
+  const { data: balanceRes, isLoading: balanceLoading, isError: balanceError } = useGetAccountBalanceQuery();
+  const { data: txRes, isLoading: txLoading, isError: txError } = useGetTransactionHistoryQuery({ limit: 50 });
 
   const isLoading = balanceLoading || txLoading;
+  const hasError = balanceError || txError;
 
   const balance = balanceRes?.data?.balance ?? 0;
 
@@ -99,12 +100,17 @@ const UserDashboard = () => {
   return (
     <div className="space-y-8 pb-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">User Dashboard</h1>
-          <p className="text-muted-foreground">
-            Welcome back{user?.name ? `, ${user.name}` : ""}! Here's what's happening with your wallet.
-          </p>
-        </div>
+      <div>
+        {hasError && (
+          <div className="p-3 mb-4 rounded-lg bg-destructive/10 text-destructive text-sm">
+            Some data failed to load. Showing available information.
+          </div>
+        )}
+        <h1 className="text-3xl font-bold">User Dashboard</h1>
+        <p className="text-muted-foreground">
+          Welcome back{user?.name ? `, ${user.name}` : ""}! Manage your finances and transactions.
+        </p>
+      </div>
         <div className="flex items-center gap-3">
           <Link to="/dashboard/user/deposit">
             <Button className="gap-2">
@@ -169,19 +175,17 @@ const UserDashboard = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <Button
-              variant="outline"
-              className="h-24 flex-col gap-3 rounded-2xl border-2 hover:border-primary/50 hover:bg-primary/5 transition-all"
-            >
-              <Wallet className="h-6 w-6 text-primary" />
-              <span>Wallet Settings</span>
+            <Button asChild variant="outline" className="h-24 flex-col gap-3 rounded-2xl border-2 hover:border-primary/50 hover:bg-primary/5 transition-all">
+              <Link to="/dashboard/user/transactions">
+                <Wallet className="h-6 w-6 text-primary" />
+                <span>Transactions</span>
+              </Link>
             </Button>
-            <Button
-              variant="outline"
-              className="h-24 flex-col gap-3 rounded-2xl border-2 hover:border-primary/50 hover:bg-primary/5 transition-all"
-            >
-              <CreditCard className="h-6 w-6 text-primary" />
-              <span>Manage Cards</span>
+            <Button asChild variant="outline" className="h-24 flex-col gap-3 rounded-2xl border-2 hover:border-primary/50 hover:bg-primary/5 transition-all">
+              <Link to="/dashboard/user/deposit">
+                <CreditCard className="h-6 w-6 text-primary" />
+                <span>Deposit</span>
+              </Link>
             </Button>
           </div>
         </motion.div>

@@ -11,10 +11,11 @@ import { useAppSelector } from "@/redux/hook";
 
 const AdminDashboard = () => {
   const user = useAppSelector((state) => state.auth.user);
-  const { data: statsRes, isLoading: statsLoading } = useGetDashboardStatisticsQuery();
-  const { data: txRes, isLoading: txLoading } = useGetAllTransactionsQuery({ limit: 50 });
+  const { data: statsRes, isLoading: statsLoading, isError: statsError } = useGetDashboardStatisticsQuery();
+  const { data: txRes, isLoading: txLoading, isError: txError } = useGetAllTransactionsQuery({ limit: 50 });
 
   const isLoading = statsLoading || txLoading;
+  const hasError = statsError || txError;
   const stats = statsRes?.data;
   const txList = txRes?.data ?? [];
 
@@ -59,9 +60,12 @@ const AdminDashboard = () => {
   const totalDistUsers = userDist
     ? userDist.users + userDist.agents + userDist.admins
     : 0;
-  const userPct = totalDistUsers > 0 ? Math.round((userDist!.users / totalDistUsers) * 100) : 70;
-  const agentPct = totalDistUsers > 0 ? Math.round((userDist!.agents / totalDistUsers) * 100) : 15;
-  const adminPct = totalDistUsers > 0 ? Math.round((userDist!.admins / totalDistUsers) * 100) : 5;
+  let userPct = 70, agentPct = 15, adminPct = 15;
+  if (totalDistUsers > 0) {
+    userPct = Math.round((userDist!.users / totalDistUsers) * 100);
+    agentPct = Math.round((userDist!.agents / totalDistUsers) * 100);
+    adminPct = 100 - userPct - agentPct;
+  }
 
   const AdminSkeleton = () => (
     <div className="space-y-8 pb-12">
@@ -117,6 +121,11 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-8 pb-12">
       <div>
+        {hasError && (
+          <div className="p-3 mb-4 rounded-lg bg-destructive/10 text-destructive text-sm">
+            Some data failed to load. Showing available information.
+          </div>
+        )}
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         <p className="text-muted-foreground">
           Welcome back{user?.name ? `, ${user.name}` : ""}! System-wide overview and administrative controls.

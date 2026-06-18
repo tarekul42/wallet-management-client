@@ -80,10 +80,7 @@ const Step2Register = () => {
       await verifyEmailOtp({ ...data, email: registrationData.email }).unwrap();
 
       dispatch(
-        updateRegistrationData({
-          ...data,
-          emailVerified: true,
-        }),
+        updateRegistrationData({ emailVerified: true }),
       );
       toast.success("Email verified successfully!");
       dispatch(setCurrentStep(3));

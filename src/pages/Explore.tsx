@@ -60,7 +60,7 @@ const Explore = () => {
         if (sortBy === "title") return a.title.localeCompare(b.title);
         return 0;
       });
-  }, [searchTerm, selectedCategory, sortBy]);
+  }, [searchTerm, selectedCategory, minRating, sortBy]);
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const paginatedItems = filteredItems.slice(
@@ -154,7 +154,7 @@ const Explore = () => {
             <select
               className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/20"
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) => { setSortBy(e.target.value); setCurrentPage(1); }}
             >
               <option value="rating">Top Rated</option>
               <option value="title">Alphabetical</option>
@@ -252,10 +252,13 @@ const Explore = () => {
             <Button
               variant="outline"
               className="mt-6"
-              onClick={() => {
-                setSearchTerm("");
-                setSelectedCategory("All");
-              }}
+                      onClick={() => {
+                        setSearchTerm("");
+                        setSelectedCategory("All");
+                        setMinRating(0);
+                        setSortBy("rating");
+                        setCurrentPage(1);
+                      }}
             >
               Clear all filters
             </Button>

@@ -7,6 +7,7 @@ import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./redux/store.ts";
 import { ThemeProvider } from "./providers/theme.provider.tsx";
 import { Toaster } from "sonner";
+import ErrorBoundary from "./components/ErrorBoundary.tsx";
 import { setCredentials } from "./redux/features/auth/authSlice.ts";
 import { decodedToken } from "./utils/jwt.ts";
 
@@ -20,7 +21,9 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ReduxProvider store={store}>
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-        <RouterProvider router={router} />
+        <ErrorBoundary>
+          <RouterProvider router={router} />
+        </ErrorBoundary>
         <Toaster richColors />
       </ThemeProvider>
     </ReduxProvider>

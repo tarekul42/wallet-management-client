@@ -1,13 +1,16 @@
 import z from "zod";
 
+const bangladeshPhoneRegex = /^(?:\+8801\d{9}|01\d{9})$/;
+
 export const step1Schema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters."),
   lastName: z.string().min(2, "Last name must be at least 2 characters."),
-  email: z.email("Please enter a valid email address."),
+  email: z.string().email("Please enter a valid email address."),
   phone: z
     .string()
-    .min(10, "Phone number must be at least 10 digits.")
-    .regex(/^[0-9+\-\s()]+$/, "Please enter a valid phone number."),
+    .regex(bangladeshPhoneRegex, "Phone must be a valid Bangladesh number (+8801XXXXXXXXX or 01XXXXXXXXX).")
+    .optional()
+    .or(z.literal("")),
   role: z.enum(["user", "agent"], {
     message: "Please select your account type.",
   }),
@@ -33,10 +36,10 @@ export const step4Schema = z
   .object({
     password: z
       .string()
-      .min(8, "Password must be at least 8 characters.")
+      .min(6, "Password must be at least 6 characters.")
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-        "Password must contain uppercase, lowercase, and number.",
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={[}\]:;"'`~<>,.?/\\-]).{6,}$/,
+        "Password must include an uppercase letter, a number, and a special character.",
       ),
     confirmPassword: z.string(),
     termsAccepted: z

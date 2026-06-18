@@ -26,57 +26,21 @@ export const router = createBrowserRouter([
         Component: App,
         children: [
           { index: true, Component: Home },
-          {
-            path: "about",
-            Component: About,
-          },
-          {
-            path: "features",
-            Component: Features,
-          },
-          {
-            path: "contact",
-            Component: Contact,
-          },
-          {
-            path: "faqs",
-            Component: FAQs,
-          },
-          {
-            path: "explore",
-            Component: Explore,
-          },
-          {
-            path: "explore/:id",
-            Component: ServiceDetails,
-          },
+          { path: "about", Component: About },
+          { path: "features", Component: Features },
+          { path: "contact", Component: Contact },
+          { path: "faqs", Component: FAQs },
+          { path: "explore", Component: Explore },
+          { path: "explore/:id", Component: ServiceDetails },
         ],
       },
       ...dashboardRoutes,
-      {
-        path: "/login",
-        Component: Login,
-      },
-      {
-        path: "/register",
-        Component: Register,
-      },
-      {
-        path: "/forgot-password",
-        Component: ForgotPassword,
-      },
-      {
-        path: "/reset-password",
-        Component: ResetPassword,
-      },
-      {
-        path: "/auth/callback",
-        Component: AuthCallback,
-      },
-      {
-        path: "*",
-        Component: NotFound,
-      },
+      { path: "/login", Component: Login },
+      { path: "/register", Component: Register },
+      { path: "/forgot-password", Component: ForgotPassword },
+      { path: "/reset-password", Component: ResetPassword },
+      { path: "/auth/callback", Component: AuthCallback },
+      { path: "*", Component: NotFound },
     ],
   },
 ]);

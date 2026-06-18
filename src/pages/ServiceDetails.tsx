@@ -299,8 +299,8 @@ const ServiceDetails = () => {
                     </div>
                   </div>
 
-                  <Button className="w-full h-14 text-lg rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
-                    Pay with Wallet
+                  <Button asChild className="w-full h-14 text-lg rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                    <Link to="/login">Pay with Wallet</Link>
                   </Button>
 
                   <div className="flex items-center gap-2 justify-center text-xs text-muted-foreground">
@@ -316,8 +316,8 @@ const ServiceDetails = () => {
                   Our support team is available 24/7 to assist you with this
                   service.
                 </p>
-                <Button variant="outline" className="w-full">
-                  Contact Support
+                <Button asChild variant="outline" className="w-full">
+                  <Link to="/support">Contact Support</Link>
                 </Button>
               </div>
             </motion.div>

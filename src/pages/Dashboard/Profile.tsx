@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User, Mail, Phone, MapPin, Camera, Shield, Save, Loader2, Lock } from "lucide-react";
+import { User, Mail, Phone, MapPin, Camera, Info, Save, Loader2, Lock as LockIcon, ShieldCheck } from "lucide-react";
 import { Link } from "react-router";
 import { useAppSelector } from "@/redux/hook";
-import { useGetProfileQuery } from "@/redux/features/user/user.api";
+import { useGetProfileQuery, useUpdateProfileMutation } from "@/redux/features/user/user.api";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,8 +25,6 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { useState } from "react";
-import { useUpdateProfileMutation } from "@/redux/features/user/user.api";
 
 const profileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -38,21 +37,31 @@ type ProfileFormValues = z.infer<typeof profileSchema>;
 
 const Profile = () => {
   const { user: authUser } = useAppSelector((state) => state.auth);
-  const { data: profileRes } = useGetProfileQuery();
+  const { data: profileRes, isError: profileError } = useGetProfileQuery();
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
-  const [twoFAEnabled, setTwoFAEnabled] = useState(false);
 
   const profileUser = (profileRes?.data as Record<string, unknown> | undefined) ?? authUser;
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      name: (profileUser?.name as string) || "",
-      email: (profileUser?.email as string) || "",
-      phone: (profileUser?.phone as string) || "",
-      address: (profileUser?.address as string) || "",
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
     },
   });
+
+  useEffect(() => {
+    if (profileUser) {
+      form.reset({
+        name: (profileUser?.name as string) || "",
+        email: (profileUser?.email as string) || "",
+        phone: (profileUser?.phone as string) || "",
+        address: (profileUser?.address as string) || "",
+      });
+    }
+  }, [profileUser, form]);
 
   const onSubmit = async (data: ProfileFormValues) => {
     try {
@@ -69,6 +78,11 @@ const Profile = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-12">
+      {profileError && (
+        <div className="p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+          Failed to load profile data. Showing cached information.
+        </div>
+      )}
       <div>
         <h1 className="text-3xl font-bold">Account Profile</h1>
         <p className="text-muted-foreground">
@@ -100,7 +114,7 @@ const Profile = () => {
                   <h3 className="text-xl font-bold">{(profileUser?.name as string) || "User"}</h3>
                   <p className="text-sm text-muted-foreground mb-4">{(profileUser?.role as string) || "USER"}</p>
                 <Badge variant="secondary" className="bg-green-100 text-green-700 hover:bg-green-100">
-                  <Shield className="h-3 w-3 mr-1" />
+                  <ShieldCheck className="h-3 w-3 mr-1" />
                   Verified Account
                 </Badge>
               </div>
@@ -127,21 +141,19 @@ const Profile = () => {
               <div className="flex justify-between text-sm items-center">
                 <span className="text-muted-foreground">2FA</span>
                 <Button
-                  variant={twoFAEnabled ? "default" : "outline"}
+                  variant="outline"
                   size="sm"
                   className="h-7 text-xs"
-                  onClick={() => {
-                    setTwoFAEnabled(!twoFAEnabled);
-                    toast.success(twoFAEnabled ? "2FA disabled" : "2FA enabled");
-                  }}
+                  disabled
+                  title="Coming soon"
                 >
-                  {twoFAEnabled ? "Enabled" : "Enable"}
+                  <Info className="h-3 w-3 mr-1" /> N/A
                 </Button>
               </div>
               <div className="pt-2">
                 <Link to={profileUser?.role === "ADMIN" ? "/dashboard/admin/profile/security" : profileUser?.role === "AGENT" ? "/dashboard/agent/profile/security" : "/dashboard/user/profile/security"}>
                   <Button variant="outline" size="sm" className="w-full text-xs">
-                    <Lock className="h-3 w-3 mr-1" /> Change Password
+                    <LockIcon className="h-3 w-3 mr-1" /> Change Password
                   </Button>
                 </Link>
               </div>
