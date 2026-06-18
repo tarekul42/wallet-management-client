@@ -1,7 +1,7 @@
 import SpendingChart from "@/components/modules/Dashboard/SpendingChart";
 import TransactionTable from "@/components/modules/Dashboard/TransactionTable";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign, HandCoins, Users, TrendingUp } from "lucide-react";
+import { DollarSign, HandCoins, Users, TrendingUp, ArrowDownFromLine, ArrowUpFromLine } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -25,30 +25,34 @@ const AgentDashboard = () => {
     {
       title: "Current Balance",
       value: summary ? `$${(summary.currentBalance).toLocaleString()}` : "$0.00",
-      icon: <DollarSign className="h-6 w-6 text-primary" />,
+      icon: <DollarSign className="h-6 w-6" />,
       description: "Available for cash-out",
       color: "bg-primary/10",
+      iconColor: "text-primary",
     },
     {
       title: "Total Commission",
       value: summary ? `$${(summary.totalCommission).toLocaleString()}` : "$0.00",
       icon: <HandCoins className="h-6 w-6 text-green-600" />,
       description: "Earned all time",
-      color: "bg-green-100",
+      color: "bg-green-100 dark:bg-green-900/30",
+      iconColor: "text-green-600 dark:text-green-400",
     },
     {
       title: "Active Customers",
       value: summary ? `${summary.activeCustomers}` : "0",
       icon: <Users className="h-6 w-6 text-blue-600" />,
       description: "Unique customers served",
-      color: "bg-blue-100",
+      color: "bg-blue-100 dark:bg-blue-900/30",
+      iconColor: "text-blue-600 dark:text-blue-400",
     },
     {
       title: "Success Rate",
       value: summary ? `${summary.successRate}%` : "0%",
       icon: <TrendingUp className="h-6 w-6 text-purple-600" />,
       description: "Across all transactions",
-      color: "bg-purple-100",
+      color: "bg-purple-100 dark:bg-purple-900/30",
+      iconColor: "text-purple-600 dark:text-purple-400",
     },
   ];
 
@@ -113,23 +117,29 @@ const AgentDashboard = () => {
   return (
     <div className="space-y-8 pb-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div>
-        {hasError && (
-          <div className="p-3 mb-4 rounded-lg bg-destructive/10 text-destructive text-sm">
-            Some data failed to load. Showing available information.
-          </div>
-        )}
-        <h1 className="text-3xl font-bold">Agent Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome back{user?.name ? `, ${user.name}` : ""}! Manage your agent operations.
-        </p>
-      </div>
+        <div>
+          {hasError && (
+            <div className="p-3 mb-4 rounded-lg bg-destructive/10 text-destructive text-sm" role="alert">
+              Some data failed to load. Showing available information.
+            </div>
+          )}
+          <h1 className="text-3xl font-bold tracking-tight">Agent Dashboard</h1>
+          <p className="text-muted-foreground">
+            Welcome back{user?.name ? `, ${user.name}` : ""}! Manage your agent operations.
+          </p>
+        </div>
         <div className="flex items-center gap-3">
           <Button asChild className="gap-2">
-            <Link to="/dashboard/agent/add-money">Process Cash-In</Link>
+            <Link to="/dashboard/agent/add-money">
+              <ArrowDownFromLine className="h-4 w-4" />
+              Process Cash-In
+            </Link>
           </Button>
-          <Button asChild variant="outline">
-            <Link to="/dashboard/agent/commissions">View Commission History</Link>
+          <Button asChild variant="outline" className="gap-2">
+            <Link to="/dashboard/agent/commissions">
+              <HandCoins className="h-4 w-4" />
+              Commissions
+            </Link>
           </Button>
         </div>
       </div>
@@ -159,31 +169,39 @@ const AgentDashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          <SpendingChart />
+          <SpendingChart title="Agent Transaction Volume" />
         </div>
         <Card className="border-0 shadow-md">
           <CardHeader>
             <CardTitle className="text-xl">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="p-4 rounded-2xl bg-muted/50 border border-dashed flex flex-col items-center justify-center text-center space-y-2">
-              <p className="font-semibold">Generate QR Code</p>
-              <p className="text-xs text-muted-foreground">
-                Let customers scan to pay or cash-out instantly.
-              </p>
-              <Button size="sm" variant="secondary" className="mt-2">
-                Generate
-              </Button>
-            </div>
-            <div className="p-4 rounded-2xl bg-muted/50 border border-dashed flex flex-col items-center justify-center text-center space-y-2">
-              <p className="font-semibold">Verify Transaction</p>
-              <p className="text-xs text-muted-foreground">
-                Check the status of a specific reference ID.
-              </p>
-              <Button size="sm" variant="secondary" className="mt-2">
-                Verify
-              </Button>
-            </div>
+            <Button
+              asChild
+              variant="outline"
+              className="w-full h-auto flex-col items-center gap-2 py-6 rounded-2xl border-2 border-dashed hover:border-primary/50 hover:bg-primary/5 transition-all"
+            >
+              <Link to="/dashboard/agent/add-money">
+                <ArrowDownFromLine className="h-6 w-6 text-primary" />
+                <span className="font-semibold">Cash-In to User</span>
+                <span className="text-xs text-muted-foreground font-normal">
+                  Add money to a user&apos;s account
+                </span>
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="w-full h-auto flex-col items-center gap-2 py-6 rounded-2xl border-2 border-dashed hover:border-primary/50 hover:bg-primary/5 transition-all"
+            >
+              <Link to="/dashboard/agent/withdraw-money">
+                <ArrowUpFromLine className="h-6 w-6 text-primary" />
+                <span className="font-semibold">Cash-Out from User</span>
+                <span className="text-xs text-muted-foreground font-normal">
+                  Withdraw money from a user&apos;s account
+                </span>
+              </Link>
+            </Button>
           </CardContent>
         </Card>
       </div>

@@ -1,14 +1,11 @@
 import { describe, it, expect } from "vitest";
-
-// Import every single module to verify it loads without error
-// This ensures 100% code coverage through module resolution
+import type { TRole } from "@/types";
 
 describe("All source modules import successfully", () => {
 
   // --- Types ---
   it("types/api", async () => {
     const m = await import("@/types/api");
-    // Interfaces are erased at runtime; only verify the file loads
     expect(m).toBeDefined();
   });
   it("types/index", async () => { expect(await import("@/types/index")).toBeDefined(); });
@@ -28,7 +25,8 @@ describe("All source modules import successfully", () => {
   it("lib/utils", async () => {
     const { cn } = await import("@/lib/utils");
     expect(cn("a", "b")).toBe("a b");
-    expect(cn("a", false && "b")).toBe("a");
+    const falsyValue = false as const;
+    expect(cn("a", falsyValue && "b")).toBe("a");
   });
   it("lib/axios", async () => { expect(await import("@/lib/axios")).toBeDefined(); });
   it("index.css", async () => { expect(await import("@/index.css")).toBeDefined(); });
@@ -76,9 +74,9 @@ describe("All source modules import successfully", () => {
   it("utils/register/startOtpTimer", async () => { expect(await import("@/utils/register/startOtpTimer")).toBeDefined(); });
   it("utils/getSidebarItems", async () => {
     const { getSidebarItems } = await import("@/utils/getSidebarItems");
-    expect(getSidebarItems("USER" as any).length).toBeGreaterThan(0);
-    expect(getSidebarItems("AGENT" as any).length).toBeGreaterThan(0);
-    expect(getSidebarItems("ADMIN" as any).length).toBeGreaterThan(0);
+    expect(getSidebarItems("USER" as TRole).length).toBeGreaterThan(0);
+    expect(getSidebarItems("AGENT" as TRole).length).toBeGreaterThan(0);
+    expect(getSidebarItems("ADMIN" as TRole).length).toBeGreaterThan(0);
     expect(getSidebarItems(undefined)).toEqual([]);
   });
 
@@ -166,7 +164,10 @@ describe("All source modules import successfully", () => {
   });
   it("routes/dashboard", async () => {
     const { dashboardRoutes } = await import("@/routes/dashboard");
-    const paths = dashboardRoutes[0].children.map((r: any) => r.path);
+    interface RouteChild {
+      path: string;
+    }
+    const paths = (dashboardRoutes[0].children as RouteChild[]).map((r) => r.path);
     expect(paths).toContain("user/deposit");
     expect(paths).toContain("user/profile/security");
     expect(paths).toContain("agent/commissions");
@@ -304,9 +305,4 @@ describe("All source modules import successfully", () => {
 
   // --- Dashboard Profile ---
   it("pages/Dashboard/Profile", async () => { expect((await import("@/pages/Dashboard/Profile")).default).toBeDefined(); });
-
-  // --- Entry points ---
-  // main.tsx is the app bootstrap — no exports, and calls createRoot which
-  // requires a real DOM element. Verified by build succeed + routes/index test.
-  // Skipped in unit test to avoid "Target container is not a DOM element".
 });

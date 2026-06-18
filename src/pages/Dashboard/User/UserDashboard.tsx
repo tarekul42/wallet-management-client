@@ -3,21 +3,23 @@ import SpendingChart from "@/components/modules/Dashboard/SpendingChart";
 import TransactionTable from "@/components/modules/Dashboard/TransactionTable";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
-import { SendHorizontal, Wallet, CreditCard } from "lucide-react";
+import { SendHorizontal, PlusIcon, Copy, Snowflake, CreditCard, Wallet } from "lucide-react";
 import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Plus as PlusIcon } from "lucide-react";
 import {
   useGetAccountBalanceQuery,
   useGetTransactionHistoryQuery,
 } from "@/redux/features/user/user.api";
 import { useGetMyCardsQuery } from "@/redux/features/cards/cards.api";
 import { useAppSelector } from "@/redux/hook";
-import { useMemo } from "react";
+import { useMemo, useState, useCallback } from "react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 const UserDashboard = () => {
   const user = useAppSelector((state) => state.auth.user);
+  const [cardFrozen, setCardFrozen] = useState(false);
 
   const { data: balanceRes, isLoading: balanceLoading, isError: balanceError } = useGetAccountBalanceQuery();
   const { data: txRes, isLoading: txLoading, isError: txError } = useGetTransactionHistoryQuery({ limit: 50 });
@@ -44,6 +46,21 @@ const UserDashboard = () => {
   const { data: cardsRes } = useGetMyCardsQuery();
   const cards = cardsRes?.data ?? [];
   const primaryCard = cards.find((c) => c.type === "VIRTUAL" && c.status === "ACTIVE") || cards[0];
+
+  const handleCopyCard = useCallback(() => {
+    if (primaryCard?.lastFourDigits) {
+      navigator.clipboard.writeText(`**** **** **** ${primaryCard.lastFourDigits}`).then(() => {
+        toast.success("Card number copied to clipboard");
+      }).catch(() => {
+        toast.error("Failed to copy card number");
+      });
+    }
+  }, [primaryCard]);
+
+  const handleToggleFreeze = useCallback(() => {
+    setCardFrozen((prev) => !prev);
+    toast.success(cardFrozen ? "Card unfrozen" : "Card frozen");
+  }, [cardFrozen]);
 
   const DashboardSkeleton = () => (
     <div className="space-y-8 pb-12">
@@ -104,17 +121,17 @@ const UserDashboard = () => {
   return (
     <div className="space-y-8 pb-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div>
-        {hasError && (
-          <div className="p-3 mb-4 rounded-lg bg-destructive/10 text-destructive text-sm">
-            Some data failed to load. Showing available information.
-          </div>
-        )}
-        <h1 className="text-3xl font-bold">User Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome back{user?.name ? `, ${user.name}` : ""}! Manage your finances and transactions.
-        </p>
-      </div>
+        <div>
+          {hasError && (
+            <div className="p-3 mb-4 rounded-lg bg-destructive/10 text-destructive text-sm" role="alert">
+              Some data failed to load. Showing available information.
+            </div>
+          )}
+          <h1 className="text-3xl font-bold tracking-tight">User Dashboard</h1>
+          <p className="text-muted-foreground">
+            Welcome back{user?.name ? `, ${user.name}` : ""}! Manage your finances and transactions.
+          </p>
+        </div>
         <div className="flex items-center gap-3">
           <Link to="/dashboard/user/deposit">
             <Button className="gap-2">
@@ -155,26 +172,67 @@ const UserDashboard = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <div className="bg-primary text-primary-foreground p-6 rounded-3xl shadow-xl relative overflow-hidden">
+          <div
+            className={cn(
+              "p-6 rounded-3xl shadow-xl relative overflow-hidden transition-all",
+              cardFrozen
+                ? "bg-blue-900 text-blue-50"
+                : "bg-primary text-primary-foreground"
+            )}
+          >
             <div className="relative z-10">
-              <p className="text-sm opacity-80 mb-6 font-medium uppercase tracking-wider">
-                {primaryCard?.type === "PHYSICAL" ? "Physical Card" : "Virtual Card"}
-              </p>
-              <h3 className="text-2xl font-mono mb-8">
+              <div className="flex items-center justify-between mb-6">
+                <p className="text-xs opacity-80 font-medium uppercase tracking-wider">
+                  {primaryCard?.type === "PHYSICAL" ? "Physical Card" : "Virtual Card"}
+                </p>
+                {cardFrozen && (
+                  <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full font-medium">
+                    Frozen
+                  </span>
+                )}
+              </div>
+              <h3 className="text-2xl font-mono mb-8 tracking-wider">
                 {primaryCard ? `**** **** **** ${primaryCard.lastFourDigits}` : "No card available"}
               </h3>
-              <div className="flex justify-between items-end">
+              <div className="flex justify-between items-end mb-6">
                 <div>
-                  <p className="text-xs opacity-60 uppercase mb-1">
+                  <p className="text-[10px] opacity-60 uppercase mb-1 tracking-wide">
                     Card Holder
                   </p>
-                  <p className="font-medium">{primaryCard?.cardholderName || user?.name || "—"}</p>
+                  <p className="font-medium text-sm">{primaryCard?.cardholderName || user?.name || "—"}</p>
                 </div>
                 <div>
-                  <p className="text-xs opacity-60 uppercase mb-1">Expires</p>
-                  <p className="font-medium">{primaryCard?.expiryDate || "—"}</p>
+                  <p className="text-[10px] opacity-60 uppercase mb-1 tracking-wide">Expires</p>
+                  <p className="font-medium text-sm">{primaryCard?.expiryDate || "—"}</p>
                 </div>
               </div>
+              {primaryCard && (
+                <div className="flex gap-2">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="gap-2 text-xs bg-white/20 hover:bg-white/30 text-inherit border-0"
+                    onClick={handleCopyCard}
+                    aria-label="Copy card number"
+                  >
+                    <Copy className="h-3.5 w-3.5" />
+                    Copy
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className={cn(
+                      "gap-2 text-xs bg-white/20 hover:bg-white/30 text-inherit border-0",
+                      cardFrozen && "bg-green-500/30 hover:bg-green-500/40"
+                    )}
+                    onClick={handleToggleFreeze}
+                    aria-label={cardFrozen ? "Unfreeze card" : "Freeze card"}
+                  >
+                    <Snowflake className="h-3.5 w-3.5" />
+                    {cardFrozen ? "Unfreeze" : "Freeze"}
+                  </Button>
+                </div>
+              )}
             </div>
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
             <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl" />

@@ -1,23 +1,24 @@
 import { describe, it, expect } from "vitest";
+import type { TRole } from "@/types";
 
 describe("getSidebarItems", () => {
   it("returns user sidebar items for user role", async () => {
     const { getSidebarItems } = await import("@/utils/getSidebarItems");
-    const items = getSidebarItems("USER" as any);
+    const items = getSidebarItems("USER" as TRole);
     expect(items.length).toBeGreaterThan(0);
     expect(items.some((i) => i.path.includes("/dashboard/user"))).toBe(true);
   });
 
   it("returns agent sidebar items for agent role", async () => {
     const { getSidebarItems } = await import("@/utils/getSidebarItems");
-    const items = getSidebarItems("AGENT" as any);
+    const items = getSidebarItems("AGENT" as TRole);
     expect(items.length).toBeGreaterThan(0);
     expect(items.some((i) => i.path.includes("/dashboard/agent"))).toBe(true);
   });
 
   it("returns admin sidebar items for admin role", async () => {
     const { getSidebarItems } = await import("@/utils/getSidebarItems");
-    const items = getSidebarItems("ADMIN" as any);
+    const items = getSidebarItems("ADMIN" as TRole);
     expect(items.length).toBeGreaterThan(0);
     expect(items.some((i) => i.path.includes("/dashboard/admin"))).toBe(true);
   });
@@ -30,7 +31,7 @@ describe("getSidebarItems", () => {
 
   it("returns admin sidebar items for superAdmin role", async () => {
     const { getSidebarItems } = await import("@/utils/getSidebarItems");
-    const items = getSidebarItems("SUPER_ADMIN" as any);
+    const items = getSidebarItems("SUPER_ADMIN" as TRole);
     expect(items.length).toBeGreaterThan(0);
   });
 });
@@ -62,7 +63,10 @@ describe("NotFound page", () => {
 describe("Route configuration", () => {
   it("dashboard routes include all expected paths", async () => {
     const { dashboardRoutes } = await import("@/routes/dashboard");
-    const paths = dashboardRoutes[0].children.map((r: any) => r.path);
+    interface RouteChild {
+      path: string;
+    }
+    const paths = (dashboardRoutes[0].children as RouteChild[]).map((r) => r.path);
 
     expect(paths).toContain("user/deposit");
     expect(paths).toContain("user/withdraw");

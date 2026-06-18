@@ -1,8 +1,9 @@
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
 
 export interface ISidebarItem {
   name: string;
   path: string;
+  icon?: ReactNode;
   items?: {
     url: string;
     component: ComponentType;

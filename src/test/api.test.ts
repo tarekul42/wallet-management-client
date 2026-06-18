@@ -1,9 +1,13 @@
 import { describe, it, expect } from "vitest";
 
+interface BaseApiWithEndpoints {
+  endpoints: Record<string, unknown>;
+}
+
 describe("auth API endpoints", () => {
   it("login mutation has correct url and method", async () => {
     const { baseApi } = await import("@/redux/baseApi");
-    const endpoints = (baseApi as any).endpoints;
+    const endpoints = (baseApi as unknown as BaseApiWithEndpoints).endpoints;
     expect(endpoints).toBeDefined();
   });
 

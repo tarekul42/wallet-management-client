@@ -6,10 +6,12 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetSpendingOverviewQuery } from "@/redux/features/dashboard/dashboard.api";
+
 
 interface SpendingChartProps {
   title?: string;
@@ -25,9 +27,41 @@ const defaultData = [
   { name: "Sun", income: 0, expenses: 0 },
 ];
 
+interface TooltipEntry {
+  name: string;
+  value: number;
+  color: string;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipEntry[];
+  label?: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="bg-background border rounded-xl shadow-lg p-3 text-sm">
+      <p className="font-medium mb-2">{label}</p>
+      {payload.map((entry) => (
+        <div key={entry.name} className="flex items-center justify-between gap-6">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
+            <span className="text-muted-foreground capitalize">{entry.name}</span>
+          </div>
+          <span className="font-semibold">${entry.value.toFixed(2)}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const SpendingChart = ({ title = "Spending Analysis" }: SpendingChartProps) => {
   const { data: chartRes, isLoading } = useGetSpendingOverviewQuery();
   const chartData = chartRes?.data ?? defaultData;
+
+  const hasData = chartData.some((d) => d.income > 0 || d.expenses > 0);
 
   if (isLoading) {
     return (
@@ -43,71 +77,81 @@ const SpendingChart = ({ title = "Spending Analysis" }: SpendingChartProps) => {
   }
 
   return (
-    <Card className="border-0 shadow-md col-span-1 lg:col-span-2">
+    <Card className="border-0 shadow-md">
       <CardHeader>
         <CardTitle className="text-xl">{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart
-              data={chartData}
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <defs>
-                <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.1} />
-                  <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.1} />
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-              <XAxis
-                dataKey="name"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: "#94a3b8", fontSize: 12 }}
-              />
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: "#94a3b8", fontSize: 12 }}
-                tickFormatter={(value) => `$${value}`}
-              />
-              <Tooltip
-                contentStyle={{
-                  borderRadius: "12px",
-                  border: "none",
-                  boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1)"
-                }}
-              />
-              <Area
-                type="monotone"
-                dataKey="income"
-                stroke="var(--primary)"
-                strokeWidth={3}
-                fillOpacity={1}
-                fill="url(#colorIncome)"
-              />
-              <Area
-                type="monotone"
-                dataKey="expenses"
-                stroke="#ef4444"
-                strokeWidth={3}
-                fillOpacity={1}
-                fill="url(#colorExpenses)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
+        {!hasData ? (
+          <div className="h-[300px] flex flex-col items-center justify-center text-muted-foreground">
+            <div className="text-5xl mb-4 opacity-30">📊</div>
+            <p className="font-medium">No spending data yet</p>
+            <p className="text-sm">Complete a transaction to see your spending analysis</p>
+          </div>
+        ) : (
+          <div className="h-[300px] w-full" role="img" aria-label={`${title} chart showing income and expenses over time`}>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={chartData}
+                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+              >
+                <defs>
+                  <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.15} />
+                    <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#ef4444" stopOpacity={0.15} />
+                    <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} className="stroke-border/50" />
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
+                  tickFormatter={(value) => `$${value}`}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend
+                  verticalAlign="bottom"
+                  height={36}
+                  iconType="circle"
+                  iconSize={8}
+                  formatter={(value: string) => (
+                    <span className="text-sm text-muted-foreground capitalize">{value}</span>
+                  )}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="income"
+                  name="Income"
+                  stroke="var(--primary)"
+                  strokeWidth={2.5}
+                  fillOpacity={1}
+                  fill="url(#colorIncome)"
+                  activeDot={{ r: 5, strokeWidth: 0 }}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="expenses"
+                  name="Expenses"
+                  stroke="#ef4444"
+                  strokeWidth={2.5}
+                  fillOpacity={1}
+                  fill="url(#colorExpenses)"
+                  activeDot={{ r: 5, strokeWidth: 0 }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

@@ -15,7 +15,7 @@ const CommonLayout = ({ children }: IProps) => {
     <div className="min-h-screen flex flex-col absolute w-full">
       {globalLoader && <GlobalLoader />}
       <Navbar />
-      <div className="grow-1 pt-16 relative">{children}</div>
+      <div id="main-content" className="grow-1 pt-16 relative">{children}</div>
       <Footer />
     </div>
   );

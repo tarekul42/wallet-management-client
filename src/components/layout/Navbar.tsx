@@ -19,7 +19,6 @@ import { LayoutDashboard, LogOut, User as UserIcon, Sun, Moon } from "lucide-rea
 import { role } from "@/constants/role";
 import { useTheme } from "@/hooks/use-theme";
 
-// Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
   { href: "/", label: "Home" },
   { href: "/explore", label: "Explore" },
@@ -40,7 +39,7 @@ export default function Navbar() {
     try {
       await triggerLogout(undefined).unwrap();
     } catch {
-      // Proceed with client-side logout even if API call fails
+      // proceed with client-side logout
     }
     dispatch(logout());
     navigate("/login");
@@ -72,6 +71,7 @@ export default function Navbar() {
                 className="group size-8 md:hidden"
                 variant="ghost"
                 size="icon"
+                aria-label="Open navigation menu"
               >
                 <svg
                   className="pointer-events-none"
@@ -100,12 +100,12 @@ export default function Navbar() {
                 </svg>
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-36 p-1 md:hidden">
+            <PopoverContent align="start" className="w-44 p-1 md:hidden">
               <NavigationMenu className="max-w-none *:w-full">
-                <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
-                  {authLinks.map((link, index) => (
-                    <NavigationMenuItem key={index} className="w-full">
-                      <NavigationMenuLink className="py-1.5" asChild>
+                <NavigationMenuList className="flex-col items-start gap-0">
+                  {authLinks.map((link) => (
+                    <NavigationMenuItem key={link.href} className="w-full">
+                      <NavigationMenuLink className="py-1.5 px-2" asChild>
                         <NavLink to={link.href}>{link.label}</NavLink>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
@@ -114,18 +114,18 @@ export default function Navbar() {
               </NavigationMenu>
             </PopoverContent>
           </Popover>
+
           {/* Main nav */}
           <div className="flex items-center gap-6">
-            <Link to="/" className="text-primary hover:text-primary/90">
+            <Link to="/" className="text-primary hover:text-primary/90" aria-label="Home">
               <Logo />
             </Link>
-            {/* Navigation menu */}
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
-                {authLinks.map((link, index) => (
-                  <NavigationMenuItem key={index}>
+                {authLinks.map((link) => (
+                  <NavigationMenuItem key={link.href}>
                     <NavigationMenuLink
-                      className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                      className="text-muted-foreground hover:text-primary py-1.5 font-medium transition-colors text-sm"
                       asChild
                     >
                       <NavLink
@@ -143,6 +143,7 @@ export default function Navbar() {
             </NavigationMenu>
           </div>
         </div>
+
         {/* Right side */}
         <div className="flex items-center gap-2">
           <Button
@@ -150,6 +151,7 @@ export default function Navbar() {
             size="icon"
             className="size-8"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           >
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
@@ -160,6 +162,7 @@ export default function Navbar() {
                   <Button
                     variant="ghost"
                     className="relative h-8 w-8 rounded-full bg-primary/10"
+                    aria-label="User menu"
                   >
                     <UserIcon className="h-5 w-5 text-primary" />
                   </Button>
@@ -172,6 +175,9 @@ export default function Navbar() {
                     <p className="text-xs leading-none text-muted-foreground">
                       {user.email}
                     </p>
+                    <span className="text-xs text-muted-foreground capitalize mt-1">
+                      {user.role?.toLowerCase()}
+                    </span>
                   </div>
                   <div className="border-t my-2" />
                   <div className="grid gap-1">
@@ -192,9 +198,7 @@ export default function Navbar() {
                       className="justify-start gap-2"
                       asChild
                     >
-                      <Link
-                        to={`/dashboard/${user.role.toLowerCase()}/profile`}
-                      >
+                      <Link to={`/dashboard/${user.role.toLowerCase()}/profile`}>
                         <UserIcon className="h-4 w-4" />
                         Profile
                       </Link>
