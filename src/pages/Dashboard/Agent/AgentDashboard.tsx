@@ -124,69 +124,71 @@ const AgentDashboard = () => {
         </>
       }
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-        {agentStats.map((stat, index) => (
-          <Card key={index} className="shadow-sm gap-0">
-            <CardContent className="p-5">
-              <div className="flex items-center justify-between mb-4">
-                <div className={`p-2.5 rounded-lg ${stat.color}`}>
-                  {stat.icon}
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {agentStats.map((stat, index) => (
+            <Card key={index} className="shadow-sm gap-0">
+              <CardContent className="p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <div className={`p-2.5 rounded-lg ${stat.color}`}>
+                    {stat.icon}
+                  </div>
                 </div>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground font-medium mb-1">
-                  {stat.title}
-                </p>
-                <h3 className="text-2xl font-semibold tracking-tight mb-1">{stat.value}</h3>
-                <p className="text-xs text-muted-foreground">
-                  {stat.description}
-                </p>
-              </div>
+                <div>
+                  <p className="text-sm text-muted-foreground font-medium mb-1">
+                    {stat.title}
+                  </p>
+                  <h3 className="text-2xl font-semibold tracking-tight mb-1">{stat.value}</h3>
+                  <p className="text-xs text-muted-foreground">
+                    {stat.description}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <SpendingChart title="Agent Transaction Volume" transactions={txList} loading={txLoading} />
+          </div>
+          <Card className="shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-lg">Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Button
+                asChild
+                variant="outline"
+                className="w-full h-auto flex-col items-center gap-2 py-6 rounded-xl border border-dashed border-border/70 hover:border-primary/50 hover:bg-primary/5 transition-all"
+              >
+                <Link to="/dashboard/agent/add-money">
+                  <ArrowDownFromLine className="h-5 w-5 text-primary" />
+                  <span className="font-semibold">Cash-In to User</span>
+                  <span className="text-xs text-muted-foreground font-normal">
+                    Add money to a user&apos;s account
+                  </span>
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="w-full h-auto flex-col items-center gap-2 py-6 rounded-xl border border-dashed border-border/70 hover:border-primary/50 hover:bg-primary/5 transition-all"
+              >
+                <Link to="/dashboard/agent/withdraw-money">
+                  <ArrowUpFromLine className="h-5 w-5 text-primary" />
+                  <span className="font-semibold">Cash-Out from User</span>
+                  <span className="text-xs text-muted-foreground font-normal">
+                    Withdraw money from a user&apos;s account
+                  </span>
+                </Link>
+              </Button>
             </CardContent>
           </Card>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-        <div className="lg:col-span-2">
-          <SpendingChart title="Agent Transaction Volume" />
         </div>
-        <Card className="shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-lg">Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Button
-              asChild
-              variant="outline"
-              className="w-full h-auto flex-col items-center gap-2 py-6 rounded-xl border border-dashed border-border/70 hover:border-primary/50 hover:bg-primary/5 transition-all"
-            >
-              <Link to="/dashboard/agent/add-money">
-                <ArrowDownFromLine className="h-5 w-5 text-primary" />
-                <span className="font-semibold">Cash-In to User</span>
-                <span className="text-xs text-muted-foreground font-normal">
-                  Add money to a user&apos;s account
-                </span>
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="w-full h-auto flex-col items-center gap-2 py-6 rounded-xl border border-dashed border-border/70 hover:border-primary/50 hover:bg-primary/5 transition-all"
-            >
-              <Link to="/dashboard/agent/withdraw-money">
-                <ArrowUpFromLine className="h-5 w-5 text-primary" />
-                <span className="font-semibold">Cash-Out from User</span>
-                <span className="text-xs text-muted-foreground font-normal">
-                  Withdraw money from a user&apos;s account
-                </span>
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
 
-      <TransactionTable transactions={txList} loading={txLoading} />
+        <TransactionTable transactions={txList} loading={txLoading} />
+      </div>
     </DashboardShell>
   );
 };

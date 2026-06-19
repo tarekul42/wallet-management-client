@@ -6,7 +6,7 @@ const TransactionsPage = () => {
   const txList = txRes?.data ?? [];
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Transaction History</h1>
         <p className="text-muted-foreground mt-1">View all your past transactions</p>

@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Lock, Loader2 } from "lucide-react";
+import { ArrowLeft, Lock, Loader2 } from "lucide-react";
+import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -28,6 +29,7 @@ const passwordSchema = z.object({
 type FormData = z.infer<typeof passwordSchema>;
 
 const UpdatePasswordPage = () => {
+  const navigate = useNavigate();
   const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
 
   const form = useForm<FormData>({
@@ -50,7 +52,10 @@ const UpdatePasswordPage = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8 pb-12">
+    <div className="max-w-2xl mx-auto space-y-6">
+      <Button variant="outline" size="icon" onClick={() => navigate(-1)} className="h-11 w-11 rounded-xl border-border/70 shadow-sm">
+        <ArrowLeft className="h-5 w-5" />
+      </Button>
       <div>
         <h1 className="text-3xl font-bold">Update Password</h1>
         <p className="text-muted-foreground mt-1">Change your account password</p>

@@ -13,8 +13,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
-import { ArrowUpRight, Loader2 } from "lucide-react";
-import { useWithdrawMoneyMutation } from "@/redux/features/user/user.api";
+import { ArrowUpRight, Wallet, Loader2 } from "lucide-react";
+import { useWithdrawMoneyMutation, useGetAccountBalanceQuery } from "@/redux/features/user/user.api";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const withdrawSchema = z.object({
   amount: z.coerce.number().min(0.01, "Minimum withdrawal is $0.01").max(1000000, "Maximum withdrawal is $1,000,000"),
@@ -22,6 +23,8 @@ const withdrawSchema = z.object({
 
 const WithdrawPage = () => {
   const [withdrawMoney, { isLoading }] = useWithdrawMoneyMutation();
+  const { data: balanceRes, isLoading: balanceLoading } = useGetAccountBalanceQuery();
+  const balance = balanceRes?.data?.balance ?? 0;
 
   type FormData = z.infer<typeof withdrawSchema>;
 
@@ -41,13 +44,31 @@ const WithdrawPage = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8 pb-12">
+    <div className="max-w-2xl mx-auto space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Withdraw Money</h1>
         <p className="text-muted-foreground mt-1">Withdraw funds from your wallet</p>
       </div>
 
-      <Card className="shadow-sm">
+      <Card className="border-border/70 shadow-sm">
+        <CardContent className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
+              <Wallet className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Current Balance</p>
+              {balanceLoading ? (
+                <Skeleton className="h-7 w-28 mt-0.5" />
+              ) : (
+                <p className="text-2xl font-bold">${balance.toLocaleString()}</p>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border-border/70 shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <ArrowUpRight className="h-5 w-5 text-red-600" />

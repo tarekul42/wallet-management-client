@@ -1,4 +1,4 @@
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import { useAppSelector } from "@/redux/hook";
 import { role } from "@/constants/role";
 import type { ReactNode } from "react";
@@ -17,9 +17,10 @@ interface RoleGuardProps {
 
 const RoleGuard = ({ children, allowedRoles }: RoleGuardProps) => {
   const user = useAppSelector((state) => state.auth.user);
+  const location = useLocation();
 
   if (!user?.role) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" state={{ from: location.pathname + location.search }} replace />;
   }
 
   const userAccess = roleHierarchy[user.role] || [user.role];

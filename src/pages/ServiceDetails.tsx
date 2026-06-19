@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router";
+import { useParams, Link, useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
@@ -16,10 +16,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppSelector } from "@/redux/hook";
 import { useGetServiceByIdQuery, useGetRelatedServicesQuery } from "@/redux/features/services/services.api";
 
 const ServiceDetails = () => {
   const { id } = useParams();
+  const { token } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
   const { data: serviceRes, isLoading } = useGetServiceByIdQuery(id || "");
   const { data: relatedRes } = useGetRelatedServicesQuery(id || "", { skip: !id });
 
@@ -294,8 +297,8 @@ const ServiceDetails = () => {
                     </div>
                   </div>
 
-                  <Button asChild className="w-full h-14 text-lg rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
-                    <Link to="/login">Pay with Wallet</Link>
+                  <Button onClick={() => navigate(token ? "/dashboard" : "/login", { state: token ? undefined : { from: "/dashboard" } })} className="w-full h-14 text-lg rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                    Pay with Wallet
                   </Button>
 
                   <div className="flex items-center gap-2 justify-center text-xs text-muted-foreground">

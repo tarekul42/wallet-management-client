@@ -129,75 +129,76 @@ const AdminDashboard = () => {
       hasError={hasError}
       skeleton={adminSkeleton}
     >
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {adminStats.map((stat, index) => (
+            <Card key={index} className="shadow-sm">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className={`p-3 rounded-xl ${stat.color}`}>
+                    {stat.icon}
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground font-medium mb-1">
+                    {stat.title}
+                  </p>
+                  <h3 className="text-2xl font-bold mb-1">{stat.value}</h3>
+                  <p className="text-xs text-muted-foreground">
+                    {stat.description}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {adminStats.map((stat, index) => (
-          <Card key={index} className="shadow-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-xl ${stat.color}`}>
-                  {stat.icon}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <SpendingChart title="Platform Transaction Volume" transactions={txList} loading={txLoading} />
+          </div>
+          <Card className="shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-xl">User Distribution</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center justify-center h-[300px]">
+              <div
+                className="relative w-48 h-48 rounded-full flex items-center justify-center mb-6"
+                style={{
+                  background: `conic-gradient(
+                    var(--primary) 0% ${userPct}%,
+                    var(--success) ${userPct}% ${userPct + agentPct}%,
+                    var(--chart-4) ${userPct + agentPct}% 100%
+                  )`
+                }}
+                role="img"
+                aria-label={`User distribution: ${userPct}% users, ${agentPct}% agents, ${adminPct}% admins`}
+              >
+                <div className="w-32 h-32 rounded-full bg-background flex items-center justify-center">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold">{totalDistUsers.toLocaleString()}</p>
+                    <p className="text-xs text-muted-foreground uppercase">Total</p>
+                  </div>
                 </div>
               </div>
-              <div>
-                <p className="text-sm text-muted-foreground font-medium mb-1">
-                  {stat.title}
-                </p>
-                <h3 className="text-2xl font-bold mb-1">{stat.value}</h3>
-                <p className="text-xs text-muted-foreground">
-                  {stat.description}
-                </p>
+              <div className="grid grid-cols-3 gap-4 w-full">
+                {distItems.map((item) => (
+                  <div key={item.label} className="flex flex-col items-center gap-1">
+                    <div className="flex items-center gap-1.5">
+                      <div className={cn("w-2.5 h-2.5 rounded-full shrink-0", item.color)} />
+                      <span className="text-xs text-muted-foreground">{item.label}</span>
+                    </div>
+                    <span className="text-sm font-semibold">{item.pct}%</span>
+                    <span className="text-[10px] text-muted-foreground">{item.value.toLocaleString()}</span>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <SpendingChart title="Platform Transaction Volume" />
         </div>
-        <Card className="shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-xl">User Distribution</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center justify-center h-[300px]">
-            <div
-              className="relative w-48 h-48 rounded-full flex items-center justify-center mb-6"
-              style={{
-                background: `conic-gradient(
-                  var(--primary) 0% ${userPct}%,
-                  var(--success) ${userPct}% ${userPct + agentPct}%,
-                  var(--chart-4) ${userPct + agentPct}% 100%
-                )`
-              }}
-              role="img"
-              aria-label={`User distribution: ${userPct}% users, ${agentPct}% agents, ${adminPct}% admins`}
-            >
-              <div className="w-32 h-32 rounded-full bg-background flex items-center justify-center">
-                <div className="text-center">
-                  <p className="text-2xl font-bold">{totalDistUsers.toLocaleString()}</p>
-                  <p className="text-xs text-muted-foreground uppercase">Total</p>
-                </div>
-              </div>
-            </div>
-            <div className="grid grid-cols-3 gap-4 w-full">
-              {distItems.map((item) => (
-                <div key={item.label} className="flex flex-col items-center gap-1">
-                  <div className="flex items-center gap-1.5">
-                    <div className={cn("w-2.5 h-2.5 rounded-full shrink-0", item.color)} />
-                    <span className="text-xs text-muted-foreground">{item.label}</span>
-                  </div>
-                  <span className="text-sm font-semibold">{item.pct}%</span>
-                  <span className="text-[10px] text-muted-foreground">{item.value.toLocaleString()}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
 
-      <TransactionTable transactions={txList} loading={txLoading} />
+        <TransactionTable transactions={txList} loading={txLoading} />
+      </div>
     </DashboardShell>
   );
 };

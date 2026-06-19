@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   AreaChart,
   Area,
@@ -8,25 +9,17 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { BarChart3 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useGetSpendingOverviewQuery } from "@/redux/features/dashboard/dashboard.api";
-
+import type { ITransaction } from "@/types/api";
 
 interface SpendingChartProps {
   title?: string;
+  transactions?: ITransaction[];
+  loading?: boolean;
 }
 
-const defaultData = [
-  { name: "Mon", income: 0, expenses: 0 },
-  { name: "Tue", income: 0, expenses: 0 },
-  { name: "Wed", income: 0, expenses: 0 },
-  { name: "Thu", income: 0, expenses: 0 },
-  { name: "Fri", income: 0, expenses: 0 },
-  { name: "Sat", income: 0, expenses: 0 },
-  { name: "Sun", income: 0, expenses: 0 },
-];
+const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 interface TooltipEntry {
   name: string;
@@ -34,13 +27,7 @@ interface TooltipEntry {
   color: string;
 }
 
-interface CustomTooltipProps {
-  active?: boolean;
-  payload?: TooltipEntry[];
-  label?: string;
-}
-
-const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: TooltipEntry[]; label?: string }) => {
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-popover border border-border/70 rounded-lg shadow-lg p-3 text-sm">
@@ -58,13 +45,42 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   );
 };
 
-const SpendingChart = ({ title = "Spending Analysis" }: SpendingChartProps) => {
-  const { data: chartRes, isLoading } = useGetSpendingOverviewQuery();
-  const chartData = chartRes?.data ?? defaultData;
+const SpendingChart = ({ title = "Spending Analysis", transactions, loading }: SpendingChartProps) => {
+  const chartData = useMemo(() => {
+    if (!transactions || transactions.length === 0) {
+      return DAYS.map((name) => ({ name, income: 0, expenses: 0 }));
+    }
 
-  const hasData = chartData.some((d) => d.income > 0 || d.expenses > 0);
+    const today = new Date();
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
 
-  if (isLoading) {
+    const dailyMap: Record<string, { income: number; expenses: number }> = {};
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(sevenDaysAgo);
+      d.setDate(d.getDate() + i);
+      dailyMap[d.toISOString().slice(0, 10)] = { income: 0, expenses: 0 };
+    }
+
+    for (const tx of transactions) {
+      if (tx.status !== "SUCCESSFUL") continue;
+      const key = tx.createdAt ? new Date(tx.createdAt).toISOString().slice(0, 10) : "";
+      if (!dailyMap[key]) continue;
+      if (tx.type === "CASH_IN" || tx.type === "COMMISSION") {
+        dailyMap[key].income += tx.amount;
+      } else {
+        dailyMap[key].expenses += tx.amount;
+      }
+    }
+
+    return Object.entries(dailyMap).map(([dateStr, val]) => ({
+      name: DAYS[new Date(dateStr).getDay()],
+      income: val.income,
+      expenses: val.expenses,
+    }));
+  }, [transactions]);
+
+  if (loading) {
     return (
       <Card>
         <CardHeader>
@@ -83,76 +99,68 @@ const SpendingChart = ({ title = "Spending Analysis" }: SpendingChartProps) => {
         <CardTitle className="text-lg">{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        {!hasData ? (
-          <div className="h-[300px] flex flex-col items-center justify-center text-muted-foreground">
-            <div className="p-3 rounded-full bg-muted mb-4"><BarChart3 className="h-7 w-7 opacity-50" /></div>
-            <p className="font-medium text-foreground">No spending data yet</p>
-            <p className="text-sm mt-1">Complete a transaction to see your spending analysis</p>
-          </div>
-        ) : (
-          <div className="h-[300px] w-full" role="img" aria-label={`${title} chart showing income and expenses over time`}>
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart
-                data={chartData}
-                margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
-              >
-                <defs>
-                  <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.18} />
-                    <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="var(--destructive)" stopOpacity={0.18} />
-                    <stop offset="95%" stopColor="var(--destructive)" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} className="stroke-border/50" />
-                <XAxis
-                  dataKey="name"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
-                />
-                <YAxis
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
-                  tickFormatter={(value) => `$${value}`}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Legend
-                  verticalAlign="bottom"
-                  height={36}
-                  iconType="circle"
-                  iconSize={8}
-                  formatter={(value: string) => (
-                    <span className="text-sm text-muted-foreground capitalize">{value}</span>
-                  )}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="income"
-                  name="Income"
-                  stroke="var(--primary)"
-                  strokeWidth={2.5}
-                  fillOpacity={1}
-                  fill="url(#colorIncome)"
-                  activeDot={{ r: 5, strokeWidth: 0 }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="expenses"
-                  name="Expenses"
-                  stroke="var(--destructive)"
-                  strokeWidth={2.5}
-                  fillOpacity={1}
-                  fill="url(#colorExpenses)"
-                  activeDot={{ r: 5, strokeWidth: 0 }}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        )}
+        <div className="h-[300px] w-full min-w-0" role="img" aria-label={`${title} chart showing income and expenses over time`}>
+          <ResponsiveContainer width="100%" height={300}>
+            <AreaChart
+              data={chartData}
+              margin={{ top: 10, right: 20, left: -20, bottom: 0 }}
+            >
+              <defs>
+                <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.18} />
+                  <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
+                </linearGradient>
+                <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="var(--destructive)" stopOpacity={0.18} />
+                  <stop offset="95%" stopColor="var(--destructive)" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} className="stroke-border/50" />
+              <XAxis
+                dataKey="name"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
+              />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
+                tickFormatter={(value) => `$${value}`}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Legend
+                verticalAlign="bottom"
+                height={36}
+                iconType="circle"
+                iconSize={8}
+                formatter={(value: string) => (
+                  <span className="text-sm text-muted-foreground capitalize">{value}</span>
+                )}
+              />
+              <Area
+                type="monotone"
+                dataKey="income"
+                name="Income"
+                stroke="var(--primary)"
+                strokeWidth={2.5}
+                fillOpacity={1}
+                fill="url(#colorIncome)"
+                activeDot={{ r: 5, strokeWidth: 0 }}
+              />
+              <Area
+                type="monotone"
+                dataKey="expenses"
+                name="Expenses"
+                stroke="var(--destructive)"
+                strokeWidth={2.5}
+                fillOpacity={1}
+                fill="url(#colorExpenses)"
+                activeDot={{ r: 5, strokeWidth: 0 }}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   );

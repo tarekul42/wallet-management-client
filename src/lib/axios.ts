@@ -9,12 +9,13 @@ export const axiosInstance = axios.create({
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   function (config) {
-    // Do something before request is sent
-
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   function (error) {
-    // Do something with request error
     return Promise.reject(error);
   },
 );
@@ -50,7 +51,7 @@ axiosInstance.interceptors.response.use(
 
     if (
       error.response?.status === 401 &&
-      error.response?.data?.message?.includes("expired") &&
+      (error.response?.data?.message as string)?.includes("expired") &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
@@ -65,14 +66,23 @@ axiosInstance.interceptors.response.use(
 
       isRefreshing = true;
       try {
-        await axiosInstance.post("/auth/refresh-token");
+        const refreshRes = await axiosInstance.post("/auth/refresh-token");
+        const newToken = refreshRes.data?.data?.accessToken;
+        if (newToken) {
+          localStorage.setItem("token", newToken);
+          originalRequest.headers = originalRequest.headers || {};
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        }
 
         processQueue(null);
 
         return axiosInstance(originalRequest);
-      } catch (error) {
-        processQueue(error);
-        return Promise.reject(error);
+      } catch (refreshError) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        window.location.href = "/login";
+        processQueue(refreshError);
+        return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
       }

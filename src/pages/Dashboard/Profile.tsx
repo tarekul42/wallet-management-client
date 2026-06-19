@@ -2,10 +2,11 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User, Mail, Phone, MapPin, Camera, Info, Save, Loader2, Lock as LockIcon, ShieldCheck } from "lucide-react";
+import { User, Mail, Phone, MapPin, Camera, Save, Loader2, Lock, CalendarDays, BadgeCheck } from "lucide-react";
 import { Link } from "react-router";
 import { useAppSelector } from "@/redux/hook";
 import { useGetProfileQuery, useUpdateProfileMutation } from "@/redux/features/user/user.api";
+import DashboardShell from "@/components/modules/Dashboard/DashboardShell";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,6 +25,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 
 const profileSchema = z.object({
@@ -37,9 +39,11 @@ type ProfileFormValues = z.infer<typeof profileSchema>;
 
 const Profile = () => {
   const { user: authUser } = useAppSelector((state) => state.auth);
-  const { data: profileRes, isError: profileError } = useGetProfileQuery();
-  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
+  const { data: profileRes, isLoading: profileLoading, isError: profileError } = useGetProfileQuery();
+  const [updateProfile, { isLoading: isSaving }] = useUpdateProfileMutation();
 
+  const isLoading = profileLoading;
+  const hasError = profileError;
   const profileUser = (profileRes?.data as Record<string, unknown> | undefined) ?? authUser;
 
   const form = useForm<ProfileFormValues>({
@@ -76,96 +80,134 @@ const Profile = () => {
     ? new Date(profileUser.createdAt as string).toLocaleDateString("en-US", { month: "long", year: "numeric" })
     : "N/A";
 
-  return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-12">
-      {profileError && (
-        <div className="p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-          Failed to load profile data. Showing cached information.
-        </div>
-      )}
-      <div>
-        <h1 className="text-3xl font-bold">Account Profile</h1>
-        <p className="text-muted-foreground">
-          Manage your personal information and account settings.
-        </p>
-      </div>
+  const avatarSrc = `https://api.dicebear.com/7.x/avataaars/svg?seed=${(profileUser?.name as string) || "User"}`;
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+  const profileSkeleton = (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="space-y-6">
+        <Card>
+          <CardContent className="p-0">
+            <Skeleton className="h-24 w-full rounded-t-xl" />
+            <div className="flex flex-col items-center -mt-10 pb-6 px-6">
+              <Skeleton className="w-20 h-20 rounded-full mb-4" />
+              <Skeleton className="h-5 w-32 mb-2" />
+              <Skeleton className="h-4 w-20 mb-3" />
+              <Skeleton className="h-5 w-28 rounded-full" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader><Skeleton className="h-4 w-28" /></CardHeader>
+          <CardContent className="space-y-4">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Skeleton key={i} className="h-5 w-full" />
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+      <div className="md:col-span-2">
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-6 w-48 mb-2" />
+            <Skeleton className="h-4 w-64" />
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <Skeleton className="h-20 w-full" />
+              <Skeleton className="h-20 w-full" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <Skeleton className="h-20 w-full" />
+              <Skeleton className="h-20 w-full" />
+            </div>
+            <div className="flex justify-end">
+              <Skeleton className="h-10 w-36" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+
+  return (
+    <DashboardShell
+      title="Account Profile"
+      subtitle="Manage your personal information and account settings."
+      isLoading={isLoading}
+      hasError={hasError}
+      skeleton={profileSkeleton}
+    >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Left Column: Avatar & Quick Info */}
         <div className="space-y-6">
-          <Card className="shadow-sm overflow-hidden">
+          <Card className="overflow-hidden border-border/70 shadow-sm">
             <CardContent className="p-0">
-              <div className="h-32 bg-primary/10 relative">
-                <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
-                  <div className="relative group">
-                    <div className="w-24 h-24 rounded-full border-4 border-background bg-muted overflow-hidden">
-                      <img
-                        src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${(profileUser?.name as string) || "User"}`}
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <button className="absolute inset-0 flex items-center justify-center bg-neutral-950/60 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Camera className="h-6 w-6" />
-                    </button>
+              <div className="h-24 bg-gradient-to-r from-primary/20 via-primary/10 to-primary/5" />
+              <div className="flex flex-col items-center -mt-10 pb-6 px-6">
+                <div className="relative group mb-4">
+                  <div className="w-20 h-20 rounded-full border-4 border-background bg-muted overflow-hidden shadow-md">
+                    <img
+                      src={avatarSrc}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
+                  <button className="absolute inset-0 flex items-center justify-center bg-neutral-950/60 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                    <Camera className="h-5 w-5" />
+                  </button>
                 </div>
-                <div className="pt-16 pb-6 px-6 text-center">
-                  <h3 className="text-xl font-bold">{(profileUser?.name as string) || "User"}</h3>
-                  <p className="text-sm text-muted-foreground mb-4">{(profileUser?.role as string) || "USER"}</p>
-                <Badge variant="secondary" className="bg-green-100 text-green-700 hover:bg-green-100">
-                  <ShieldCheck className="h-3 w-3 mr-1" />
+                <h3 className="text-lg font-bold">{(profileUser?.name as string) || "User"}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{(profileUser?.role as string) || "USER"}</p>
+                <Badge variant="secondary" className="bg-success/10 text-success hover:bg-success/15 gap-1">
+                  <BadgeCheck className="h-3 w-3" />
                   Verified Account
                 </Badge>
               </div>
-            </div>
             </CardContent>
           </Card>
 
-
-          <Card className="shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-sm uppercase tracking-wider text-muted-foreground">
-                Account Status
+          <Card className="border-border/70 shadow-sm">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+                Account Details
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Member Since</span>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground flex items-center gap-2">
+                  <CalendarDays className="h-3.5 w-3.5" />
+                  Member Since
+                </span>
                 <span className="font-medium">{memberSince}</span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Trust Score</span>
-                <span className="font-medium text-green-600">98/100</span>
+              <hr className="border-border/70" />
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground flex items-center gap-1.5">Trust Score</span>
+                <span className="font-semibold text-success">98/100</span>
               </div>
-              <div className="flex justify-between text-sm items-center">
-                <span className="text-muted-foreground">2FA</span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-xs"
-                  disabled
-                  title="Coming soon"
-                >
-                  <Info className="h-3 w-3 mr-1" /> N/A
+              <hr className="border-border/70" />
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground flex items-center gap-1.5">Two-Factor Auth</span>
+                <Badge variant="outline" className="text-xs text-muted-foreground font-normal">
+                  N/A
+                </Badge>
+              </div>
+              <hr className="border-border/70" />
+              <Link to={profileUser?.role === "ADMIN" ? "/dashboard/admin/profile/security" : profileUser?.role === "AGENT" ? "/dashboard/agent/profile/security" : "/dashboard/user/profile/security"}>
+                <Button variant="outline" size="sm" className="w-full gap-2 mt-1">
+                  <Lock className="h-3.5 w-3.5" />
+                  Change Password
                 </Button>
-              </div>
-              <div className="pt-2">
-                <Link to={profileUser?.role === "ADMIN" ? "/dashboard/admin/profile/security" : profileUser?.role === "AGENT" ? "/dashboard/agent/profile/security" : "/dashboard/user/profile/security"}>
-                  <Button variant="outline" size="sm" className="w-full text-xs">
-                    <LockIcon className="h-3 w-3 mr-1" /> Change Password
-                  </Button>
-                </Link>
-              </div>
+              </Link>
             </CardContent>
           </Card>
         </div>
 
         {/* Right Column: Edit Form */}
         <div className="md:col-span-2">
-          <Card className="shadow-sm">
+          <Card className="border-border/70 shadow-sm">
             <CardHeader>
-              <CardTitle>Personal Information</CardTitle>
+              <CardTitle className="text-xl">Personal Information</CardTitle>
               <CardDescription>
                 Update your contact details and address.
               </CardDescription>
@@ -173,7 +215,7 @@ const Profile = () => {
             <CardContent>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <FormField
                       control={form.control}
                       name="name"
@@ -182,8 +224,8 @@ const Profile = () => {
                           <FormLabel>Full Name</FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                              <Input className="pl-10" {...field} />
+                              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input className="pl-9" {...field} />
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -198,17 +240,14 @@ const Profile = () => {
                           <FormLabel>Email Address</FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                              <Input className="pl-10" {...field} readOnly />
+                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input className="pl-9" {...field} disabled />
                             </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <FormField
                       control={form.control}
                       name="phone"
@@ -217,8 +256,8 @@ const Profile = () => {
                           <FormLabel>Phone Number</FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                              <Input className="pl-10" {...field} />
+                              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input className="pl-9" {...field} />
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -233,8 +272,8 @@ const Profile = () => {
                           <FormLabel>Primary Address</FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                              <Input className="pl-10" {...field} />
+                              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input className="pl-9" {...field} />
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -243,9 +282,18 @@ const Profile = () => {
                     />
                   </div>
 
-                  <div className="flex justify-end pt-4">
-                    <Button type="submit" className="gap-2" disabled={isLoading}>
-                      {isLoading ? (
+                  <hr className="border-border/70" />
+
+                  <div className="flex justify-end gap-3">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => form.reset()}
+                    >
+                      Reset
+                    </Button>
+                    <Button type="submit" className="gap-2" disabled={isSaving}>
+                      {isSaving ? (
                         <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</>
                       ) : (
                         <><Save className="h-4 w-4" /> Save Changes</>
@@ -258,7 +306,7 @@ const Profile = () => {
           </Card>
         </div>
       </div>
-    </div>
+    </DashboardShell>
   );
 };
 

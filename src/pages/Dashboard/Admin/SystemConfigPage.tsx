@@ -54,7 +54,7 @@ const SystemConfigPage = () => {
 
   if (loadingConfig) {
     return (
-      <div className="max-w-2xl mx-auto space-y-8 pb-12">
+    <div className="max-w-2xl mx-auto space-y-6">
         <Skeleton className="h-10 w-64" />
         <Card className="shadow-sm">
           <CardContent className="p-6 space-y-4">
@@ -68,7 +68,7 @@ const SystemConfigPage = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8 pb-12">
+    <div className="max-w-2xl mx-auto space-y-6">
       <div>
         <h1 className="text-3xl font-bold">System Configuration</h1>
         <p className="text-muted-foreground mt-1">Manage fees, limits, and system-wide settings</p>

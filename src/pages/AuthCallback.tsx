@@ -26,11 +26,15 @@ const AuthCallback = () => {
         if (refreshToken) {
           localStorage.setItem("refreshToken", refreshToken);
         }
-        navigate("/dashboard", { replace: true });
+        const redirect = localStorage.getItem("loginRedirect") || "/dashboard";
+        localStorage.removeItem("loginRedirect");
+        navigate(redirect, { replace: true });
       } catch {
+        localStorage.removeItem("loginRedirect");
         navigate("/login?error=auth_failed", { replace: true });
       }
     } else {
+      localStorage.removeItem("loginRedirect");
       navigate("/login?error=auth_failed", { replace: true });
     }
   }, [token, refreshToken, dispatch, navigate]);

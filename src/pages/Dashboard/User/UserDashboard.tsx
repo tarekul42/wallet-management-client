@@ -127,98 +127,100 @@ const UserDashboard = () => {
         </>
       }
     >
-      <DashboardStats balance={balance} income={income} expenses={expenses} />
+      <div className="space-y-6">
+        <DashboardStats balance={balance} income={income} expenses={expenses} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <SpendingChart />
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <SpendingChart transactions={txList} loading={txLoading} />
+          </div>
 
-        <div className="space-y-6">
-          <div
-            className={cn(
-              "p-6 rounded-xl shadow-lg relative overflow-hidden transition-all",
-              cardFrozen
-                ? "bg-blue-900 text-blue-50"
-                : "bg-primary text-primary-foreground"
-            )}
-          >
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-6">
-                <p className="text-xs opacity-80 font-medium uppercase tracking-wider">
-                  {primaryCard?.type === "PHYSICAL" ? "Physical Card" : "Virtual Card"}
-                </p>
-                {cardFrozen && (
-                  <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full font-medium">
-                    Frozen
-                  </span>
+          <div className="space-y-6">
+            <div
+              className={cn(
+                "p-6 rounded-xl shadow-lg relative overflow-hidden transition-all",
+                cardFrozen
+                  ? "bg-blue-900 text-blue-50"
+                  : "bg-primary text-primary-foreground"
+              )}
+            >
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-6">
+                  <p className="text-xs opacity-80 font-medium uppercase tracking-wider">
+                    {primaryCard?.type === "PHYSICAL" ? "Physical Card" : "Virtual Card"}
+                  </p>
+                  {cardFrozen && (
+                    <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full font-medium">
+                      Frozen
+                    </span>
+                  )}
+                </div>
+                <h3 className="text-2xl font-mono mb-8 tracking-wider">
+                  {primaryCard ? `**** **** **** ${primaryCard.lastFourDigits}` : "No card available"}
+                </h3>
+                <div className="flex justify-between items-end mb-6">
+                  <div>
+                    <p className="text-[10px] opacity-60 uppercase mb-1 tracking-wide">
+                      Card Holder
+                    </p>
+                    <p className="font-medium text-sm">{primaryCard?.cardholderName || user?.name || "—"}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] opacity-60 uppercase mb-1 tracking-wide">Expires</p>
+                    <p className="font-medium text-sm">{primaryCard?.expiryDate || "—"}</p>
+                  </div>
+                </div>
+                {primaryCard && (
+                  <div className="flex gap-2">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      className="gap-2 text-xs bg-white/20 hover:bg-white/30 text-inherit border-0"
+                      onClick={handleCopyCard}
+                      aria-label="Copy card number"
+                    >
+                      <Copy className="h-3.5 w-3.5" />
+                      Copy
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      className={cn(
+                        "gap-2 text-xs bg-white/20 hover:bg-white/30 text-inherit border-0",
+                        cardFrozen && "bg-success/30 hover:bg-success/40"
+                      )}
+                      onClick={handleToggleFreeze}
+                      aria-label={cardFrozen ? "Unfreeze card" : "Freeze card"}
+                    >
+                      <Snowflake className="h-3.5 w-3.5" />
+                      {cardFrozen ? "Unfreeze" : "Freeze"}
+                    </Button>
+                  </div>
                 )}
               </div>
-              <h3 className="text-2xl font-mono mb-8 tracking-wider">
-                {primaryCard ? `**** **** **** ${primaryCard.lastFourDigits}` : "No card available"}
-              </h3>
-              <div className="flex justify-between items-end mb-6">
-                <div>
-                  <p className="text-[10px] opacity-60 uppercase mb-1 tracking-wide">
-                    Card Holder
-                  </p>
-                  <p className="font-medium text-sm">{primaryCard?.cardholderName || user?.name || "—"}</p>
-                </div>
-                <div>
-                  <p className="text-[10px] opacity-60 uppercase mb-1 tracking-wide">Expires</p>
-                  <p className="font-medium text-sm">{primaryCard?.expiryDate || "—"}</p>
-                </div>
-              </div>
-              {primaryCard && (
-                <div className="flex gap-2">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="gap-2 text-xs bg-white/20 hover:bg-white/30 text-inherit border-0"
-                    onClick={handleCopyCard}
-                    aria-label="Copy card number"
-                  >
-                    <Copy className="h-3.5 w-3.5" />
-                    Copy
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className={cn(
-                      "gap-2 text-xs bg-white/20 hover:bg-white/30 text-inherit border-0",
-                      cardFrozen && "bg-success/30 hover:bg-success/40"
-                    )}
-                    onClick={handleToggleFreeze}
-                    aria-label={cardFrozen ? "Unfreeze card" : "Freeze card"}
-                  >
-                    <Snowflake className="h-3.5 w-3.5" />
-                    {cardFrozen ? "Unfreeze" : "Freeze"}
-                  </Button>
-                </div>
-              )}
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
             </div>
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
-            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
-          </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <Button asChild variant="outline" className="h-24 flex-col gap-3 rounded-xl border border-border/70 hover:border-primary/50 hover:bg-primary/5 transition-all">
-              <Link to="/dashboard/user/transactions">
-                <Wallet className="h-5 w-5 text-primary" />
-                <span>Transactions</span>
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="h-24 flex-col gap-3 rounded-xl border border-border/70 hover:border-primary/50 hover:bg-primary/5 transition-all">
-              <Link to="/dashboard/user/deposit">
-                <CreditCard className="h-5 w-5 text-primary" />
-                <span>Deposit</span>
-              </Link>
-            </Button>
+            <div className="grid grid-cols-2 gap-4">
+              <Button asChild variant="outline" className="h-24 flex-col gap-3 rounded-xl border border-border/70 hover:border-primary/50 hover:bg-primary/5 transition-all">
+                <Link to="/dashboard/user/transactions">
+                  <Wallet className="h-5 w-5 text-primary" />
+                  <span>Transactions</span>
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="h-24 flex-col gap-3 rounded-xl border border-border/70 hover:border-primary/50 hover:bg-primary/5 transition-all">
+                <Link to="/dashboard/user/deposit">
+                  <CreditCard className="h-5 w-5 text-primary" />
+                  <span>Deposit</span>
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <TransactionTable transactions={txList} loading={txLoading} />
+        <TransactionTable transactions={txList} loading={txLoading} />
+      </div>
     </DashboardShell>
   );
 };

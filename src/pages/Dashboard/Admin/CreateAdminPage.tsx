@@ -43,7 +43,7 @@ const CreateAdminPage = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8 pb-12">
+    <div className="max-w-2xl mx-auto space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Create Admin</h1>
         <p className="text-muted-foreground mt-1">Add a new administrator to the platform</p>

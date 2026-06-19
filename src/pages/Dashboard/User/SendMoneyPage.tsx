@@ -13,8 +13,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
-import { SendHorizontal, Loader2 } from "lucide-react";
-import { useSendMoneyMutation } from "@/redux/features/user/user.api";
+import { SendHorizontal, Wallet, Loader2 } from "lucide-react";
+import { useSendMoneyMutation, useGetAccountBalanceQuery } from "@/redux/features/user/user.api";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const sendMoneySchema = z.object({
   receiverEmail: z.string().email("Please enter a valid email address"),
@@ -23,6 +24,8 @@ const sendMoneySchema = z.object({
 
 const SendMoneyPage = () => {
   const [sendMoney, { isLoading }] = useSendMoneyMutation();
+  const { data: balanceRes, isLoading: balanceLoading } = useGetAccountBalanceQuery();
+  const balance = balanceRes?.data?.balance ?? 0;
 
   type FormData = z.infer<typeof sendMoneySchema>;
 
@@ -42,13 +45,31 @@ const SendMoneyPage = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8 pb-12">
+    <div className="max-w-2xl mx-auto space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Send Money</h1>
         <p className="text-muted-foreground mt-1">Transfer funds to another user</p>
       </div>
 
-      <Card className="shadow-sm">
+      <Card className="border-border/70 shadow-sm">
+        <CardContent className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
+              <Wallet className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Current Balance</p>
+              {balanceLoading ? (
+                <Skeleton className="h-7 w-28 mt-0.5" />
+              ) : (
+                <p className="text-2xl font-bold">${balance.toLocaleString()}</p>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border-border/70 shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <SendHorizontal className="h-5 w-5 text-primary" />
