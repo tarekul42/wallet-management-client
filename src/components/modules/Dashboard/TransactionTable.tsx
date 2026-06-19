@@ -92,7 +92,7 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
   };
 
   const SortHeader = ({ field, children }: { field: SortField; children: React.ReactNode }) => (
-    <th className="px-6 py-3.5 font-medium cursor-pointer select-none hover:text-foreground transition-colors" onClick={() => toggleSort(field)}>
+    <th className="px-6 py-4 font-medium cursor-pointer select-none hover:text-foreground transition-colors" onClick={() => toggleSort(field)}>
       <div className="flex items-center gap-1">
         {children}
         <ArrowUpDown className={cn("h-3 w-3", sortField === field ? "text-primary" : "opacity-30")} />
