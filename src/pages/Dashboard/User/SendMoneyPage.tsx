@@ -24,7 +24,7 @@ const sendMoneySchema = z.object({
 
 const SendMoneyPage = () => {
   const [sendMoney, { isLoading }] = useSendMoneyMutation();
-  const { data: balanceRes, isLoading: balanceLoading } = useGetAccountBalanceQuery();
+  const { data: balanceRes, isLoading: balanceLoading, refetch: refetchBalance } = useGetAccountBalanceQuery();
   const balance = balanceRes?.data?.balance ?? 0;
 
   type FormData = z.infer<typeof sendMoneySchema>;
@@ -38,6 +38,7 @@ const SendMoneyPage = () => {
     try {
       await sendMoney({ receiverEmail: data.receiverEmail, amount: data.amount }).unwrap();
       toast.success(`Successfully sent $${data.amount.toFixed(2)} to ${data.receiverEmail}`);
+      refetchBalance();
       form.reset();
     } catch {
       toast.error("Failed to send money. Please check the recipient and try again.");

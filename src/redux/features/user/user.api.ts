@@ -23,18 +23,6 @@ const userApi = baseApi.injectEndpoints({
         data,
       }),
       invalidatesTags: ["WALLET", "TRANSACTION"],
-      async onQueryStarted({ amount }, { dispatch, queryFulfilled }) {
-        const patch = dispatch(
-          userApi.util.updateQueryData("getAccountBalance", undefined, (draft) => {
-            if (draft.data) draft.data.balance -= amount;
-          }),
-        );
-        try {
-          await queryFulfilled;
-        } catch {
-          patch.undo();
-        }
-      },
     }),
     depositMoney: builder.mutation<ApiResponse<unknown>, { amount: number }>({
       query: (data) => ({
@@ -43,18 +31,6 @@ const userApi = baseApi.injectEndpoints({
         data,
       }),
       invalidatesTags: ["WALLET", "TRANSACTION"],
-      async onQueryStarted({ amount }, { dispatch, queryFulfilled }) {
-        const patch = dispatch(
-          userApi.util.updateQueryData("getAccountBalance", undefined, (draft) => {
-            if (draft.data) draft.data.balance += amount;
-          }),
-        );
-        try {
-          await queryFulfilled;
-        } catch {
-          patch.undo();
-        }
-      },
     }),
     withdrawMoney: builder.mutation<ApiResponse<unknown>, { amount: number }>({
       query: (data) => ({
@@ -63,18 +39,6 @@ const userApi = baseApi.injectEndpoints({
         data,
       }),
       invalidatesTags: ["WALLET", "TRANSACTION"],
-      async onQueryStarted({ amount }, { dispatch, queryFulfilled }) {
-        const patch = dispatch(
-          userApi.util.updateQueryData("getAccountBalance", undefined, (draft) => {
-            if (draft.data) draft.data.balance -= amount;
-          }),
-        );
-        try {
-          await queryFulfilled;
-        } catch {
-          patch.undo();
-        }
-      },
     }),
     updateProfile: builder.mutation<ApiResponse<unknown>, Record<string, unknown>>({
       query: (data) => ({
