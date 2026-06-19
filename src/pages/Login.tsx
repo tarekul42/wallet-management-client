@@ -56,18 +56,14 @@ const Login = () => {
     }
   };
 
-  const handleDemoLogin = () => {
-    const demoData = {
-      email: import.meta.env.VITE_DEMO_USER_EMAIL,
-      password: import.meta.env.VITE_DEMO_USER_PASSWORD,
-    };
-    if (!demoData.email || !demoData.password) {
+  const demoLogin = (email: string, password: string) => {
+    if (!email || !password) {
       toast.error("Demo credentials not configured. Please check your environment variables.");
       return;
     }
-    form.setValue("email", demoData.email);
-    form.setValue("password", demoData.password);
-    onSubmit(demoData);
+    form.setValue("email", email);
+    form.setValue("password", password);
+    onSubmit({ email, password });
   };
 
   const handleGoogleLogin = () => {
@@ -168,15 +164,53 @@ const Login = () => {
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   Sign In
                 </Button>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  className="w-full"
-                  onClick={handleDemoLogin}
-                  disabled={isLoading}
-                >
-                  Login as Demo User
-                </Button>
+                <div className="flex flex-col gap-2">
+                  <p className="text-xs text-muted-foreground text-center">Quick login as:</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        demoLogin(
+                          import.meta.env.VITE_DEMO_USER_EMAIL,
+                          import.meta.env.VITE_DEMO_USER_PASSWORD,
+                        )
+                      }
+                      disabled={isLoading}
+                    >
+                      User
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        demoLogin(
+                          import.meta.env.VITE_DEMO_AGENT_EMAIL,
+                          import.meta.env.VITE_DEMO_AGENT_PASSWORD,
+                        )
+                      }
+                      disabled={isLoading}
+                    >
+                      Agent
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        demoLogin(
+                          import.meta.env.VITE_DEMO_ADMIN_EMAIL,
+                          import.meta.env.VITE_DEMO_ADMIN_PASSWORD,
+                        )
+                      }
+                      disabled={isLoading}
+                    >
+                      Admin
+                    </Button>
+                  </div>
+                </div>
               </div>
             </form>
           </Form>
