@@ -23,7 +23,7 @@ const depositSchema = z.object({
 
 const DepositPage = () => {
   const [depositMoney, { isLoading }] = useDepositMoneyMutation();
-  const { data: balanceRes, isLoading: balanceLoading, refetch: refetchBalance } = useGetAccountBalanceQuery();
+  const { data: balanceRes, isLoading: balanceLoading } = useGetAccountBalanceQuery();
   const balance = balanceRes?.data?.balance ?? 0;
 
   type FormData = z.infer<typeof depositSchema>;
@@ -37,7 +37,6 @@ const DepositPage = () => {
     try {
       await depositMoney({ amount: data.amount }).unwrap();
       toast.success(`Successfully deposited $${data.amount.toFixed(2)}`);
-      refetchBalance();
       form.reset();
     } catch {
       toast.error("Failed to deposit money. Please try again.");

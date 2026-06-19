@@ -16,29 +16,53 @@ const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["TRANSACTION"],
     }),
-    sendMoney: builder.mutation<ApiResponse<unknown>, { receiverEmail: string; amount: number; description?: string }>({
+    sendMoney: builder.mutation<ApiResponse<{ balance: number }>, { receiverEmail: string; amount: number; description?: string }>({
       query: (data) => ({
         url: "/transactions/send-money",
         method: "POST",
         data,
       }),
-      invalidatesTags: ["WALLET", "TRANSACTION"],
+      invalidatesTags: ["TRANSACTION"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        dispatch(
+          userApi.util.updateQueryData("getAccountBalance", undefined, (draft) => {
+            if (draft.data) draft.data.balance = data.data.balance;
+          }),
+        );
+      },
     }),
-    depositMoney: builder.mutation<ApiResponse<unknown>, { amount: number }>({
+    depositMoney: builder.mutation<ApiResponse<{ balance: number }>, { amount: number }>({
       query: (data) => ({
         url: "/transactions/add-money",
         method: "POST",
         data,
       }),
-      invalidatesTags: ["WALLET", "TRANSACTION"],
+      invalidatesTags: ["TRANSACTION"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        dispatch(
+          userApi.util.updateQueryData("getAccountBalance", undefined, (draft) => {
+            if (draft.data) draft.data.balance = data.data.balance;
+          }),
+        );
+      },
     }),
-    withdrawMoney: builder.mutation<ApiResponse<unknown>, { amount: number }>({
+    withdrawMoney: builder.mutation<ApiResponse<{ balance: number }>, { amount: number }>({
       query: (data) => ({
         url: "/transactions/withdraw-money",
         method: "POST",
         data,
       }),
-      invalidatesTags: ["WALLET", "TRANSACTION"],
+      invalidatesTags: ["TRANSACTION"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        dispatch(
+          userApi.util.updateQueryData("getAccountBalance", undefined, (draft) => {
+            if (draft.data) draft.data.balance = data.data.balance;
+          }),
+        );
+      },
     }),
     updateProfile: builder.mutation<ApiResponse<unknown>, Record<string, unknown>>({
       query: (data) => ({

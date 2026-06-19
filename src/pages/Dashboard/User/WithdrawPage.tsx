@@ -23,7 +23,7 @@ const withdrawSchema = z.object({
 
 const WithdrawPage = () => {
   const [withdrawMoney, { isLoading }] = useWithdrawMoneyMutation();
-  const { data: balanceRes, isLoading: balanceLoading, refetch: refetchBalance } = useGetAccountBalanceQuery();
+  const { data: balanceRes, isLoading: balanceLoading } = useGetAccountBalanceQuery();
   const balance = balanceRes?.data?.balance ?? 0;
 
   type FormData = z.infer<typeof withdrawSchema>;
@@ -37,7 +37,6 @@ const WithdrawPage = () => {
     try {
       await withdrawMoney({ amount: data.amount }).unwrap();
       toast.success(`Successfully withdrew $${data.amount.toFixed(2)}`);
-      refetchBalance();
       form.reset();
     } catch {
       toast.error("Failed to withdraw money. Please try again.");
