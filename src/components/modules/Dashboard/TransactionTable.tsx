@@ -102,14 +102,14 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
 
   return (
     <Card>
-      <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 py-5">
         <CardTitle className="text-lg">Recent Transactions</CardTitle>
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
           <div className="relative flex-1 md:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search transactions..."
-              className="pl-9 h-9"
+              className="pl-9 h-10"
               value={searchTerm}
               onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
             />
@@ -117,7 +117,7 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-muted-foreground shrink-0" />
             <select
-              className="bg-background border border-input rounded-lg px-3 py-1 text-sm outline-none focus:ring-2 focus:ring-ring/30 focus:border-ring h-9 transition-shadow"
+              className="bg-background border border-input rounded-lg px-3 text-sm outline-none focus:ring-2 focus:ring-ring/30 focus:border-ring h-10 transition-shadow"
               value={statusFilter}
               onChange={(e) => { setStatusFilter(e.target.value); setCurrentPage(1); }}
               aria-label="Filter by status"
