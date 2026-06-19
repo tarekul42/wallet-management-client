@@ -24,7 +24,7 @@ const HowItWorks = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
           {howItWorks.map((step, index) => (
             <motion.div
               key={step.step}

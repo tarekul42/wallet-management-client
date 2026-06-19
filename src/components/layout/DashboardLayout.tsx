@@ -59,7 +59,7 @@ const DashboardLayout = () => {
           <span className="font-semibold text-sm">Dashboard</span>
         </div>
 
-        <div className="p-4 md:p-8">
+        <div className="p-4 md:p-8 xl:p-12 2xl:p-16">
           <Outlet />
         </div>
       </main>

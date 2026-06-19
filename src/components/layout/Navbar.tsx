@@ -61,7 +61,7 @@ export default function Navbar() {
 
   return (
     <header className="border-b px-4 md:px-6 w-full backdrop-blur-2xl bg-primary-foreground dark:bg-background/80 z-50 fixed top-0">
-      <div className="flex h-16 items-center justify-between gap-4">
+      <div className="flex h-16 items-center justify-between gap-4 max-w-7xl mx-auto">
         {/* Left side */}
         <div className="flex items-center gap-2">
           {/* Mobile menu trigger */}

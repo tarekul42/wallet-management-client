@@ -210,7 +210,7 @@ const About = () => {
         {/* Stats Section */}
         <section className="py-16 bg-muted/50">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
               {stats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
@@ -338,7 +338,7 @@ const About = () => {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
               {values.map((value, index) => (
                 <motion.div
                   key={value.title}
@@ -389,7 +389,7 @@ const About = () => {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
               {team.map((member, index) => (
                 <motion.div
                   key={member.name}
@@ -458,7 +458,7 @@ const About = () => {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {milestones.map((milestone, index) => (
                 <motion.div
                   key={milestone.year}

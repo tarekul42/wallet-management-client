@@ -9,7 +9,7 @@ const FAQs = () => {
       <FAQTitle />
       <FAQNeedHelp />
       <div className="flex flex-col md:flex-row px-4 sm:px-6 lg:px-8 py-4 md:py-16 gap-4">
-        <div className="w-full md:w-1/5 min-w-xs">
+        <div className="w-full md:w-1/5 min-w-48">
           <FAQcard />
         </div>
         <div className="grow-1">
