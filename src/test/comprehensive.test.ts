@@ -237,13 +237,11 @@ describe("All source modules import successfully", () => {
   // --- Home sub-pages ---
   it("pages/Home/Home", async () => { expect((await import("@/pages/Home/Home")).default).toBeDefined(); });
   it("pages/Home/HeroSection", async () => { expect((await import("@/pages/Home/HeroSection")).default).toBeDefined(); });
-  it("pages/Home/FeaturesSection", async () => { expect((await import("@/pages/Home/FeaturesSection")).default).toBeDefined(); });
   it("pages/Home/HowItWorks", async () => { expect((await import("@/pages/Home/HowItWorks")).default).toBeDefined(); });
-  it("pages/Home/ServicesSection", async () => { expect((await import("@/pages/Home/ServicesSection")).default).toBeDefined(); });
+  it("pages/Home/WhyChooseUs", async () => { expect((await import("@/pages/Home/WhyChooseUs")).default).toBeDefined(); });
   it("pages/Home/StatsSection", async () => { expect((await import("@/pages/Home/StatsSection")).default).toBeDefined(); });
   it("pages/Home/Testimonials", async () => { expect((await import("@/pages/Home/Testimonials")).default).toBeDefined(); });
   it("pages/Home/TrustAndSecurity", async () => { expect((await import("@/pages/Home/TrustAndSecurity")).default).toBeDefined(); });
-  it("pages/Home/FooterCTA", async () => { expect((await import("@/pages/Home/FooterCTA")).default).toBeDefined(); });
   it("pages/Home/HomeCTASection", async () => { expect((await import("@/pages/Home/HomeCTASection")).default).toBeDefined(); });
 
   // --- Contact sub-pages ---
