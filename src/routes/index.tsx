@@ -1,24 +1,26 @@
 import App from "@/App";
-import About from "@/pages/About";
-import Contact from "@/pages/Contact/Contact";
-import FAQs from "@/pages/FAQ/FAQs";
-import Features from "@/pages/Features/Features";
-import Home from "@/pages/Home/Home";
-import Login from "@/pages/Login";
-import ForgotPassword from "@/pages/ForgotPassword";
-import ResetPassword from "@/pages/ResetPassword";
-import AuthCallback from "@/pages/AuthCallback";
-import NotFound from "@/pages/NotFound";
-import Register from "@/pages/Register";
-import Explore from "@/pages/Explore";
-import ServiceDetails from "@/pages/ServiceDetails";
-import Privacy from "@/pages/Privacy";
-import Terms from "@/pages/Terms";
-import Support from "@/pages/Support";
+import { lazyPage } from "@/utils/lazyLoad";
 import { createBrowserRouter } from "react-router";
 import { dashboardRoutes } from "./dashboard";
 
 import RootLayout from "@/components/layout/RootLayout";
+
+const About = lazyPage(() => import("@/pages/About"));
+const Contact = lazyPage(() => import("@/pages/Contact/Contact"));
+const FAQs = lazyPage(() => import("@/pages/FAQ/FAQs"));
+const Features = lazyPage(() => import("@/pages/Features/Features"));
+const Home = lazyPage(() => import("@/pages/Home/Home"));
+const Login = lazyPage(() => import("@/pages/Login"));
+const ForgotPassword = lazyPage(() => import("@/pages/ForgotPassword"));
+const ResetPassword = lazyPage(() => import("@/pages/ResetPassword"));
+const AuthCallback = lazyPage(() => import("@/pages/AuthCallback"));
+const NotFound = lazyPage(() => import("@/pages/NotFound"));
+const Register = lazyPage(() => import("@/pages/Register"));
+const Explore = lazyPage(() => import("@/pages/Explore"));
+const ServiceDetails = lazyPage(() => import("@/pages/ServiceDetails"));
+const Privacy = lazyPage(() => import("@/pages/Privacy"));
+const Terms = lazyPage(() => import("@/pages/Terms"));
+const Support = lazyPage(() => import("@/pages/Support"));
 
 export const router = createBrowserRouter([
   {

@@ -5,11 +5,10 @@ import FAQTitle from "@/pages/FAQ/FAQTitle";
 
 const FAQs = () => {
   return (
-    <>
-    <div>
+    <div className="max-w-7xl mx-auto">
       <FAQTitle />
       <FAQNeedHelp />
-      <div className="flex flex-col md:flex-row mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-16 gap-4">
+      <div className="flex flex-col md:flex-row px-4 sm:px-6 lg:px-8 py-4 md:py-16 gap-4">
         <div className="w-full md:w-1/5 min-w-xs">
           <FAQcard />
         </div>
@@ -17,8 +16,7 @@ const FAQs = () => {
           <FAQsItems />
         </div>
       </div>
-      </div>
-    </>
+    </div>
   );
 };
 

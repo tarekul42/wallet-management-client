@@ -15,6 +15,32 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom", "react-router"],
+          redux: ["@reduxjs/toolkit", "react-redux"],
+          forms: ["react-hook-form", "@hookform/resolvers", "zod"],
+          charts: ["recharts"],
+          motion: ["motion", "framer-motion"],
+          icons: ["lucide-react"],
+          ui: [
+            "axios",
+            "class-variance-authority",
+            "clsx",
+            "tailwind-merge",
+            "sonner",
+            "jwt-decode",
+            "@radix-ui/react-slot",
+            "@radix-ui/react-label",
+            "@radix-ui/react-toast",
+            "@radix-ui/react-tooltip",
+          ],
+        },
+      },
+    },
+  },
   test: {
     globals: true,
     environment: "happy-dom",

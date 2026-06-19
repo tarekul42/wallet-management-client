@@ -111,7 +111,7 @@ const ServiceDetails = () => {
                 <h1 className="text-4xl md:text-5xl font-bold">
                   {service.title}
                 </h1>
-                <div className="flex items-center gap-2 bg-yellow-500/10 text-yellow-600 px-4 py-2 rounded-full font-bold">
+                <div className="flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full font-bold">
                   <Star className="h-5 w-5 fill-current" />
                   {service.rating} ({reviews.length}+ Reviews)
                 </div>
@@ -151,7 +151,7 @@ const ServiceDetails = () => {
                         key={i}
                         className="flex items-center gap-2 text-sm text-muted-foreground"
                       >
-                        <CheckCircle2 className="h-4 w-4 text-green-500" />
+                        <CheckCircle2 className="h-4 w-4 text-primary" />
                         {item}
                       </li>
                     ))}
@@ -168,7 +168,7 @@ const ServiceDetails = () => {
                         key={i}
                         className="flex items-center gap-2 text-sm text-muted-foreground"
                       >
-                        <CheckCircle2 className="h-4 w-4 text-green-500" />
+                        <CheckCircle2 className="h-4 w-4 text-primary" />
                         {item}
                       </li>
                     ))}
@@ -194,13 +194,17 @@ const ServiceDetails = () => {
                                 <h4 className="font-bold">{review.name}</h4>
                                 <p className="text-xs text-muted-foreground">{review.role}</p>
                               </div>
-                              <div className="flex items-center gap-1">
+                              <div
+                                className="flex items-center gap-1"
+                                role="img"
+                                aria-label={`${review.rating} out of 5 stars`}
+                              >
                                 {Array.from({ length: 5 }).map((_, i) => (
                                   <Star
                                     key={i}
                                     className={`h-4 w-4 ${
                                       i < review.rating
-                                        ? "text-yellow-500 fill-yellow-500"
+                                        ? "text-primary fill-primary"
                                         : "text-muted-foreground/30"
                                     }`}
                                   />
@@ -274,7 +278,7 @@ const ServiceDetails = () => {
                   <div className="space-y-4">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Service Fee</span>
-                      <span className="font-medium text-green-600">FREE</span>
+                      <span className="font-medium text-primary">FREE</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">

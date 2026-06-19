@@ -38,6 +38,7 @@ const AuthCallback = () => {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center space-y-4">
+        <h1 className="sr-only">Completing Authentication</h1>
         <Skeleton className="h-12 w-12 rounded-full mx-auto" />
         <p className="text-muted-foreground">Completing authentication...</p>
       </div>

@@ -1,24 +1,26 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import AdminDashboard from "@/pages/Dashboard/Admin/AdminDashboard";
-import AgentDashboard from "@/pages/Dashboard/Agent/AgentDashboard";
-import UserDashboard from "@/pages/Dashboard/User/UserDashboard";
-import Profile from "@/pages/Dashboard/Profile";
-import DepositPage from "@/pages/Dashboard/User/DepositPage";
-import WithdrawPage from "@/pages/Dashboard/User/WithdrawPage";
-import SendMoneyPage from "@/pages/Dashboard/User/SendMoneyPage";
-import UserTransactionsPage from "@/pages/Dashboard/User/TransactionsPage";
-import UpdatePasswordPage from "@/pages/Dashboard/User/UpdatePasswordPage";
-import AgentAddMoneyPage from "@/pages/Dashboard/Agent/AddMoneyPage";
-import AgentWithdrawMoneyPage from "@/pages/Dashboard/Agent/WithdrawMoneyPage";
-import AgentTransactionsPage from "@/pages/Dashboard/Agent/TransactionsPage";
-import CommissionHistoryPage from "@/pages/Dashboard/Agent/CommissionHistoryPage";
-import ManageUsersPage from "@/pages/Dashboard/Admin/ManageUsersPage";
-import ManageAgentsPage from "@/pages/Dashboard/Admin/ManageAgentsPage";
-import ManageWalletsPage from "@/pages/Dashboard/Admin/ManageWalletsPage";
-import AllTransactionsPage from "@/pages/Dashboard/Admin/AllTransactionsPage";
-import SystemConfigPage from "@/pages/Dashboard/Admin/SystemConfigPage";
-import CreateAdminPage from "@/pages/Dashboard/Admin/CreateAdminPage";
+import { lazyPage } from "@/utils/lazyLoad";
 import withAuth from "@/utils/withAuth";
+
+const AdminDashboard = lazyPage(() => import("@/pages/Dashboard/Admin/AdminDashboard"));
+const AgentDashboard = lazyPage(() => import("@/pages/Dashboard/Agent/AgentDashboard"));
+const UserDashboard = lazyPage(() => import("@/pages/Dashboard/User/UserDashboard"));
+const Profile = lazyPage(() => import("@/pages/Dashboard/Profile"));
+const DepositPage = lazyPage(() => import("@/pages/Dashboard/User/DepositPage"));
+const WithdrawPage = lazyPage(() => import("@/pages/Dashboard/User/WithdrawPage"));
+const SendMoneyPage = lazyPage(() => import("@/pages/Dashboard/User/SendMoneyPage"));
+const UserTransactionsPage = lazyPage(() => import("@/pages/Dashboard/User/TransactionsPage"));
+const UpdatePasswordPage = lazyPage(() => import("@/pages/Dashboard/User/UpdatePasswordPage"));
+const AgentAddMoneyPage = lazyPage(() => import("@/pages/Dashboard/Agent/AddMoneyPage"));
+const AgentWithdrawMoneyPage = lazyPage(() => import("@/pages/Dashboard/Agent/WithdrawMoneyPage"));
+const AgentTransactionsPage = lazyPage(() => import("@/pages/Dashboard/Agent/TransactionsPage"));
+const CommissionHistoryPage = lazyPage(() => import("@/pages/Dashboard/Agent/CommissionHistoryPage"));
+const ManageUsersPage = lazyPage(() => import("@/pages/Dashboard/Admin/ManageUsersPage"));
+const ManageAgentsPage = lazyPage(() => import("@/pages/Dashboard/Admin/ManageAgentsPage"));
+const ManageWalletsPage = lazyPage(() => import("@/pages/Dashboard/Admin/ManageWalletsPage"));
+const AllTransactionsPage = lazyPage(() => import("@/pages/Dashboard/Admin/AllTransactionsPage"));
+const SystemConfigPage = lazyPage(() => import("@/pages/Dashboard/Admin/SystemConfigPage"));
+const CreateAdminPage = lazyPage(() => import("@/pages/Dashboard/Admin/CreateAdminPage"));
 
 export const dashboardRoutes = [
   {

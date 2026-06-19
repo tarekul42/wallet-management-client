@@ -29,8 +29,8 @@ A digital wallet management SPA built with React and Redux Toolkit, featuring ro
 ## Getting Started
 
 ```bash
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 Create a `.env` file:

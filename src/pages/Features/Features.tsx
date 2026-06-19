@@ -12,7 +12,7 @@ import AdvancedFeaturesCard from "./AdvancedFeaturesCard";
 
 const Features = () => {
   return (
-    <div className="mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-16">
       <section>
         <FeaturesHeader />
 
@@ -40,9 +40,8 @@ const Features = () => {
           ))}
         </div>
       </section>
-      {/* // start the existing basic part */}
+
       <section className="py-16 space-y-24">
-        {/* Advanced Features */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -66,7 +65,6 @@ const Features = () => {
           )}
         </div>
 
-        {/* Benefits */}
         <section>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -89,7 +87,6 @@ const Features = () => {
           </div>
         </section>
 
-        {/* Visual Showcase */}
         <section>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -113,20 +110,19 @@ const Features = () => {
           </div>
         </section>
 
-        {/* Call to Action */}
         <motion.div
           id="cta"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-16 px-6 rounded-2xl shadow-lg max-w-4xl mx-auto text-center"
+          className="bg-gradient-to-r from-primary to-primary/70 text-primary-foreground py-16 px-6 rounded-2xl shadow-lg max-w-4xl mx-auto text-center"
         >
           <h2 className="text-3xl font-bold mb-4">
             Join thousands who trust our secure and easy-to-use digital wallet
             today.
           </h2>
-          <p className="mb-6 text-lg">
+          <p className="mb-6 text-lg opacity-90">
             Sign up now and take control of your financial journey.
           </p>
           <Button size="lg" variant="secondary" className="font-semibold">

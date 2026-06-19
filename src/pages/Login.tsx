@@ -161,8 +161,8 @@ const Login = () => {
               </div>
 
               <div className="space-y-4">
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Signing In..." : "Sign In"}
+                <Button type="submit" className="w-full" loading={isLoading}>
+                  Sign In
                 </Button>
                 <Button
                   type="button"

@@ -14,16 +14,16 @@ const FeaturesHeader = () => {
     <header className="mb-4 lg:mb-12 grid grid-cols-1 md:grid-cols-2 justify-between items-center gap-4 md:gap-8 lg:gap-16">
       <div className="justify-self-center md:justify-self-start text-center md:text-start">
         <h1 className="text-primary font-medium md:text-xl">Features</h1>
-        <h1 className="text-lg md:text-4xl font-medium mb-4">
+        <p className="text-lg md:text-4xl font-medium mb-4">
           Powerful, role‑based features for a modern wallet
-        </h1>
-        <p className="text-gray-700 font-medium max-w-2xl">
+        </p>
+        <p className="text-muted-foreground font-medium max-w-2xl">
           Discover the powerful, secure, and user-friendly features that make
           managing your digital wallet simple and safe.
         </p>
       </div>
       <div className="justify-self-center md:justify-self-end">
-        <Card className="max-w-xl bg-primary text-background">
+        <Card className="max-w-xl bg-primary text-primary-foreground">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ChartPie className="size-4 md:size-5" /> Key Highlights
@@ -35,8 +35,7 @@ const FeaturesHeader = () => {
                 <ShieldCheck className="size-4 mt-0.5" /> Role‑based navigation
               </li>
               <li className="flex items-start gap-2">
-                <Activity className="size-4 mt-0.5" /> Real‑time loading &
-                errors
+                <Activity className="size-4 mt-0.5" /> Real‑time loading & errors
               </li>
               <li className="flex items-start gap-2">
                 <LineChart className="size-4 mt-0.5" /> Charts & analytics ready

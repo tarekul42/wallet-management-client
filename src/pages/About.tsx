@@ -55,25 +55,25 @@ const About = () => {
 
   const values = [
     {
-      icon: <Shield className="w-8 h-8 text-blue-600" />,
+      icon: <Shield className="w-8 h-8 text-primary" />,
       title: "Security First",
       description:
         "Bank-level encryption and multi-layer security protocols protect every transaction and user data.",
     },
     {
-      icon: <Heart className="w-8 h-8 text-red-500" />,
+      icon: <Heart className="w-8 h-8 text-destructive" />,
       title: "User-Centric",
       description:
         "Every feature is designed with user experience in mind, making financial management intuitive and accessible.",
     },
     {
-      icon: <Target className="w-8 h-8 text-green-600" />,
+      icon: <Target className="w-8 h-8 text-primary" />,
       title: "Innovation",
       description:
         "Constantly evolving with cutting-edge technology to provide the most advanced digital wallet experience.",
     },
     {
-      icon: <Globe className="w-8 h-8 text-purple-600" />,
+      icon: <Globe className="w-8 h-8 text-primary" />,
       title: "Global Reach",
       description:
         "Breaking down financial barriers to enable seamless transactions across borders and currencies.",
@@ -191,7 +191,7 @@ const About = () => {
                 Revolutionizing Digital Finance
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                We're building the future of digital payments with secure,
+                We&apos;re building the future of digital payments with secure,
                 accessible, and innovative financial solutions that empower
                 individuals and businesses worldwide.
               </p>
@@ -265,7 +265,7 @@ const About = () => {
                     "Build trust through transparency and security",
                   ].map((item, index) => (
                     <div key={index} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                       <span className="text-muted-foreground">{item}</span>
                     </div>
                   ))}
@@ -418,13 +418,13 @@ const About = () => {
                         {member.bio}
                       </p>
                       <div className="flex justify-center gap-3">
-                        <Button size="icon" variant="ghost" className="w-8 h-8">
+                        <Button size="icon" variant="ghost" className="w-8 h-8" aria-label={`${member.name} LinkedIn`}>
                           <Linkedin className="w-4 h-4" />
                         </Button>
-                        <Button size="icon" variant="ghost" className="w-8 h-8">
+                        <Button size="icon" variant="ghost" className="w-8 h-8" aria-label={`${member.name} GitHub`}>
                           <Github className="w-4 h-4" />
                         </Button>
-                        <Button size="icon" variant="ghost" className="w-8 h-8">
+                        <Button size="icon" variant="ghost" className="w-8 h-8" aria-label={`Email ${member.name}`}>
                           <Mail className="w-4 h-4" />
                         </Button>
                       </div>
@@ -453,8 +453,8 @@ const About = () => {
                 Milestones That Shaped Our Growth
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                From a startup idea to a global fintech platform, here's how
-                we've evolved over the years.
+                From a startup idea to a global fintech platform, here&apos;s how
+                we&apos;ve evolved over the years.
               </p>
             </motion.div>
 
