@@ -30,7 +30,7 @@ const WithdrawPage = () => {
 
   const form = useForm<FormData>({
     resolver: zodResolver(withdrawSchema) as Resolver<FormData>,
-    defaultValues: { amount: undefined },
+    defaultValues: { amount: "" as unknown as number },
   });
 
   const onSubmit = async (data: z.infer<typeof withdrawSchema>) => {

@@ -30,7 +30,7 @@ const DepositPage = () => {
 
   const form = useForm<FormData>({
     resolver: zodResolver(depositSchema) as Resolver<FormData>,
-    defaultValues: { amount: undefined },
+    defaultValues: { amount: "" as unknown as number },
   });
 
   const onSubmit = async (data: z.infer<typeof depositSchema>) => {

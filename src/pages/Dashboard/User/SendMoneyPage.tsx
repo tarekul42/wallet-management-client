@@ -31,7 +31,7 @@ const SendMoneyPage = () => {
 
   const form = useForm<FormData>({
     resolver: zodResolver(sendMoneySchema) as Resolver<FormData>,
-    defaultValues: { receiverEmail: "", amount: undefined },
+    defaultValues: { receiverEmail: "", amount: "" as unknown as number },
   });
 
   const onSubmit = async (data: z.infer<typeof sendMoneySchema>) => {
