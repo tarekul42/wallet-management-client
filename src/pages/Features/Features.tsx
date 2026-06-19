@@ -1,132 +1,124 @@
 import { coreFeatures } from "@/assets/data/Features/coreFeatures";
-import FeaturesHeader from "./FeaturesHeader";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import CoreFeaturesCard from "./CoreFeaturesCard";
-import { advancedFeatures } from "@/assets/data/Features/advancedFeatures";
-import { benefits } from "@/assets/data/benefits";
-import BenefitCard from "./BenefitCard";
-import { visualShowcase } from "@/assets/data/visualShowcase";
-import VisualShowcaseCard from "./VisualShowcaseCard";
-import AdvancedFeaturesCard from "./AdvancedFeaturesCard";
+import { useState } from "react";
+import { Sparkles, ArrowRight } from "lucide-react";
+
+const roleLabels: Record<string, string> = {
+  general: "For everyone",
+  user: "For users",
+  agent: "For agents",
+  admin: "For admins",
+};
+
+const roleOrder = ["general", "user", "agent", "admin"];
 
 const Features = () => {
+  const [activeRole, setActiveRole] = useState<string | null>(null);
+
+  const grouped = roleOrder
+    .map((role) => ({
+      role,
+      label: roleLabels[role],
+      features: coreFeatures.filter((f) => f.role === role),
+    }))
+    .filter((g) => !activeRole || g.role === activeRole);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-16">
-      <section>
-        <FeaturesHeader />
-
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-3xl font-bold text-center mb-12"
-        >
-          Core Features
-        </motion.h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 2xl:gap-8">
-          {coreFeatures.map(({ id, icon, title, description, isKey, tags }) => (
-            <CoreFeaturesCard
-              key={id}
-              id={id}
-              icon={icon}
-              title={title}
-              description={description}
-              tags={tags}
-              isKey={isKey}
-            />
-          ))}
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+      <div className="text-center max-w-2xl mx-auto mb-14">
+        <div className="inline-flex p-2.5 rounded-xl bg-primary/10 text-primary mb-4">
+          <Sparkles className="w-5 h-5" />
         </div>
-      </section>
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-3">
+          Everything you need to manage your wallet
+        </h1>
+        <p className="text-muted-foreground text-sm md:text-base">
+          Role-based dashboards, secure transactions, and analytics &mdash; built
+          for users, agents, and administrators.
+        </p>
+      </div>
 
-      <section className="py-16 space-y-24">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-3xl font-bold text-center mb-12"
+      <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+        <button
+          onClick={() => setActiveRole(null)}
+          className={`px-3.5 py-1.5 text-xs font-medium rounded-full transition-colors ${
+            !activeRole
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
+          }`}
         >
-          Advanced Features
-        </motion.h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 2xl:gap-8">
-          {advancedFeatures.map(
-            ({ icon, title, description, variant }, idx) => (
-              <AdvancedFeaturesCard
-                key={idx}
-                icon={icon}
-                title={title}
-                description={description}
-                variant={variant}
-              />
-            )
-          )}
-        </div>
-
-        <section>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-3xl font-bold text-center mb-12"
+          All
+        </button>
+        {roleOrder.map((role) => (
+          <button
+            key={role}
+            onClick={() => setActiveRole(role)}
+            className={`px-3.5 py-1.5 text-xs font-medium rounded-full transition-colors ${
+              activeRole === role
+                ? "bg-primary text-primary-foreground"
+                : "bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
+            }`}
           >
-            Benefits
-          </motion.h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 2xl:gap-8">
-            {benefits.map(({ title, description, icon }, idx) => (
-              <BenefitCard
-                key={idx}
-                title={title}
-                description={description}
-                icon={icon}
-              />
-            ))}
-          </div>
-        </section>
+            {roleLabels[role]}
+          </button>
+        ))}
+      </div>
 
-        <section>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-3xl font-bold text-center mb-12"
-          >
-            Visual Showcase
-          </motion.h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 2xl:gap-8">
-            {visualShowcase.map(({ title, icon, description }, idx) => (
-              <VisualShowcaseCard
-                key={idx}
-                title={title}
-                icon={icon}
-                description={description}
-                idx={idx}
-              />
-            ))}
+      <motion.div
+        key={activeRole || "all"}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.25 }}
+        className="space-y-10"
+      >
+        {grouped.map((group) => (
+          <div key={group.role}>
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+              {group.label}
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+              {group.features.map((feature) => (
+                <div
+                  key={feature.id}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                    feature.isKey
+                      ? "text-primary bg-primary/[0.06]"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  }`}
+                >
+                  <span
+                    className={`shrink-0 ${
+                      feature.isKey ? "text-primary" : "text-muted-foreground/60"
+                    }`}
+                  >
+                    {feature.icon}
+                  </span>
+                  {feature.title}
+                </div>
+              ))}
+            </div>
           </div>
-        </section>
+        ))}
+      </motion.div>
 
+      <section className="mt-16">
         <motion.div
-          id="cta"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-primary to-primary/70 text-primary-foreground py-16 px-6 rounded-2xl shadow-lg max-w-4xl mx-auto text-center"
+          className="bg-gradient-to-r from-primary to-primary/70 text-primary-foreground rounded-xl px-6 py-12 text-center"
         >
-          <h2 className="text-3xl font-bold mb-4">
-            Join thousands who trust our secure and easy-to-use digital wallet
-            today.
+          <h2 className="text-2xl font-bold mb-2">
+            Ready to get started?
           </h2>
-          <p className="mb-6 text-lg opacity-90">
-            Sign up now and take control of your financial journey.
+          <p className="text-sm opacity-90 mb-5">
+            Sign up free and take control of your finances.
           </p>
           <Button size="lg" variant="secondary" className="font-semibold">
             Get Started Now
+            <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
         </motion.div>
       </section>

@@ -79,7 +79,7 @@ const TrustAndSecurity = () => {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="bg-gradient-to-br from-primary/10 to-primary/5 p-8 rounded-2xl">
+            <div className="bg-gradient-to-br from-primary/10 to-primary/5 p-8 rounded-xl">
               <div className="space-y-4">
                 {[
                   "Multi-factor authentication protects your account",

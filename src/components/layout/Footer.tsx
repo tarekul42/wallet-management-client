@@ -11,17 +11,17 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <footer className="bg-muted/30 border-t">
-      <div className="mx-auto space-y-8 px-4 py-12 md:py-20 sm:px-6 lg:space-y-16 lg:px-8 max-w-7xl">
+    <footer className="bg-muted/30 border-t border-border/70">
+      <div className="mx-auto space-y-8 px-4 py-12 md:py-16 sm:px-6 lg:space-y-12 lg:px-8 max-w-7xl">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div>
             <Logo />
 
-            <p className="mt-4 max-w-xs text-muted-foreground">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               A secure and easy way to manage your finances. All in one place.
             </p>
 
-            <div className="flex items-center gap-3 mt-6">
+            <div className="flex items-center gap-2 mt-6">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
@@ -29,7 +29,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="p-2 rounded-full border text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+                  className="p-2 rounded-lg border border-border/70 text-muted-foreground hover:text-foreground hover:border-foreground/20 hover:bg-accent transition-colors"
                 >
                   {social.icon}
                 </a>

@@ -83,7 +83,7 @@ const AdminDashboard = () => {
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {Array.from({ length: 4 }).map((_, i) => (
-          <Card key={i} className="border-0 shadow-md">
+          <Card key={i} className="shadow-sm">
             <CardContent className="p-6">
               <Skeleton className="h-12 w-12 rounded-xl mb-4" />
               <Skeleton className="h-4 w-24 mb-2" />
@@ -93,7 +93,7 @@ const AdminDashboard = () => {
         ))}
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-2 border-0 shadow-md">
+        <Card className="lg:col-span-2 shadow-sm">
           <CardHeader>
             <Skeleton className="h-6 w-40" />
           </CardHeader>
@@ -101,7 +101,7 @@ const AdminDashboard = () => {
             <Skeleton className="h-[300px] w-full" />
           </CardContent>
         </Card>
-        <Card className="border-0 shadow-md">
+        <Card className="shadow-sm">
           <CardHeader>
             <Skeleton className="h-6 w-40" />
           </CardHeader>
@@ -110,7 +110,7 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
       </div>
-      <Card className="border-0 shadow-md">
+      <Card className="shadow-sm">
         <CardHeader>
           <Skeleton className="h-8 w-full" />
         </CardHeader>
@@ -132,7 +132,7 @@ const AdminDashboard = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {adminStats.map((stat, index) => (
-          <Card key={index} className="border-0 shadow-md">
+          <Card key={index} className="shadow-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className={`p-3 rounded-xl ${stat.color}`}>
@@ -157,7 +157,7 @@ const AdminDashboard = () => {
         <div className="lg:col-span-2">
           <SpendingChart title="Platform Transaction Volume" />
         </div>
-        <Card className="border-0 shadow-md">
+        <Card className="shadow-sm">
           <CardHeader>
             <CardTitle className="text-xl">User Distribution</CardTitle>
           </CardHeader>

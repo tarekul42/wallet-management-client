@@ -56,7 +56,7 @@ const Explore = () => {
   }, [searchTerm, selectedCategory, minRating, sortBy]);
 
   const ServiceSkeleton = () => (
-    <Card className="h-full flex flex-col overflow-hidden border-0 shadow-md">
+    <Card className="h-full flex flex-col overflow-hidden shadow-sm">
       <Skeleton className="h-48 w-full" />
       <CardHeader className="p-5 pb-2">
         <div className="flex justify-between mb-2">
@@ -158,7 +158,7 @@ const Explore = () => {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <Card className="h-full flex flex-col overflow-hidden hover:shadow-xl transition-all duration-300 border-0 shadow-md group">
+                  <Card className="h-full flex flex-col overflow-hidden hover:shadow-xl transition-all duration-300 shadow-sm group">
                     <div className="relative h-48 overflow-hidden">
                       <img
                         src={item.image}
@@ -221,7 +221,7 @@ const Explore = () => {
         </div>
 
         {!isLoading && services.length === 0 && (
-          <div className="text-center py-20 bg-background rounded-2xl border shadow-sm">
+          <div className="text-center py-20 bg-background rounded-xl border shadow-sm">
             <div className="bg-muted w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <Search className="h-8 w-8 text-muted-foreground" />
             </div>

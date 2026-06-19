@@ -20,7 +20,7 @@ const roles = [
 
 const HeroSection = () => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/[0.03] to-background pt-8 pb-16 lg:pt-16 lg:pb-24">
+    <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/[0.02] to-background pt-8 pb-16 lg:pt-16 lg:pb-24">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
@@ -29,22 +29,22 @@ const HeroSection = () => {
             transition={{ duration: 0.6 }}
             className="text-center lg:text-left"
           >
-            <Badge className="mb-6 bg-primary/8 text-primary border-primary/20" variant="outline">
+            <Badge className="mb-6" variant="outline">
               The Complete Money Ecosystem
             </Badge>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
               Your Digital Wallet for
               <span className="text-primary"> Modern Life</span>
             </h1>
 
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-xl">
+            <p className="text-base md:text-lg text-muted-foreground mb-6 leading-relaxed max-w-xl">
               Send money, pay bills, and manage finances with a platform built
               for everyone — users, agents, and administrators.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-10">
-              <Button size="lg" className="text-base px-8 h-12" asChild>
+            <div className="flex flex-col sm:flex-row gap-3 mb-8">
+              <Button size="lg" className="h-11" asChild>
                 <Link to="/register">
                   Get Started Free
                   <ArrowRight className="w-4 h-4 ml-1" />
@@ -53,7 +53,7 @@ const HeroSection = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="text-base px-8 h-12"
+                className="h-11"
                 onClick={() =>
                   document
                     .getElementById("how-it-works")
@@ -65,7 +65,7 @@ const HeroSection = () => {
               </Button>
             </div>
 
-            <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-5 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-primary" />
                 <span>Free to join</span>
@@ -98,9 +98,9 @@ const HeroSection = () => {
 
               {/* Connected nodes */}
               {[
-                { angle: -90, x: 0, y: -120, role: roles[0] },
-                { angle: 30, x: 104, y: 60, role: roles[1] },
-                { angle: 150, x: -104, y: 60, role: roles[2] },
+                { angle: -90, x: 0, y: -100, role: roles[0] },
+                { angle: 30, x: 86, y: 50, role: roles[1] },
+                { angle: 150, x: -86, y: 50, role: roles[2] },
               ].map((node, i) => (
                 <motion.div
                   key={node.role.label}
@@ -121,10 +121,10 @@ const HeroSection = () => {
               ))}
 
               {/* Connection lines */}
-              <svg className="absolute w-72 h-72" viewBox="0 0 288 288">
-                <line x1="144" y1="144" x2="144" y2="24" stroke="var(--primary)" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.3" />
-                <line x1="144" y1="144" x2="248" y2="204" stroke="var(--primary)" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.3" />
-                <line x1="144" y1="144" x2="40" y2="204" stroke="var(--primary)" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.3" />
+              <svg className="absolute w-60 h-60" viewBox="0 0 240 240">
+                <line x1="120" y1="120" x2="120" y2="20" stroke="var(--primary)" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.3" />
+                <line x1="120" y1="120" x2="206" y2="170" stroke="var(--primary)" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.3" />
+                <line x1="120" y1="120" x2="34" y2="170" stroke="var(--primary)" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.3" />
               </svg>
             </div>
           </motion.div>

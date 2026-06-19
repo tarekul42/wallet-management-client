@@ -93,7 +93,7 @@ const Profile = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Left Column: Avatar & Quick Info */}
         <div className="space-y-6">
-          <Card className="border-0 shadow-md overflow-hidden">
+          <Card className="shadow-sm overflow-hidden">
             <CardContent className="p-0">
               <div className="h-32 bg-primary/10 relative">
                 <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
@@ -105,7 +105,7 @@ const Profile = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <button className="absolute inset-0 flex items-center justify-center bg-black/40 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button className="absolute inset-0 flex items-center justify-center bg-neutral-950/60 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                       <Camera className="h-6 w-6" />
                     </button>
                   </div>
@@ -123,7 +123,7 @@ const Profile = () => {
           </Card>
 
 
-          <Card className="border-0 shadow-md">
+          <Card className="shadow-sm">
             <CardHeader>
               <CardTitle className="text-sm uppercase tracking-wider text-muted-foreground">
                 Account Status
@@ -163,7 +163,7 @@ const Profile = () => {
 
         {/* Right Column: Edit Form */}
         <div className="md:col-span-2">
-          <Card className="border-0 shadow-md">
+          <Card className="shadow-sm">
             <CardHeader>
               <CardTitle>Personal Information</CardTitle>
               <CardDescription>

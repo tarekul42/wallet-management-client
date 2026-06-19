@@ -68,7 +68,7 @@ const Support = () => {
           className="text-center mb-12"
         >
           <div className="flex justify-center mb-4">
-            <div className="p-4 rounded-2xl bg-primary/10">
+            <div className="p-4 rounded-xl bg-primary/10">
               <LifeBuoy className="w-10 h-10 text-primary" />
             </div>
           </div>
@@ -89,7 +89,7 @@ const Support = () => {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
             placeholder="Search for help topics..."
-            className="pl-12 h-14 text-lg rounded-2xl shadow-sm"
+            className="pl-12 h-14 text-lg rounded-xl shadow-sm"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -102,7 +102,7 @@ const Support = () => {
           transition={{ delay: 0.2 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16"
         >
-          <div className="bg-card border rounded-2xl p-6 text-center hover:shadow-md transition-shadow">
+          <div className="bg-card border rounded-xl p-6 text-center hover:shadow-md transition-shadow">
             <div className="p-3 rounded-xl bg-primary/10 inline-flex mb-4">
               <MessageCircle className="w-6 h-6 text-primary" />
             </div>
@@ -114,7 +114,7 @@ const Support = () => {
               Start Chat
             </Button>
           </div>
-          <div className="bg-card border rounded-2xl p-6 text-center hover:shadow-md transition-shadow">
+          <div className="bg-card border rounded-xl p-6 text-center hover:shadow-md transition-shadow">
             <div className="p-3 rounded-xl bg-primary/10 inline-flex mb-4">
               <Mail className="w-6 h-6 text-primary" />
             </div>
@@ -126,7 +126,7 @@ const Support = () => {
               <a href="mailto:support@walletmanagement.com">Email Us</a>
             </Button>
           </div>
-          <div className="bg-card border rounded-2xl p-6 text-center hover:shadow-md transition-shadow">
+          <div className="bg-card border rounded-xl p-6 text-center hover:shadow-md transition-shadow">
             <div className="p-3 rounded-xl bg-primary/10 inline-flex mb-4">
               <Phone className="w-6 h-6 text-primary" />
             </div>
@@ -153,7 +153,7 @@ const Support = () => {
 
           <div className="space-y-6">
             {filteredCategories.map((cat) => (
-              <div key={cat.category} className="bg-card border rounded-2xl overflow-hidden shadow-sm">
+              <div key={cat.category} className="bg-card border rounded-xl overflow-hidden shadow-sm">
                 <button
                   onClick={() =>
                     setOpenCategory(openCategory === cat.category ? null : cat.category)
@@ -198,7 +198,7 @@ const Support = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-16 p-8 bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl text-center border"
+          className="mt-16 p-8 bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl text-center border"
         >
           <Shield className="w-10 h-10 text-primary mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-2">Still Need Help?</h2>

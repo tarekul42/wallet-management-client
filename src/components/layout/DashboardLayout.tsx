@@ -46,7 +46,7 @@ const DashboardLayout = () => {
 
       <main id="main-content" className="flex-1 overflow-y-auto bg-background">
         {/* Mobile header */}
-        <div className="md:hidden flex items-center h-14 px-4 border-b bg-background sticky top-0 z-30">
+        <div className="md:hidden flex items-center h-14 px-4 border-b border-border/70 bg-background/80 backdrop-blur-md sticky top-0 z-30">
           <Button
             variant="ghost"
             size="icon"
@@ -59,7 +59,7 @@ const DashboardLayout = () => {
           <span className="font-semibold text-sm">Dashboard</span>
         </div>
 
-        <div className="p-4 md:p-8 xl:p-12 2xl:p-16">
+        <div className="p-4 md:p-6 lg:p-8 xl:p-10">
           <Outlet />
         </div>
       </main>

@@ -33,14 +33,14 @@ const ServiceDetails = () => {
           <Skeleton className="h-8 w-32 mb-8" />
           <div className="grid lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2 space-y-8">
-              <Skeleton className="h-[400px] w-full rounded-3xl" />
+              <Skeleton className="h-[400px] w-full rounded-xl" />
               <Skeleton className="h-12 w-3/4" />
               <Skeleton className="h-6 w-full" />
               <Skeleton className="h-6 w-full" />
               <Skeleton className="h-32 w-full" />
             </div>
             <div>
-              <Skeleton className="h-96 w-full rounded-3xl" />
+              <Skeleton className="h-96 w-full rounded-xl" />
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ const ServiceDetails = () => {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-6"
             >
-              <div className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative h-[400px] rounded-xl overflow-hidden shadow-lg">
                 <img
                   src={service.image}
                   alt={service.title}
@@ -140,7 +140,7 @@ const ServiceDetails = () => {
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
-                <Card className="border-0 bg-muted/30 shadow-none p-6 rounded-2xl">
+                <Card className="border-0 bg-muted/30 shadow-none p-6 rounded-xl">
                   <h4 className="text-xl font-bold mb-4 flex items-center gap-2">
                     <ShieldCheck className="h-5 w-5 text-primary" />
                     Security Features
@@ -157,7 +157,7 @@ const ServiceDetails = () => {
                     ))}
                   </ul>
                 </Card>
-                <Card className="border-0 bg-muted/30 shadow-none p-6 rounded-2xl">
+                <Card className="border-0 bg-muted/30 shadow-none p-6 rounded-xl">
                   <h4 className="text-xl font-bold mb-4 flex items-center gap-2">
                     <Zap className="h-5 w-5 text-primary" />
                     Why use this?
@@ -181,7 +181,7 @@ const ServiceDetails = () => {
                   <h3 className="text-2xl font-bold mb-8">Customer Reviews</h3>
                   <div className="space-y-6">
                     {reviews.map((review) => (
-                      <Card key={review._id} className="border-0 bg-muted/30 shadow-none p-6 rounded-2xl">
+                      <Card key={review._id} className="border-0 bg-muted/30 shadow-none p-6 rounded-xl">
                         <div className="flex items-start gap-4">
                           <img
                             src={review.avatar}
@@ -235,7 +235,7 @@ const ServiceDetails = () => {
                     {relatedServices.map((item) => (
                       <Card
                         key={item._id}
-                        className="overflow-hidden border-0 shadow-lg group"
+                        className="overflow-hidden shadow-sm group"
                       >
                         <div className="relative h-40 overflow-hidden">
                           <img
@@ -269,7 +269,7 @@ const ServiceDetails = () => {
               transition={{ delay: 0.2 }}
               className="sticky top-24"
             >
-              <Card className="shadow-2xl border-0 overflow-hidden rounded-3xl">
+              <Card className="overflow-hidden">
                 <div className="bg-primary p-6 text-primary-foreground">
                   <p className="text-sm opacity-80 mb-1">Price starts at</p>
                   <h3 className="text-4xl font-bold">{service.price}</h3>

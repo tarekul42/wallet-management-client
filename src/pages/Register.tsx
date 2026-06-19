@@ -14,7 +14,7 @@ const Register = () => {
   const { currentStep } = useAppSelector((state) => state.registration);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary/[0.03] via-background to-primary/[0.06] flex items-center justify-center p-4">
       <div className="w-full max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -22,17 +22,17 @@ const Register = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <div className="flex items-center justify-center gap-3 mb-4">
+          <Link to="/" className="flex items-center justify-center gap-3 mb-4">
             <Logo />
             <span className="text-2xl font-bold">Wallet Management</span>
-          </div>
+          </Link>
           <h1 className="text-3xl font-bold mb-2">Create Your Account</h1>
           <p className="text-muted-foreground">
             Complete all steps to create your secure digital wallet account
           </p>
         </motion.div>
 
-        <Card className="border-0 shadow-xl">
+        <Card className="shadow-sm">
           <CardContent className="p-8">
             <RegisterProgressSteps currentStep={currentStep} />
 
@@ -51,12 +51,12 @@ const Register = () => {
             </AnimatePresence>
 
             {/* Login Link */}
-            <div className="text-center mt-8 pt-6 border-t">
+            <div className="text-center mt-8 pt-6 border-t border-border/70">
               <p className="text-sm text-muted-foreground">
                 Already have an account?{" "}
                 <Link
                   to="/login"
-                  className="text-primary hover:underline font-medium"
+                  className="text-primary hover:underline underline-offset-4 font-medium"
                 >
                   Sign in here
                 </Link>

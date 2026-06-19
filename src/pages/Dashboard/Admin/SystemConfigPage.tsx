@@ -56,7 +56,7 @@ const SystemConfigPage = () => {
     return (
       <div className="max-w-2xl mx-auto space-y-8 pb-12">
         <Skeleton className="h-10 w-64" />
-        <Card className="border-0 shadow-md">
+        <Card className="shadow-sm">
           <CardContent className="p-6 space-y-4">
             {Array.from({ length: 4 }).map((_, i) => (
               <Skeleton key={i} className="h-12 w-full" />
@@ -74,7 +74,7 @@ const SystemConfigPage = () => {
         <p className="text-muted-foreground mt-1">Manage fees, limits, and system-wide settings</p>
       </div>
 
-      <Card className="border-0 shadow-md">
+      <Card className="shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Settings className="h-5 w-5 text-primary" />

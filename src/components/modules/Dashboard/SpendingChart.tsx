@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import { BarChart3 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetSpendingOverviewQuery } from "@/redux/features/dashboard/dashboard.api";
@@ -42,7 +43,7 @@ interface CustomTooltipProps {
 const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-background border rounded-xl shadow-lg p-3 text-sm">
+    <div className="bg-popover border border-border/70 rounded-lg shadow-lg p-3 text-sm">
       <p className="font-medium mb-2">{label}</p>
       {payload.map((entry) => (
         <div key={entry.name} className="flex items-center justify-between gap-6">
@@ -65,7 +66,7 @@ const SpendingChart = ({ title = "Spending Analysis" }: SpendingChartProps) => {
 
   if (isLoading) {
     return (
-      <Card className="border-0 shadow-md">
+      <Card>
         <CardHeader>
           <Skeleton className="h-6 w-40" />
         </CardHeader>
@@ -77,31 +78,31 @@ const SpendingChart = ({ title = "Spending Analysis" }: SpendingChartProps) => {
   }
 
   return (
-    <Card className="border-0 shadow-md">
+    <Card>
       <CardHeader>
-        <CardTitle className="text-xl">{title}</CardTitle>
+        <CardTitle className="text-lg">{title}</CardTitle>
       </CardHeader>
       <CardContent>
         {!hasData ? (
           <div className="h-[300px] flex flex-col items-center justify-center text-muted-foreground">
-            <div className="text-5xl mb-4 opacity-30">📊</div>
-            <p className="font-medium">No spending data yet</p>
-            <p className="text-sm">Complete a transaction to see your spending analysis</p>
+            <div className="p-3 rounded-full bg-muted mb-4"><BarChart3 className="h-7 w-7 opacity-50" /></div>
+            <p className="font-medium text-foreground">No spending data yet</p>
+            <p className="text-sm mt-1">Complete a transaction to see your spending analysis</p>
           </div>
         ) : (
           <div className="h-[300px] w-full" role="img" aria-label={`${title} chart showing income and expenses over time`}>
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
                 data={chartData}
-                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
               >
                 <defs>
                   <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.15} />
+                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.18} />
                     <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="var(--destructive)" stopOpacity={0.15} />
+                    <stop offset="5%" stopColor="var(--destructive)" stopOpacity={0.18} />
                     <stop offset="95%" stopColor="var(--destructive)" stopOpacity={0} />
                   </linearGradient>
                 </defs>

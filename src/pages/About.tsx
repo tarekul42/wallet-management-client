@@ -19,10 +19,24 @@ import {
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import { useGetPlatformStatsQuery } from "@/redux/features/public/public.api";
+import { useState } from "react";
 
 const About = () => {
   const { data: statsRes } = useGetPlatformStatsQuery();
   const s = statsRes?.data;
+  const [imgErrors, setImgErrors] = useState<Record<number, boolean>>({});
+
+  const handleImgError = (index: number) => {
+    setImgErrors((prev) => ({ ...prev, [index]: true }));
+  };
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
+  };
 
   const formatNum = (n: number) => {
     if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M+`;
@@ -277,7 +291,7 @@ const About = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
-                className="bg-gradient-to-br from-primary/10 to-primary/5 p-8 rounded-2xl"
+                className="bg-gradient-to-br from-primary/10 to-primary/5 p-8 rounded-xl"
               >
                 <Badge className="mb-4" variant="outline">
                   Our Vision
@@ -348,7 +362,7 @@ const About = () => {
                   viewport={{ once: true }}
                   whileHover={{ y: -5 }}
                 >
-                  <Card className="h-full text-center border-0 shadow-sm hover:shadow-md transition-all duration-300">
+                  <Card className="h-full text-center shadow-xs hover:shadow-md transition-all duration-300">
                     <CardContent className="p-6">
                       <div className="flex justify-center mb-4">
                         {value.icon}
@@ -399,14 +413,21 @@ const About = () => {
                   viewport={{ once: true }}
                   whileHover={{ y: -5 }}
                 >
-                  <Card className="text-center border-0 shadow-sm hover:shadow-md transition-all duration-300">
+                  <Card className="text-center shadow-xs hover:shadow-md transition-all duration-300">
                     <CardContent className="p-6">
                       <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden ring-2 ring-primary/10">
-                        <img
-                          src={member.image}
-                          alt={member.name}
-                          className="w-full h-full object-cover"
-                        />
+                        {imgErrors[index] ? (
+                          <div className="w-full h-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-lg">
+                            {getInitials(member.name)}
+                          </div>
+                        ) : (
+                          <img
+                            src={member.image}
+                            alt={member.name}
+                            className="w-full h-full object-cover"
+                            onError={() => handleImgError(index)}
+                          />
+                        )}
                       </div>
                       <h3 className="text-xl font-semibold mb-1">
                         {member.name}
@@ -556,7 +577,7 @@ const About = () => {
                 ].map((item, index) => (
                   <Card
                     key={index}
-                    className="text-center p-6 border-0 shadow-sm hover:shadow-md transition-shadow"
+                    className="text-center p-6 shadow-xs hover:shadow-md transition-shadow"
                   >
                     <div className="flex justify-center text-primary mb-3">
                       {item.icon}

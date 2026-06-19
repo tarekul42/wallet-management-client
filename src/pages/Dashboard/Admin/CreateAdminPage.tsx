@@ -49,7 +49,7 @@ const CreateAdminPage = () => {
         <p className="text-muted-foreground mt-1">Add a new administrator to the platform</p>
       </div>
 
-      <Card className="border-0 shadow-md">
+      <Card className="shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <UserPlus className="h-5 w-5 text-primary" />

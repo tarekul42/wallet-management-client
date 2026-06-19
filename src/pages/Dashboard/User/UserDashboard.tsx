@@ -66,17 +66,17 @@ const UserDashboard = () => {
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {Array.from({ length: 4 }).map((_, i) => (
-          <Card key={i} className="border-0 shadow-md">
-            <CardContent className="p-6">
-              <Skeleton className="h-12 w-12 rounded-xl mb-4" />
+          <Card key={i} className="shadow-sm">
+            <CardContent className="p-5">
+              <Skeleton className="h-11 w-11 rounded-lg mb-4" />
               <Skeleton className="h-4 w-24 mb-2" />
-              <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-7 w-32" />
             </CardContent>
           </Card>
         ))}
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-2 border-0 shadow-md">
+        <Card className="lg:col-span-2 shadow-sm">
           <CardHeader>
             <Skeleton className="h-6 w-40" />
           </CardHeader>
@@ -85,14 +85,14 @@ const UserDashboard = () => {
           </CardContent>
         </Card>
         <div className="space-y-6">
-          <Skeleton className="h-48 w-full rounded-3xl" />
+          <Skeleton className="h-48 w-full rounded-xl" />
           <div className="grid grid-cols-2 gap-4">
-            <Skeleton className="h-24 w-full rounded-2xl" />
-            <Skeleton className="h-24 w-full rounded-2xl" />
+            <Skeleton className="h-24 w-full rounded-xl" />
+            <Skeleton className="h-24 w-full rounded-xl" />
           </div>
         </div>
       </div>
-      <Card className="border-0 shadow-md">
+      <Card className="shadow-sm">
         <CardHeader>
           <Skeleton className="h-8 w-full" />
         </CardHeader>
@@ -137,7 +137,7 @@ const UserDashboard = () => {
         <div className="space-y-6">
           <div
             className={cn(
-              "p-6 rounded-3xl shadow-xl relative overflow-hidden transition-all",
+              "p-6 rounded-xl shadow-lg relative overflow-hidden transition-all",
               cardFrozen
                 ? "bg-blue-900 text-blue-50"
                 : "bg-primary text-primary-foreground"
@@ -202,15 +202,15 @@ const UserDashboard = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <Button asChild variant="outline" className="h-24 flex-col gap-3 rounded-2xl border-2 hover:border-primary/50 hover:bg-primary/5 transition-all">
+            <Button asChild variant="outline" className="h-24 flex-col gap-3 rounded-xl border border-border/70 hover:border-primary/50 hover:bg-primary/5 transition-all">
               <Link to="/dashboard/user/transactions">
-                <Wallet className="h-6 w-6 text-primary" />
+                <Wallet className="h-5 w-5 text-primary" />
                 <span>Transactions</span>
               </Link>
             </Button>
-            <Button asChild variant="outline" className="h-24 flex-col gap-3 rounded-2xl border-2 hover:border-primary/50 hover:bg-primary/5 transition-all">
+            <Button asChild variant="outline" className="h-24 flex-col gap-3 rounded-xl border border-border/70 hover:border-primary/50 hover:bg-primary/5 transition-all">
               <Link to="/dashboard/user/deposit">
-                <CreditCard className="h-6 w-6 text-primary" />
+                <CreditCard className="h-5 w-5 text-primary" />
                 <span>Deposit</span>
               </Link>
             </Button>

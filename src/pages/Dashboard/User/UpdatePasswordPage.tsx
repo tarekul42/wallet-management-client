@@ -56,7 +56,7 @@ const UpdatePasswordPage = () => {
         <p className="text-muted-foreground mt-1">Change your account password</p>
       </div>
 
-      <Card className="border-0 shadow-md">
+      <Card className="shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Lock className="h-5 w-5 text-primary" />

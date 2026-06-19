@@ -1,48 +1,43 @@
 import { faqsData } from "@/assets/data/faqsData";
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 const FAQsItems = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <div className="max-w-screen-2xl mx-auto space-y-4">
-      {faqsData.map(({ question, answer }, idx) => (
-        <details
-          key={idx}
-          className="group [&_summary::-webkit-details-marker]:hidden rounded-md border border-border cursor-pointer"
-          open={openIndex === idx}
-        >
-          <summary
-            onClick={(e) => {
-              e.preventDefault();
-              setOpenIndex(openIndex === idx ? null : idx);
-            }}
-            className={`flex items-center justify-between gap-1.5 ${openIndex === idx ? "rounded-t-md" : "rounded-md"
-              } bg-muted/50 p-4 text-foreground hover:bg-muted transition-colors`}
+    <div className="space-y-2">
+      {faqsData.map(({ question, answer }, idx) => {
+        const isOpen = openIndex === idx;
+        return (
+          <div
+            key={idx}
+            className="rounded-xl border border-border/70 bg-card overflow-hidden"
           >
-            <h2 className="md:text-lg font-medium">
-              {idx + 1}. {question}
-            </h2>
-
-            <svg
-              className="size-5 shrink-0 transition-transform duration-300 group-open:-rotate-180 text-muted-foreground"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            <button
+              onClick={() => setOpenIndex(isOpen ? null : idx)}
+              className="flex items-center justify-between w-full text-left px-5 py-3.5 text-sm font-medium text-foreground hover:bg-muted/40 transition-colors"
+              aria-expanded={isOpen}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M19 9l-7 7-7-7"
+              <span>{question}</span>
+              <ChevronDown
+                className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ${
+                  isOpen ? "rotate-180" : ""
+                }`}
               />
-            </svg>
-          </summary>
-
-          <p className="px-4 py-4 text-muted-foreground">{answer}</p>
-        </details>
-      ))}
+            </button>
+            <div
+              className={`overflow-hidden transition-all duration-200 ${
+                isOpen ? "max-h-96" : "max-h-0"
+              }`}
+            >
+              <p className="px-5 pb-4 text-sm text-muted-foreground leading-relaxed">
+                {answer}
+              </p>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

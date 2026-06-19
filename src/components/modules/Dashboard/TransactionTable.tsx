@@ -23,9 +23,9 @@ const TYPE_LABELS: Record<string, string> = {
   COMMISSION: "Commission",
 };
 
-const STATUS_VARIANT: Record<string, "secondary" | "outline" | "destructive"> = {
-  SUCCESSFUL: "secondary",
-  PENDING: "outline",
+const STATUS_VARIANT: Record<string, "success" | "outline" | "destructive" | "warning"> = {
+  SUCCESSFUL: "success",
+  PENDING: "warning",
   FAILED: "destructive",
   REVERSED: "destructive",
 };
@@ -92,7 +92,7 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
   };
 
   const SortHeader = ({ field, children }: { field: SortField; children: React.ReactNode }) => (
-    <th className="px-6 py-4 font-medium cursor-pointer select-none hover:text-foreground transition-colors" onClick={() => toggleSort(field)}>
+    <th className="px-6 py-3.5 font-medium cursor-pointer select-none hover:text-foreground transition-colors" onClick={() => toggleSort(field)}>
       <div className="flex items-center gap-1">
         {children}
         <ArrowUpDown className={cn("h-3 w-3", sortField === field ? "text-primary" : "opacity-30")} />
@@ -101,9 +101,9 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
   );
 
   return (
-    <Card className="border-0 shadow-md">
+    <Card>
       <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <CardTitle className="text-xl">Recent Transactions</CardTitle>
+        <CardTitle className="text-lg">Recent Transactions</CardTitle>
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
           <div className="relative flex-1 md:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -117,7 +117,7 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-muted-foreground shrink-0" />
             <select
-              className="bg-background border rounded-md px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-primary/20 h-9"
+              className="bg-background border border-input rounded-lg px-3 py-1 text-sm outline-none focus:ring-2 focus:ring-ring/30 focus:border-ring h-9 transition-shadow"
               value={statusFilter}
               onChange={(e) => { setStatusFilter(e.target.value); setCurrentPage(1); }}
               aria-label="Filter by status"
@@ -134,16 +134,16 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
         {/* Desktop table */}
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="text-xs text-muted-foreground uppercase bg-muted/30">
+            <thead className="text-xs text-muted-foreground uppercase bg-muted/40">
               <tr>
                 <SortHeader field="type">Type</SortHeader>
-                <th className="px-6 py-4 font-medium">Reference</th>
+                <th className="px-6 py-3.5 font-medium">Reference</th>
                 <SortHeader field="date">Date</SortHeader>
                 <SortHeader field="amount">Amount</SortHeader>
                 <SortHeader field="status">Status</SortHeader>
               </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y divide-border/60">
               {loading ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground">
@@ -158,7 +158,7 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
                 </tr>
               ) : (
                 paginatedTransactions.map((t) => (
-                  <tr key={t._id} className="hover:bg-muted/20 transition-colors">
+                  <tr key={t._id} className="hover:bg-muted/30 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div
@@ -195,7 +195,7 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
                     </td>
                     <td
                       className={cn(
-                        "px-6 py-4 text-right font-bold whitespace-nowrap",
+                        "px-6 py-4 text-right font-semibold whitespace-nowrap tabular-nums",
                         isCredit(t.type) ? "text-success" : "text-foreground"
                       )}
                     >
@@ -225,7 +225,7 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
             <p className="text-center text-muted-foreground py-8">No transactions found</p>
           ) : (
             paginatedTransactions.map((t) => (
-              <Card key={t._id} className="border shadow-sm">
+              <Card key={t._id} className="shadow-xs">
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3">
@@ -254,7 +254,7 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">{formatDate(t.createdAt)}</span>
-                    <span className={cn("font-bold", isCredit(t.type) ? "text-success" : "")}>
+                    <span className={cn("font-semibold tabular-nums", isCredit(t.type) ? "text-success" : "")}>
                       {isCredit(t.type) ? "+" : "-"}$ {t.amount.toFixed(2)}
                     </span>
                   </div>
@@ -266,7 +266,7 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
 
         {/* Pagination */}
         {!loading && totalPages > 1 && (
-          <div className="flex items-center justify-between px-6 py-4 border-t">
+          <div className="flex items-center justify-between px-6 py-4 border-t border-border/70">
             <p className="text-xs text-muted-foreground">
               Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
               {Math.min(currentPage * itemsPerPage, filteredTransactions.length)} of{" "}
@@ -283,7 +283,7 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
               >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-              <span className="text-xs text-muted-foreground min-w-[4ch] text-center">
+              <span className="text-xs text-muted-foreground min-w-[4ch] text-center tabular-nums">
                 {currentPage}/{totalPages}
               </span>
               <Button

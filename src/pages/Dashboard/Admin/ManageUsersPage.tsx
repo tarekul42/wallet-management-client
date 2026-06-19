@@ -54,7 +54,7 @@ const ManageUsersPage = () => {
     return (
       <div className="space-y-6 pb-12">
         <Skeleton className="h-10 w-64" />
-        <Card className="border-0 shadow-md">
+        <Card className="shadow-sm">
           <CardContent className="p-6">
             {Array.from({ length: 5 }).map((_, i) => (
               <Skeleton key={i} className="h-12 w-full mb-3" />
@@ -83,7 +83,7 @@ const ManageUsersPage = () => {
         </div>
       </div>
 
-      <Card className="border-0 shadow-md">
+      <Card className="shadow-sm">
         <CardHeader className="pb-0">
           <CardTitle className="text-xl">All Users</CardTitle>
         </CardHeader>

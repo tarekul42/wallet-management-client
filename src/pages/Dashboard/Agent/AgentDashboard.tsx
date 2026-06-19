@@ -61,17 +61,17 @@ const AgentDashboard = () => {
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {Array.from({ length: 4 }).map((_, i) => (
-          <Card key={i} className="border-0 shadow-md">
-            <CardContent className="p-6">
-              <Skeleton className="h-12 w-12 rounded-xl mb-4" />
+          <Card key={i} className="shadow-sm">
+            <CardContent className="p-5">
+              <Skeleton className="h-11 w-11 rounded-lg mb-4" />
               <Skeleton className="h-4 w-24 mb-2" />
-              <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-7 w-32" />
             </CardContent>
           </Card>
         ))}
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-2 border-0 shadow-md">
+        <Card className="lg:col-span-2 shadow-sm">
           <CardHeader>
             <Skeleton className="h-6 w-40" />
           </CardHeader>
@@ -79,17 +79,17 @@ const AgentDashboard = () => {
             <Skeleton className="h-[300px] w-full" />
           </CardContent>
         </Card>
-        <Card className="border-0 shadow-md">
+        <Card className="shadow-sm">
           <CardHeader>
             <Skeleton className="h-6 w-40" />
           </CardHeader>
           <CardContent className="space-y-4">
-            <Skeleton className="h-24 w-full rounded-2xl" />
-            <Skeleton className="h-24 w-full rounded-2xl" />
+            <Skeleton className="h-24 w-full rounded-xl" />
+            <Skeleton className="h-24 w-full rounded-xl" />
           </CardContent>
         </Card>
       </div>
-      <Card className="border-0 shadow-md">
+      <Card className="shadow-sm">
         <CardHeader>
           <Skeleton className="h-8 w-full" />
         </CardHeader>
@@ -124,12 +124,12 @@ const AgentDashboard = () => {
         </>
       }
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {agentStats.map((stat, index) => (
-          <Card key={index} className="border-0 shadow-md">
-            <CardContent className="p-6">
+          <Card key={index} className="shadow-sm gap-0">
+            <CardContent className="p-5">
               <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-xl ${stat.color}`}>
+                <div className={`p-2.5 rounded-lg ${stat.color}`}>
                   {stat.icon}
                 </div>
               </div>
@@ -137,7 +137,7 @@ const AgentDashboard = () => {
                 <p className="text-sm text-muted-foreground font-medium mb-1">
                   {stat.title}
                 </p>
-                <h3 className="text-2xl font-bold mb-1">{stat.value}</h3>
+                <h3 className="text-2xl font-semibold tracking-tight mb-1">{stat.value}</h3>
                 <p className="text-xs text-muted-foreground">
                   {stat.description}
                 </p>
@@ -147,22 +147,22 @@ const AgentDashboard = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
         <div className="lg:col-span-2">
           <SpendingChart title="Agent Transaction Volume" />
         </div>
-        <Card className="border-0 shadow-md">
+        <Card className="shadow-sm">
           <CardHeader>
-            <CardTitle className="text-xl">Quick Actions</CardTitle>
+            <CardTitle className="text-lg">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <Button
               asChild
               variant="outline"
-              className="w-full h-auto flex-col items-center gap-2 py-6 rounded-2xl border-2 border-dashed hover:border-primary/50 hover:bg-primary/5 transition-all"
+              className="w-full h-auto flex-col items-center gap-2 py-6 rounded-xl border border-dashed border-border/70 hover:border-primary/50 hover:bg-primary/5 transition-all"
             >
               <Link to="/dashboard/agent/add-money">
-                <ArrowDownFromLine className="h-6 w-6 text-primary" />
+                <ArrowDownFromLine className="h-5 w-5 text-primary" />
                 <span className="font-semibold">Cash-In to User</span>
                 <span className="text-xs text-muted-foreground font-normal">
                   Add money to a user&apos;s account
@@ -172,10 +172,10 @@ const AgentDashboard = () => {
             <Button
               asChild
               variant="outline"
-              className="w-full h-auto flex-col items-center gap-2 py-6 rounded-2xl border-2 border-dashed hover:border-primary/50 hover:bg-primary/5 transition-all"
+              className="w-full h-auto flex-col items-center gap-2 py-6 rounded-xl border border-dashed border-border/70 hover:border-primary/50 hover:bg-primary/5 transition-all"
             >
               <Link to="/dashboard/agent/withdraw-money">
-                <ArrowUpFromLine className="h-6 w-6 text-primary" />
+                <ArrowUpFromLine className="h-5 w-5 text-primary" />
                 <span className="font-semibold">Cash-Out from User</span>
                 <span className="text-xs text-muted-foreground font-normal">
                   Withdraw money from a user&apos;s account

@@ -12,10 +12,10 @@ const CommonLayout = ({ children }: IProps) => {
   const { globalLoader } = useAppSelector((state) => state.auth);
 
   return (
-    <div className="min-h-screen flex flex-col absolute w-full">
+    <div className="min-h-screen flex flex-col w-full">
       {globalLoader && <GlobalLoader />}
       <Navbar />
-      <div id="main-content" className="grow-1 pt-16 relative">{children}</div>
+      <main id="main-content" className="grow flex flex-col">{children}</main>
       <Footer />
     </div>
   );

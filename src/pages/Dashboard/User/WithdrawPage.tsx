@@ -47,7 +47,7 @@ const WithdrawPage = () => {
         <p className="text-muted-foreground mt-1">Withdraw funds from your wallet</p>
       </div>
 
-      <Card className="border-0 shadow-md">
+      <Card className="shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <ArrowUpRight className="h-5 w-5 text-red-600" />

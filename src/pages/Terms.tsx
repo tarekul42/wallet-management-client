@@ -76,7 +76,7 @@ const Terms = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-card border rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-card border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-xl bg-primary/10 shrink-0">
@@ -97,7 +97,7 @@ const Terms = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="mt-12 p-8 bg-muted/50 rounded-2xl text-center"
+          className="mt-12 p-8 bg-muted/50 rounded-xl text-center"
         >
           <h2 className="text-2xl font-bold mb-4">Have Legal Questions?</h2>
           <p className="text-muted-foreground mb-6">

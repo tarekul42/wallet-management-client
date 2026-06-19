@@ -33,7 +33,7 @@ export function Sheet({ open, onClose, children, side = "left", className }: She
   return (
     <div className="fixed inset-0 z-50 flex" role="dialog" aria-modal="true">
       <div
-        className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-neutral-950/40 backdrop-blur-sm transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -44,11 +44,11 @@ export function Sheet({ open, onClose, children, side = "left", className }: She
           className
         )}
       >
-        <div className="flex items-center justify-between border-b px-4 h-14">
+        <div className="flex items-center justify-between border-b border-border/70 px-4 h-14">
           <span className="font-semibold text-sm">Navigation</span>
           <button
             onClick={onClose}
-            className="p-2 rounded-md hover:bg-muted transition-colors"
+            className="p-2 rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
             aria-label="Close navigation"
           >
             <X className="h-4 w-4" />

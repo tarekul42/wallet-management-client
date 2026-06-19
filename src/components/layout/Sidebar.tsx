@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Sheet } from "@/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import Logo from "@/assets/icons/Logo";
 
 interface SidebarProps {
   mobileOpen?: boolean;
@@ -41,23 +42,18 @@ const Sidebar = ({
   };
 
   const sidebarContent = (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-4 h-14 border-b shrink-0">
-        {!collapsed && (
-          <Link to="/" className="font-bold text-lg text-primary">
-            Wallet
-          </Link>
-        )}
-        {collapsed && (
-          <Link to="/" className="font-bold text-lg text-primary mx-auto">
-            W
-          </Link>
+    <div className="flex flex-col h-full bg-sidebar">
+      <div className="flex items-center justify-between px-4 h-16 border-b border-sidebar-border/70 shrink-0">
+        {!collapsed ? (
+          <Link to="/" className="flex items-center gap-2 font-semibold tracking-tight text-sidebar-foreground"><Logo /><span>Wallet</span></Link>
+        ) : (
+          <Link to="/" className="mx-auto" aria-label="Home"><Logo /></Link>
         )}
         {onToggleCollapse && (
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 shrink-0"
+            className="h-8 w-8 shrink-0 text-muted-foreground hover:text-foreground"
             onClick={onToggleCollapse}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
@@ -76,10 +72,11 @@ const Sidebar = ({
                   <Link
                     to={item.path}
                     className={cn(
-                      "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                      "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                      collapsed && "justify-center",
                       isActive
                         ? "bg-primary/10 text-primary"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        : "text-muted-foreground hover:bg-accent hover:text-foreground"
                     )}
                     aria-current={isActive ? "page" : undefined}
                   >
@@ -98,14 +95,14 @@ const Sidebar = ({
         })}
       </nav>
 
-      <div className="border-t p-3 shrink-0">
+      <div className="border-t border-sidebar-border/70 p-3 shrink-0">
         {collapsed ? (
           <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center justify-center w-full p-2.5 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                  className="flex items-center justify-center w-full p-2 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
                   aria-label="Logout"
                 >
                   <LogOut className="h-4 w-4" />
@@ -117,7 +114,7 @@ const Sidebar = ({
         ) : (
           <Button
             variant="ghost"
-            className="w-full justify-start gap-3 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+            className="w-full justify-start gap-3 text-muted-foreground hover:text-destructive hover:bg-destructive/10 font-normal"
             onClick={handleLogout}
             size="sm"
           >
@@ -134,8 +131,8 @@ const Sidebar = ({
       {/* Desktop sidebar */}
       <aside
         className={cn(
-          "hidden md:flex flex-col bg-sidebar border-r transition-all duration-300 ease-in-out shrink-0",
-          collapsed ? "w-16" : "w-64"
+          "hidden md:flex flex-col bg-sidebar border-r border-sidebar-border/70 transition-all duration-300 ease-in-out shrink-0",
+          collapsed ? "w-[68px]" : "w-64"
         )}
         aria-label="Sidebar navigation"
       >

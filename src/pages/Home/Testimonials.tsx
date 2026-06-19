@@ -7,6 +7,19 @@ import { useState } from "react";
 
 const Testimonials = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [imgErrors, setImgErrors] = useState<Record<number, boolean>>({});
+
+  const handleImgError = (index: number) => {
+    setImgErrors((prev) => ({ ...prev, [index]: true }));
+  };
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
+  };
 
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -53,11 +66,18 @@ const Testimonials = () => {
               </p>
 
               <div className="flex items-center justify-center gap-4 mb-4">
-                <img
-                  src={testimonials[currentTestimonial].image}
-                  alt={testimonials[currentTestimonial].name}
-                  className="w-11 h-11 rounded-full object-cover"
-                />
+                {imgErrors[currentTestimonial] ? (
+                  <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
+                    {getInitials(testimonials[currentTestimonial].name)}
+                  </div>
+                ) : (
+                  <img
+                    src={testimonials[currentTestimonial].image}
+                    alt={testimonials[currentTestimonial].name}
+                    className="w-11 h-11 rounded-full object-cover"
+                    onError={() => handleImgError(currentTestimonial)}
+                  />
+                )}
                 <div className="text-left">
                   <p className="font-semibold text-sm">
                     {testimonials[currentTestimonial].name}
