@@ -7,12 +7,14 @@ const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAccountBalance: builder.query<ApiResponse<IWallet>, void>({
       query: () => ({ url: "/wallets/me" }),
+      providesTags: ["WALLET"],
     }),
     getTransactionHistory: builder.query<ApiResponse<ITransaction[]>, QueryParams>({
       query: (params) => ({
         url: "/transactions/history",
         params,
       }),
+      providesTags: ["TRANSACTION"],
     }),
     sendMoney: builder.mutation<ApiResponse<unknown>, QueryParams>({
       query: (data) => ({
@@ -20,6 +22,7 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         data,
       }),
+      invalidatesTags: ["WALLET", "TRANSACTION"],
     }),
     depositMoney: builder.mutation<ApiResponse<unknown>, QueryParams>({
       query: (data) => ({
@@ -27,6 +30,7 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         data,
       }),
+      invalidatesTags: ["WALLET", "TRANSACTION"],
     }),
     withdrawMoney: builder.mutation<ApiResponse<unknown>, QueryParams>({
       query: (data) => ({
@@ -34,6 +38,7 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         data,
       }),
+      invalidatesTags: ["WALLET", "TRANSACTION"],
     }),
     updateProfile: builder.mutation<ApiResponse<unknown>, Record<string, unknown>>({
       query: (data) => ({
@@ -41,9 +46,11 @@ const userApi = baseApi.injectEndpoints({
         method: "PATCH",
         data,
       }),
+      invalidatesTags: ["USER"],
     }),
     getProfile: builder.query<ApiResponse<unknown>, void>({
       query: () => ({ url: "/users/me" }),
+      providesTags: ["USER"],
     }),
     updatePassword: builder.mutation<ApiResponse<unknown>, { oldPassword: string; newPassword: string; confirmPassword: string }>({
       query: (data) => ({
