@@ -1,8 +1,9 @@
+import DashboardShell from "@/components/modules/Dashboard/DashboardShell";
 import SpendingChart from "@/components/modules/Dashboard/SpendingChart";
 import TransactionTable from "@/components/modules/Dashboard/TransactionTable";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, UserCheck, Activity, ShieldAlert } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Users, UserCheck, Activity, ShieldAlert } from "lucide-react";
 import {
   useGetDashboardStatisticsQuery,
   useGetAllTransactionsQuery,
@@ -30,34 +31,34 @@ const AdminDashboard = () => {
     {
       title: "Total Users",
       value: stats ? `${stats.totalUsers.toLocaleString()}` : "0",
-      icon: <Users className="h-6 w-6 text-blue-600" />,
+      icon: <Users className="h-6 w-6 text-info" />,
       description: stats ? `+${stats.newUsersThisWeek} new this week` : "",
-      color: "bg-blue-100 dark:bg-blue-900/30",
-      iconColor: "text-blue-600 dark:text-blue-400",
+      color: "bg-info/10",
+      iconColor: "text-info",
     },
     {
       title: "Active Agents",
       value: stats ? `${stats.activeAgents.toLocaleString()}` : "0",
-      icon: <UserCheck className="h-6 w-6 text-green-600" />,
+      icon: <UserCheck className="h-6 w-6 text-success" />,
       description: "Currently active",
-      color: "bg-green-100 dark:bg-green-900/30",
-      iconColor: "text-green-600 dark:text-green-400",
+      color: "bg-success/10",
+      iconColor: "text-success",
     },
     {
       title: "Total Volume",
       value: stats ? formatVolume(stats.totalVolume) : "$0",
-      icon: <Activity className="h-6 w-6 text-purple-600" />,
+      icon: <Activity className="h-6 w-6 text-primary" />,
       description: "All time successful transactions",
-      color: "bg-purple-100 dark:bg-purple-900/30",
-      iconColor: "text-purple-600 dark:text-purple-400",
+      color: "bg-primary/10",
+      iconColor: "text-primary",
     },
     {
       title: "Pending Reports",
       value: stats ? `${stats.pendingReports}` : "0",
-      icon: <ShieldAlert className="h-6 w-6 text-red-600" />,
+      icon: <ShieldAlert className="h-6 w-6 text-destructive" />,
       description: "Agents awaiting approval",
-      color: "bg-red-100 dark:bg-red-900/30",
-      iconColor: "text-red-600 dark:text-red-400",
+      color: "bg-destructive/10",
+      iconColor: "text-destructive",
     },
   ];
 
@@ -74,17 +75,12 @@ const AdminDashboard = () => {
 
   const distItems = [
     { label: "Users", pct: userPct, color: "bg-primary", value: userDist?.users ?? 0 },
-    { label: "Agents", pct: agentPct, color: "bg-green-500", value: userDist?.agents ?? 0 },
-    { label: "Admins", pct: adminPct, color: "bg-purple-500", value: userDist?.admins ?? 0 },
+    { label: "Agents", pct: agentPct, color: "bg-success", value: userDist?.agents ?? 0 },
+    { label: "Admins", pct: adminPct, color: "bg-chart-4", value: userDist?.admins ?? 0 },
   ];
 
-  const AdminSkeleton = () => (
-    <div className="space-y-8 pb-12">
-      <div className="space-y-2">
-        <Skeleton className="h-10 w-64" />
-        <Skeleton className="h-5 w-80" />
-      </div>
-
+  const adminSkeleton = (
+    <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {Array.from({ length: 4 }).map((_, i) => (
           <Card key={i} className="border-0 shadow-md">
@@ -96,7 +92,6 @@ const AdminDashboard = () => {
           </Card>
         ))}
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <Card className="lg:col-span-2 border-0 shadow-md">
           <CardHeader>
@@ -115,7 +110,6 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
       </div>
-
       <Card className="border-0 shadow-md">
         <CardHeader>
           <Skeleton className="h-8 w-full" />
@@ -124,24 +118,17 @@ const AdminDashboard = () => {
           <Skeleton className="h-64 w-full" />
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 
-  if (isLoading) return <AdminSkeleton />;
-
   return (
-    <div className="space-y-8 pb-12">
-      <div>
-        {hasError && (
-          <div className="p-3 mb-4 rounded-lg bg-destructive/10 text-destructive text-sm" role="alert">
-            Some data failed to load. Showing available information.
-          </div>
-        )}
-        <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome back{user?.name ? `, ${user.name}` : ""}! System-wide overview and administrative controls.
-        </p>
-      </div>
+    <DashboardShell
+      title="Admin Dashboard"
+      subtitle={`Welcome back${user?.name ? `, ${user.name}` : ""}! System-wide overview and administrative controls.`}
+      isLoading={isLoading}
+      hasError={hasError}
+      skeleton={adminSkeleton}
+    >
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {adminStats.map((stat, index) => (
@@ -180,8 +167,8 @@ const AdminDashboard = () => {
               style={{
                 background: `conic-gradient(
                   var(--primary) 0% ${userPct}%,
-                  #22c55e ${userPct}% ${userPct + agentPct}%,
-                  #a855f7 ${userPct + agentPct}% 100%
+                  var(--success) ${userPct}% ${userPct + agentPct}%,
+                  var(--chart-4) ${userPct + agentPct}% 100%
                 )`
               }}
               role="img"
@@ -211,7 +198,7 @@ const AdminDashboard = () => {
       </div>
 
       <TransactionTable transactions={txList} loading={txLoading} />
-    </div>
+    </DashboardShell>
   );
 };
 

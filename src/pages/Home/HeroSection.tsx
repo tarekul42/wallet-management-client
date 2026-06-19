@@ -101,7 +101,7 @@ const HeroSection = () => {
             <div className="relative z-10 bg-gradient-to-br from-card to-muted/50 p-8 rounded-3xl shadow-2xl border">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold">Wallet Dashboard</h3>
-                <Badge className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20">
+                <Badge className="bg-success/10 text-success border-success/20">
                   Live
                 </Badge>
               </div>
@@ -117,14 +117,14 @@ const HeroSection = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-background p-4 rounded-xl border">
                     <div className="flex items-center gap-2 mb-2">
-                      <TrendingUp className="w-4 h-4 text-green-600 dark:text-green-400" />
+                      <TrendingUp className="w-4 h-4 text-success" />
                       <span className="text-sm font-medium">Income</span>
                     </div>
                     <p className="text-xl font-bold">$3,240</p>
                   </div>
                   <div className="bg-background p-4 rounded-xl border">
                     <div className="flex items-center gap-2 mb-2">
-                      <Receipt className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      <Receipt className="w-4 h-4 text-destructive" />
                       <span className="text-sm font-medium">Expenses</span>
                     </div>
                     <p className="text-xl font-bold">$1,425</p>
@@ -163,17 +163,17 @@ const HeroSection = () => {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity }}
-              className="absolute -top-4 -right-4 bg-green-500/10 p-3 rounded-full shadow-lg backdrop-blur-sm border border-green-500/20"
+                className="absolute -top-4 -right-4 bg-success/10 p-3 rounded-full shadow-lg backdrop-blur-sm border border-success/20"
             >
-              <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
-            </motion.div>
+                <CheckCircle className="w-6 h-6 text-success" />
+              </motion.div>
 
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
-              className="absolute -bottom-4 -left-4 bg-blue-500/10 p-3 rounded-full shadow-lg backdrop-blur-sm border border-blue-500/20"
-            >
-              <Shield className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <motion.div
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
+                className="absolute -bottom-4 -left-4 bg-info/10 p-3 rounded-full shadow-lg backdrop-blur-sm border border-info/20"
+              >
+                <Shield className="w-6 h-6 text-info" />
             </motion.div>
           </motion.div>
         </div>

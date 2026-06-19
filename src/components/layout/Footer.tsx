@@ -3,16 +3,16 @@ import { Link } from "react-router";
 import { Github, Linkedin, Twitter, Facebook } from "lucide-react";
 
 const socialLinks = [
-  { icon: <Github className="h-5 w-5" />, href: "https://github.com", label: "GitHub" },
-  { icon: <Linkedin className="h-5 w-5" />, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: <Twitter className="h-5 w-5" />, href: "https://twitter.com", label: "Twitter" },
-  { icon: <Facebook className="h-5 w-5" />, href: "https://facebook.com", label: "Facebook" },
+  { icon: <Github className="h-5 w-5" />, href: "#", label: "GitHub" },
+  { icon: <Linkedin className="h-5 w-5" />, href: "#", label: "LinkedIn" },
+  { icon: <Twitter className="h-5 w-5" />, href: "#", label: "Twitter" },
+  { icon: <Facebook className="h-5 w-5" />, href: "#", label: "Facebook" },
 ];
 
 const Footer = () => {
   return (
     <footer className="bg-muted/30 border-t">
-      <div className="mx-auto space-y-8 px-4 py-4 md:py-16 sm:px-6 lg:space-y-16 lg:px-8">
+      <div className="mx-auto space-y-8 px-4 py-12 md:py-20 sm:px-6 lg:space-y-16 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div>
             <Logo />

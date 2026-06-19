@@ -37,12 +37,12 @@ const FeaturesSection = () => {
               whileHover={{ y: -5 }}
             >
               <Card
-                className={`h-full text-center border-0 shadow-sm hover:shadow-lg transition-all duration-300 ${
-                  feature.highlight ? "ring-2 ring-primary/20 bg-primary/5" : ""
+                className={`h-full text-center border-0 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ${
+                  feature.highlight ? "ring-1 ring-primary/30 bg-primary/5" : ""
                 }`}
               >
                 <CardContent className="p-6">
-                  <div className="flex justify-center mb-4">{feature.icon}</div>
+                  <div className="flex justify-center mb-4 w-14 h-14 bg-primary/10 rounded-2xl items-center justify-center mx-auto">{feature.icon}</div>
                   <h3 className="text-xl font-semibold mb-3">
                     {feature.title}
                   </h3>

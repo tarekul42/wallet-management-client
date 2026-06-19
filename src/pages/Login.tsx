@@ -93,7 +93,7 @@ const Login = () => {
           <p className="text-muted-foreground">Sign in to access your wallet</p>
         </div>
 
-        <div className="bg-background p-8 rounded-lg shadow-xl border">
+        <div className="bg-background p-8 rounded-xl shadow-md border">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField

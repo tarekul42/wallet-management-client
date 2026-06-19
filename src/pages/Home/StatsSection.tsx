@@ -3,10 +3,10 @@ import { Clock, Globe, TrendingUp, Users } from "lucide-react";
 import { useGetPlatformStatsQuery } from "@/redux/features/public/public.api";
 
 const statIcons = [
-  { icon: <Users className="w-6 h-6" />, label: "Active Users", key: "activeUsers", suffix: "+" },
-  { icon: <TrendingUp className="w-6 h-6" />, label: "Transacted", key: "totalVolume", prefix: "$", suffix: "+", format: true },
-  { icon: <Globe className="w-6 h-6" />, label: "Countries", key: "countriesServed", suffix: "+" },
-  { icon: <Clock className="w-6 h-6" />, label: "Uptime", key: "uptime", suffix: "" },
+  { icon: <Users className="w-5 h-5" />, label: "Active Users", key: "activeUsers", suffix: "+" },
+  { icon: <TrendingUp className="w-5 h-5" />, label: "Transacted", key: "totalVolume", prefix: "$", suffix: "+", format: true },
+  { icon: <Globe className="w-5 h-5" />, label: "Countries", key: "countriesServed", suffix: "+" },
+  { icon: <Clock className="w-5 h-5" />, label: "Uptime", key: "uptime", suffix: "" },
 ];
 
 const formatVolume = (val: number) => {
@@ -30,7 +30,7 @@ const StatsSection = () => {
   };
 
   return (
-    <section className="py-12 bg-primary">
+    <section className="py-16 bg-primary">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {statIcons.map((item, index) => (
@@ -43,7 +43,7 @@ const StatsSection = () => {
               className="text-center text-primary-foreground"
             >
               <div className="flex justify-center mb-2">{item.icon}</div>
-              <div className="text-3xl font-bold mb-1">{getValue(item)}</div>
+              <div className="text-3xl font-bold mb-1 tracking-tight">{getValue(item)}</div>
               <div className="text-sm opacity-90">{item.label}</div>
             </motion.div>
           ))}

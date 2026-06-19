@@ -15,7 +15,7 @@ import { Link, NavLink, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { logout } from "@/redux/features/auth/authSlice";
 import { useLogoutMutation } from "@/redux/features/auth/auth.api";
-import { LayoutDashboard, LogOut, User as UserIcon, Sun, Moon } from "lucide-react";
+import { LayoutDashboard, LogOut, User as UserIcon, Sun, Moon, Menu } from "lucide-react";
 import { role } from "@/constants/role";
 import { useTheme } from "@/hooks/use-theme";
 
@@ -67,38 +67,14 @@ export default function Navbar() {
           {/* Mobile menu trigger */}
           <Popover>
             <PopoverTrigger asChild>
-              <Button
-                className="group size-8 md:hidden"
-                variant="ghost"
-                size="icon"
-                aria-label="Open navigation menu"
-              >
-                <svg
-                  className="pointer-events-none"
-                  width={20}
-                  height={20}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  xmlns="http://www.w3.org/2000/svg"
+                <Button
+                  className="md:hidden"
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Open navigation menu"
                 >
-                  <path
-                    d="M4 12L20 12"
-                    className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
-                  />
-                  <path
-                    d="M4 12H20"
-                    className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45"
-                  />
-                  <path
-                    d="M4 12H20"
-                    className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
-                  />
-                </svg>
-              </Button>
+                  <Menu className="h-5 w-5" />
+                </Button>
             </PopoverTrigger>
             <PopoverContent align="start" className="w-44 p-1 md:hidden">
               <NavigationMenu className="max-w-none *:w-full">
@@ -121,17 +97,17 @@ export default function Navbar() {
               <Logo />
             </Link>
             <NavigationMenu className="max-md:hidden">
-              <NavigationMenuList className="gap-2">
+              <NavigationMenuList className="gap-6">
                 {authLinks.map((link) => (
                   <NavigationMenuItem key={link.href}>
                     <NavigationMenuLink
-                      className="text-muted-foreground hover:text-primary py-1.5 font-medium transition-colors text-sm"
+                      className="text-muted-foreground hover:text-primary py-1.5 font-medium transition-colors text-sm relative"
                       asChild
                     >
                       <NavLink
                         to={link.href}
                         className={({ isActive }) =>
-                          isActive ? "text-primary font-bold" : ""
+                          isActive ? "text-primary font-semibold" : ""
                         }
                       >
                         {link.label}
@@ -161,10 +137,10 @@ export default function Navbar() {
                 <PopoverTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="relative h-8 w-8 rounded-full bg-primary/10"
+                    className="relative h-8 w-8 rounded-full bg-primary/10 text-primary font-semibold text-sm"
                     aria-label="User menu"
                   >
-                    <UserIcon className="h-5 w-5 text-primary" />
+                    {user?.name?.charAt(0)?.toUpperCase() || "U"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent align="end" className="w-56 p-2">

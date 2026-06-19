@@ -165,8 +165,8 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
                           className={cn(
                             "p-2 rounded-full shrink-0",
                             isCredit(t.type)
-                              ? "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"
-                              : "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
+                              ? "bg-success/10 text-success"
+                              : "bg-destructive/10 text-destructive"
                           )}
                         >
                           {isCredit(t.type) ? (
@@ -196,7 +196,7 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
                     <td
                       className={cn(
                         "px-6 py-4 text-right font-bold whitespace-nowrap",
-                        isCredit(t.type) ? "text-green-600 dark:text-green-400" : "text-foreground"
+                        isCredit(t.type) ? "text-success" : "text-foreground"
                       )}
                     >
                       {isCredit(t.type) ? "+" : "-"}$
@@ -233,8 +233,8 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
                         className={cn(
                           "p-2 rounded-full shrink-0",
                           isCredit(t.type)
-                            ? "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"
-                            : "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
+                              ? "bg-success/10 text-success"
+                              : "bg-destructive/10 text-destructive"
                         )}
                       >
                         {isCredit(t.type) ? (
@@ -254,7 +254,7 @@ const TransactionTable = ({ transactions = [], loading = false }: TransactionTab
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">{formatDate(t.createdAt)}</span>
-                    <span className={cn("font-bold", isCredit(t.type) ? "text-green-600 dark:text-green-400" : "")}>
+                    <span className={cn("font-bold", isCredit(t.type) ? "text-success" : "")}>
                       {isCredit(t.type) ? "+" : "-"}$ {t.amount.toFixed(2)}
                     </span>
                   </div>

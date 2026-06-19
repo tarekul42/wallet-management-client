@@ -1,10 +1,10 @@
+import DashboardShell from "@/components/modules/Dashboard/DashboardShell";
 import DashboardStats from "@/components/modules/Dashboard/DashboardStats";
 import SpendingChart from "@/components/modules/Dashboard/SpendingChart";
 import TransactionTable from "@/components/modules/Dashboard/TransactionTable";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { SendHorizontal, PlusIcon, Copy, Snowflake, CreditCard, Wallet } from "lucide-react";
-import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
@@ -62,19 +62,8 @@ const UserDashboard = () => {
     toast.success(cardFrozen ? "Card unfrozen" : "Card frozen");
   }, [cardFrozen]);
 
-  const DashboardSkeleton = () => (
-    <div className="space-y-8 pb-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="space-y-2">
-          <Skeleton className="h-10 w-64" />
-          <Skeleton className="h-5 w-80" />
-        </div>
-        <div className="flex items-center gap-3">
-          <Skeleton className="h-10 w-32" />
-          <Skeleton className="h-10 w-32" />
-        </div>
-      </div>
-
+  const userSkeleton = (
+    <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {Array.from({ length: 4 }).map((_, i) => (
           <Card key={i} className="border-0 shadow-md">
@@ -86,7 +75,6 @@ const UserDashboard = () => {
           </Card>
         ))}
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <Card className="lg:col-span-2 border-0 shadow-md">
           <CardHeader>
@@ -104,7 +92,6 @@ const UserDashboard = () => {
           </div>
         </div>
       </div>
-
       <Card className="border-0 shadow-md">
         <CardHeader>
           <Skeleton className="h-8 w-full" />
@@ -113,26 +100,18 @@ const UserDashboard = () => {
           <Skeleton className="h-64 w-full" />
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 
-  if (isLoading) return <DashboardSkeleton />;
-
   return (
-    <div className="space-y-8 pb-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          {hasError && (
-            <div className="p-3 mb-4 rounded-lg bg-destructive/10 text-destructive text-sm" role="alert">
-              Some data failed to load. Showing available information.
-            </div>
-          )}
-          <h1 className="text-3xl font-bold tracking-tight">User Dashboard</h1>
-          <p className="text-muted-foreground">
-            Welcome back{user?.name ? `, ${user.name}` : ""}! Manage your finances and transactions.
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
+    <DashboardShell
+      title="User Dashboard"
+      subtitle={`Welcome back${user?.name ? `, ${user.name}` : ""}! Manage your finances and transactions.`}
+      isLoading={isLoading}
+      hasError={hasError}
+      skeleton={userSkeleton}
+      actions={
+        <>
           <Link to="/dashboard/user/deposit">
             <Button className="gap-2">
               <PlusIcon className="h-4 w-4" />
@@ -145,33 +124,17 @@ const UserDashboard = () => {
               Send Money
             </Button>
           </Link>
-        </div>
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <DashboardStats balance={balance} income={income} expenses={expenses} />
-      </motion.div>
+        </>
+      }
+    >
+      <DashboardStats balance={balance} income={income} expenses={expenses} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <motion.div
-          className="lg:col-span-2"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
+        <div className="lg:col-span-2">
           <SpendingChart />
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="space-y-6"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
+        <div className="space-y-6">
           <div
             className={cn(
               "p-6 rounded-3xl shadow-xl relative overflow-hidden transition-all",
@@ -223,7 +186,7 @@ const UserDashboard = () => {
                     size="sm"
                     className={cn(
                       "gap-2 text-xs bg-white/20 hover:bg-white/30 text-inherit border-0",
-                      cardFrozen && "bg-green-500/30 hover:bg-green-500/40"
+                      cardFrozen && "bg-success/30 hover:bg-success/40"
                     )}
                     onClick={handleToggleFreeze}
                     aria-label={cardFrozen ? "Unfreeze card" : "Freeze card"}
@@ -252,17 +215,11 @@ const UserDashboard = () => {
               </Link>
             </Button>
           </div>
-        </motion.div>
+        </div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-      >
-        <TransactionTable transactions={txList} loading={txLoading} />
-      </motion.div>
-    </div>
+      <TransactionTable transactions={txList} loading={txLoading} />
+    </DashboardShell>
   );
 };
 

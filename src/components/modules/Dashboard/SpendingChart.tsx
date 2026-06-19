@@ -101,8 +101,8 @@ const SpendingChart = ({ title = "Spending Analysis" }: SpendingChartProps) => {
                     <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#ef4444" stopOpacity={0.15} />
-                    <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
+                    <stop offset="5%" stopColor="var(--destructive)" stopOpacity={0.15} />
+                    <stop offset="95%" stopColor="var(--destructive)" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} className="stroke-border/50" />
@@ -142,7 +142,7 @@ const SpendingChart = ({ title = "Spending Analysis" }: SpendingChartProps) => {
                   type="monotone"
                   dataKey="expenses"
                   name="Expenses"
-                  stroke="#ef4444"
+                  stroke="var(--destructive)"
                   strokeWidth={2.5}
                   fillOpacity={1}
                   fill="url(#colorExpenses)"

@@ -29,23 +29,23 @@ const DashboardStats = ({ balance, income, expenses }: StatsProps) => {
     {
       title: "Monthly Income",
       value: `$${income.toLocaleString()}`,
-      icon: <ArrowUpRight className="h-6 w-6 text-green-600" />,
+      icon: <ArrowUpRight className="h-6 w-6 text-success" />,
       description: income > 0 ? `${incomeChange}$${income.toLocaleString()} this month` : "No income this month",
-      color: "bg-green-100",
+      color: "bg-success/10",
     },
     {
       title: "Monthly Expenses",
       value: `$${expenses.toLocaleString()}`,
-      icon: <ArrowDownLeft className="h-6 w-6 text-red-600" />,
+      icon: <ArrowDownLeft className="h-6 w-6 text-destructive" />,
       description: expenses > 0 ? `${expenseChange}$${expenses.toLocaleString()} this month` : "No expenses this month",
-      color: "bg-red-100",
+      color: "bg-destructive/10",
     },
     {
       title: "Active Cards",
       value: `${totalCards}`,
-      icon: <CreditCard className="h-6 w-6 text-blue-600" />,
+      icon: <CreditCard className="h-6 w-6 text-info" />,
       description: `${virtualCards} virtual, ${physicalCards} physical`,
-      color: "bg-blue-100",
+      color: "bg-info/10",
     },
   ];
 

@@ -60,7 +60,7 @@ const ForgotPassword = () => {
           </p>
         </div>
 
-        <Card className="border-0 shadow-xl bg-background">
+        <Card className="shadow-md border bg-background">
           <CardHeader>
             <CardTitle>Reset Password</CardTitle>
             <CardDescription>

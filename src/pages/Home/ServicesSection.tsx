@@ -51,7 +51,7 @@ const ServicesSection = () => {
                   <ul className="space-y-2">
                     {service.features.map((feature, idx) => (
                       <li key={idx} className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
+                        <CheckCircle className="w-4 h-4 text-success flex-shrink-0" />
                         <span className="text-sm">{feature}</span>
                       </li>
                     ))}

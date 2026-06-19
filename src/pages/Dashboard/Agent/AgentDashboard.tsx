@@ -1,10 +1,11 @@
+import DashboardShell from "@/components/modules/Dashboard/DashboardShell";
 import SpendingChart from "@/components/modules/Dashboard/SpendingChart";
 import TransactionTable from "@/components/modules/Dashboard/TransactionTable";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { DollarSign, HandCoins, Users, TrendingUp, ArrowDownFromLine, ArrowUpFromLine } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   useGetDashboardSummaryQuery,
   useGetAgentTransactionHistoryQuery,
@@ -33,42 +34,31 @@ const AgentDashboard = () => {
     {
       title: "Total Commission",
       value: summary ? `$${(summary.totalCommission).toLocaleString()}` : "$0.00",
-      icon: <HandCoins className="h-6 w-6 text-green-600" />,
+      icon: <HandCoins className="h-6 w-6 text-success" />,
       description: "Earned all time",
-      color: "bg-green-100 dark:bg-green-900/30",
-      iconColor: "text-green-600 dark:text-green-400",
+      color: "bg-success/10",
+      iconColor: "text-success",
     },
     {
       title: "Active Customers",
       value: summary ? `${summary.activeCustomers}` : "0",
-      icon: <Users className="h-6 w-6 text-blue-600" />,
+      icon: <Users className="h-6 w-6 text-info" />,
       description: "Unique customers served",
-      color: "bg-blue-100 dark:bg-blue-900/30",
-      iconColor: "text-blue-600 dark:text-blue-400",
+      color: "bg-info/10",
+      iconColor: "text-info",
     },
     {
       title: "Success Rate",
       value: summary ? `${summary.successRate}%` : "0%",
-      icon: <TrendingUp className="h-6 w-6 text-purple-600" />,
+      icon: <TrendingUp className="h-6 w-6 text-primary" />,
       description: "Across all transactions",
-      color: "bg-purple-100 dark:bg-purple-900/30",
-      iconColor: "text-purple-600 dark:text-purple-400",
+      color: "bg-primary/10",
+      iconColor: "text-primary",
     },
   ];
 
-  const AgentSkeleton = () => (
-    <div className="space-y-8 pb-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="space-y-2">
-          <Skeleton className="h-10 w-64" />
-          <Skeleton className="h-5 w-80" />
-        </div>
-        <div className="flex items-center gap-3">
-          <Skeleton className="h-10 w-32" />
-          <Skeleton className="h-10 w-32" />
-        </div>
-      </div>
-
+  const agentSkeleton = (
+    <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {Array.from({ length: 4 }).map((_, i) => (
           <Card key={i} className="border-0 shadow-md">
@@ -80,7 +70,6 @@ const AgentDashboard = () => {
           </Card>
         ))}
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <Card className="lg:col-span-2 border-0 shadow-md">
           <CardHeader>
@@ -100,7 +89,6 @@ const AgentDashboard = () => {
           </CardContent>
         </Card>
       </div>
-
       <Card className="border-0 shadow-md">
         <CardHeader>
           <Skeleton className="h-8 w-full" />
@@ -109,26 +97,18 @@ const AgentDashboard = () => {
           <Skeleton className="h-64 w-full" />
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 
-  if (isLoading) return <AgentSkeleton />;
-
   return (
-    <div className="space-y-8 pb-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          {hasError && (
-            <div className="p-3 mb-4 rounded-lg bg-destructive/10 text-destructive text-sm" role="alert">
-              Some data failed to load. Showing available information.
-            </div>
-          )}
-          <h1 className="text-3xl font-bold tracking-tight">Agent Dashboard</h1>
-          <p className="text-muted-foreground">
-            Welcome back{user?.name ? `, ${user.name}` : ""}! Manage your agent operations.
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
+    <DashboardShell
+      title="Agent Dashboard"
+      subtitle={`Welcome back${user?.name ? `, ${user.name}` : ""}! Manage your agent operations.`}
+      isLoading={isLoading}
+      hasError={hasError}
+      skeleton={agentSkeleton}
+      actions={
+        <>
           <Button asChild className="gap-2">
             <Link to="/dashboard/agent/add-money">
               <ArrowDownFromLine className="h-4 w-4" />
@@ -141,9 +121,9 @@ const AgentDashboard = () => {
               Commissions
             </Link>
           </Button>
-        </div>
-      </div>
-
+        </>
+      }
+    >
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {agentStats.map((stat, index) => (
           <Card key={index} className="border-0 shadow-md">
@@ -207,7 +187,7 @@ const AgentDashboard = () => {
       </div>
 
       <TransactionTable transactions={txList} loading={txLoading} />
-    </div>
+    </DashboardShell>
   );
 };
 

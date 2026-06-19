@@ -238,6 +238,16 @@
     @apply grid grid-cols-1 sm:grid-cols-2 gap-4;
   }
 
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent;
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply backdrop-blur-xl bg-background/70 border;
+  }
+
   /* Truncate utilities */
   .truncate-1 {
     display: -webkit-box;

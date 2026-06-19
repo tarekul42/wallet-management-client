@@ -71,7 +71,7 @@ const ResetPassword = () => {
           <p className="text-muted-foreground">Enter your new password</p>
         </div>
 
-        <Card className="border-0 shadow-xl bg-background">
+        <Card className="shadow-md border bg-background">
           <CardHeader>
             <CardTitle>New Password</CardTitle>
             <CardDescription>Choose a strong password for your account</CardDescription>

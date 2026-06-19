@@ -35,29 +35,29 @@ const TrustAndSecurity = () => {
 
             <div className="grid grid-cols-2 gap-6 mb-8">
               <div className="text-center">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Lock className="w-6 h-6 text-green-600" />
+                <div className="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <Lock className="w-6 h-6 text-success" />
                 </div>
                 <div className="font-semibold">256-bit SSL</div>
                 <div className="text-sm text-muted-foreground">Encryption</div>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Shield className="w-6 h-6 text-blue-600" />
+                <div className="w-12 h-12 bg-info/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <Shield className="w-6 h-6 text-info" />
                 </div>
                 <div className="font-semibold">PCI DSS</div>
                 <div className="text-sm text-muted-foreground">Certified</div>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <HeadphonesIcon className="w-6 h-6 text-purple-600" />
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <HeadphonesIcon className="w-6 h-6 text-primary" />
                 </div>
                 <div className="font-semibold">24/7</div>
                 <div className="text-sm text-muted-foreground">Support</div>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <CheckCircle className="w-6 h-6 text-orange-600" />
+                <div className="w-12 h-12 bg-warning/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <CheckCircle className="w-6 h-6 text-warning" />
                 </div>
                 <div className="font-semibold">99.9%</div>
                 <div className="text-sm text-muted-foreground">Uptime</div>
@@ -96,7 +96,7 @@ const TrustAndSecurity = () => {
                     viewport={{ once: true }}
                     className="flex items-start gap-3"
                   >
-                    <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-success mt-0.5 flex-shrink-0" />
                     <span>{item}</span>
                   </motion.div>
                 ))}
