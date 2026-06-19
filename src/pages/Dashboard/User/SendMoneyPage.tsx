@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
-import { SendHorizontal, Wallet, Loader2 } from "lucide-react";
+import { SendHorizontal, Wallet, Loader2, User } from "lucide-react";
 import { useSendMoneyMutation, useGetAccountBalanceQuery } from "@/redux/features/user/user.api";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -26,6 +26,14 @@ const SendMoneyPage = () => {
   const [sendMoney, { isLoading }] = useSendMoneyMutation();
   const { data: balanceRes, isLoading: balanceLoading } = useGetAccountBalanceQuery();
   const balance = balanceRes?.data?.balance ?? 0;
+
+  const DEMO_USERS = [
+    { name: "Alice Rahman", email: "alice@example.com" },
+    { name: "Bob Hossain", email: "bob@example.com" },
+    { name: "Carol Islam", email: "carol@example.com" },
+  ];
+
+
 
   type FormData = z.infer<typeof sendMoneySchema>;
 
@@ -90,6 +98,23 @@ const SendMoneyPage = () => {
                       <Input type="email" placeholder="recipient@example.com" className="h-12" {...field} />
                     </FormControl>
                     <FormMessage />
+                    <div className="flex flex-wrap items-center gap-2 pt-1">
+                      <span className="text-xs text-muted-foreground">Quick select:</span>
+                      {DEMO_USERS.map((u) => (
+                        <button
+                          key={u.email}
+                          type="button"
+                          onClick={() => {
+                            form.setValue("receiverEmail", u.email, { shouldValidate: true });
+                            form.setFocus("amount");
+                          }}
+                          className="inline-flex items-center gap-1.5 rounded-full border border-border/60 px-3 py-1 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                        >
+                          <User className="h-3 w-3" />
+                          {u.name}
+                        </button>
+                      ))}
+                    </div>
                   </FormItem>
                 )}
               />
