@@ -72,25 +72,25 @@ const About = () => {
       icon: <Shield className="w-8 h-8 text-primary" />,
       title: "Security First",
       description:
-        "Bank-level encryption and multi-layer security protocols protect every transaction and user data.",
+        "Bank-level encryption and multi-layer security for every transaction.",
     },
     {
       icon: <Heart className="w-8 h-8 text-destructive" />,
       title: "User-Centric",
       description:
-        "Every feature is designed with user experience in mind, making financial management intuitive and accessible.",
+        "Features designed for intuitive, accessible financial management.",
     },
     {
       icon: <Target className="w-8 h-8 text-primary" />,
       title: "Innovation",
       description:
-        "Constantly evolving with cutting-edge technology to provide the most advanced digital wallet experience.",
+        "Constantly evolving with cutting-edge technology for the best experience.",
     },
     {
       icon: <Globe className="w-8 h-8 text-primary" />,
       title: "Global Reach",
       description:
-        "Breaking down financial barriers to enable seamless transactions across borders and currencies.",
+        "Seamless transactions across borders and currencies.",
     },
   ];
 
@@ -205,9 +205,8 @@ const About = () => {
                 Revolutionizing Digital Finance
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                We&apos;re building the future of digital payments with secure,
-                accessible, and innovative financial solutions that empower
-                individuals and businesses worldwide.
+                Building the future of digital payments with secure, accessible
+                financial solutions for everyone.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                 <Button size="lg" asChild>
@@ -266,10 +265,9 @@ const About = () => {
                   Democratizing Financial Access for Everyone
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                  Our mission is to create an inclusive financial ecosystem
-                  where anyone, anywhere can access secure, fast, and affordable
-                  digital payment solutions. We believe that financial services
-                  should be a right, not a privilege.
+                  Creating an inclusive financial ecosystem where anyone,
+                  anywhere can access secure, fast, and affordable digital
+                  payments.
                 </p>
                 <div className="space-y-3">
                   {[
@@ -300,10 +298,9 @@ const About = () => {
                   A World Without Financial Barriers
                 </h3>
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                  We envision a future where geographical boundaries,
-                  traditional banking limitations, and economic disparities no
-                  longer prevent people from participating in the global
-                  economy.
+                  A future where geographical boundaries and economic
+                  disparities no longer prevent anyone from participating in the
+                  global economy.
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
@@ -331,7 +328,7 @@ const About = () => {
         </section>
 
         {/* Values Section */}
-        <section className="py-16 bg-muted/50">
+        <section className="py-16 lg:py-24 bg-muted/50">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -389,7 +386,7 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="text-center mb-12"
             >
               <Badge className="mb-4" variant="outline">
                 Our Team
@@ -403,7 +400,7 @@ const About = () => {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
               {team.map((member, index) => (
                 <motion.div
                   key={member.name}
@@ -458,14 +455,14 @@ const About = () => {
         </section>
 
         {/* Journey/Timeline Section */}
-        <section className="py-16 bg-muted/50">
+        <section className="py-16 lg:py-24 bg-muted/50">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="text-center mb-12"
             >
               <Badge className="mb-4" variant="outline">
                 Our Journey
@@ -508,7 +505,7 @@ const About = () => {
         </section>
 
         {/* Certifications & Achievements */}
-        <section className="py-16">
+        <section className="py-16 lg:py-24">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
@@ -524,9 +521,8 @@ const About = () => {
                   Certified for Your Peace of Mind
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                  We maintain the highest industry standards for security,
-                  compliance, and data protection. Your trust is our foundation,
-                  and these certifications prove our commitment.
+                  Maintaining the highest industry standards for security,
+                  compliance, and data protection.
                 </p>
 
                 <div className="space-y-3">
@@ -592,7 +588,7 @@ const About = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-r from-primary to-primary/80">
+        <section className="py-16 lg:py-24 bg-gradient-to-r from-primary to-primary/80">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -605,8 +601,7 @@ const About = () => {
                 Ready to Join Our Financial Revolution?
               </h2>
               <p className="text-xl mb-8 opacity-90">
-                Experience the future of digital payments with security,
-                simplicity, and innovation at its core.
+                Experience the future of digital payments.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" variant="secondary" asChild>

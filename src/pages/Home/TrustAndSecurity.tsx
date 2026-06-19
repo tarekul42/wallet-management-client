@@ -12,7 +12,7 @@ import { Link } from "react-router";
 
 const TrustAndSecurity = () => {
   return (
-    <section className="py-16">
+    <section className="py-16 lg:py-24">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -28,9 +28,7 @@ const TrustAndSecurity = () => {
               Your Money, Your Security
             </h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              We employ the same security standards used by major banks and
-              financial institutions to protect your money and personal
-              information.
+              Bank-grade security standards protect your money and personal data.
             </p>
 
             <div className="grid grid-cols-2 gap-6 mb-8">

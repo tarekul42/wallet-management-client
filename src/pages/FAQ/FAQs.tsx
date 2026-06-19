@@ -15,9 +15,9 @@ const FAQs = () => {
   );
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
       {/* Hero */}
-      <div className="text-center mb-10">
+      <div className="text-center mb-12">
         <div className="inline-flex p-3 rounded-xl bg-primary/10 text-primary mb-4">
           <HelpCircle className="w-6 h-6" />
         </div>

@@ -19,25 +19,25 @@ const faqCategories = [
   {
     category: "Account & Security",
     questions: [
-      { q: "How do I reset my password?", a: "Go to the login page and click 'Forgot Password'. Enter your registered email and follow the instructions sent to your inbox. Password reset links expire after 15 minutes." },
-      { q: "How do I enable two-factor authentication?", a: "Navigate to your Profile Settings > Security. Under 'Two-Factor Authentication', click 'Enable' and follow the setup wizard using your preferred authenticator app." },
-      { q: "My account is locked. What should I do?", a: "Accounts are temporarily locked after 5 failed login attempts. Wait 30 minutes for automatic unlock, or contact support for immediate assistance." },
+      { q: "How do I reset my password?", a: "Click 'Forgot Password' on the login page and follow the instructions sent to your email. Links expire after 15 minutes." },
+      { q: "How do I enable two-factor authentication?", a: "Go to Profile Settings > Security and follow the setup wizard with your authenticator app." },
+      { q: "My account is locked. What should I do?", a: "Accounts lock after 5 failed attempts. Wait 30 minutes or contact support for immediate help." },
     ],
   },
   {
     category: "Transactions",
     questions: [
-      { q: "How long do transactions take?", a: "Wallet-to-wallet transfers are instant. Bank transfers take 1-3 business days. International transfers may take 3-5 business days depending on the destination country." },
-      { q: "What are the transaction fees?", a: "Wallet-to-wallet transfers are free. Cash-in fees are 1.5%, cash-out fees are 2%. International transfers have a flat fee of $5 plus 1% of the transfer amount." },
-      { q: "Can I cancel a transaction?", a: "Only pending transactions can be cancelled. Once a transaction is marked as 'Processing' or 'Successful', it cannot be reversed. Contact support within 24 hours for dispute resolution." },
+      { q: "How long do transactions take?", a: "Wallet-to-wallet transfers are instant. Bank transfers take 1-3 business days." },
+      { q: "What are the transaction fees?", a: "Wallet-to-wallet transfers are free. Cash-in is 1.5%, cash-out is 2%." },
+      { q: "Can I cancel a transaction?", a: "Only pending transactions can be cancelled. Contact support within 24 hours for disputes." },
     ],
   },
   {
     category: "Wallet & Cards",
     questions: [
-      { q: "How do I add money to my wallet?", a: "You can add money via bank transfer, debit/credit card, or by visiting an authorized agent. Go to your Dashboard > Deposit and choose your preferred method." },
-      { q: "What is the maximum wallet balance?", a: "The maximum balance depends on your account verification level. Basic accounts have a $10,000 limit, verified accounts have a $100,000 limit, and business accounts have custom limits." },
-      { q: "How do I block my card?", a: "If your card is lost or stolen, immediately go to your Dashboard > Cards > select the card > 'Block Card'. You can also contact our 24/7 support hotline for immediate card blocking." },
+      { q: "How do I add money to my wallet?", a: "Add money via bank transfer, debit/credit card, or by visiting an authorized agent." },
+      { q: "What is the maximum wallet balance?", a: "Basic accounts have a $10,000 limit, verified accounts have $100,000, and business accounts have custom limits." },
+      { q: "How do I block my card?", a: "Go to Dashboard > Cards, select the card, and click 'Block Card'. Or call our 24/7 hotline." },
     ],
   },
 ];
@@ -100,7 +100,7 @@ const Support = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
         >
           <div className="bg-card border rounded-xl p-6 text-center hover:shadow-md transition-shadow">
             <div className="p-3 rounded-xl bg-primary/10 inline-flex mb-4">

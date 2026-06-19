@@ -25,8 +25,8 @@ const Features = () => {
     .filter((g) => !activeRole || g.role === activeRole);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-      <div className="text-center max-w-2xl mx-auto mb-14">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+      <div className="text-center max-w-2xl mx-auto mb-12">
         <div className="inline-flex p-2.5 rounded-xl bg-primary/10 text-primary mb-4">
           <Sparkles className="w-5 h-5" />
         </div>
@@ -39,7 +39,7 @@ const Features = () => {
         </p>
       </div>
 
-      <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+      <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
         <button
           onClick={() => setActiveRole(null)}
           className={`px-3.5 py-1.5 text-xs font-medium rounded-full transition-colors ${

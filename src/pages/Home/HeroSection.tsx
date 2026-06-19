@@ -20,7 +20,7 @@ const roles = [
 
 const HeroSection = () => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/[0.02] to-background pt-8 pb-16 lg:pt-16 lg:pb-24">
+    <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/[0.02] to-background pt-20 pb-16 lg:pt-24 lg:pb-24">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
@@ -39,8 +39,8 @@ const HeroSection = () => {
             </h1>
 
             <p className="text-base md:text-lg text-muted-foreground mb-6 leading-relaxed max-w-xl">
-              Send money, pay bills, and manage finances with a platform built
-              for everyone — users, agents, and administrators.
+              Send money, pay bills, and manage your finances — all from one
+              platform.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 mb-8">

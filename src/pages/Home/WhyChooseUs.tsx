@@ -7,14 +7,14 @@ const benefits = [
     icon: <Shield className="w-6 h-6" />,
     title: "Bank-Level Security",
     description:
-      "256-bit encryption, multi-factor authentication, and real-time fraud monitoring keep your money and data safe at all times.",
+      "256-bit encryption, multi-factor authentication, and real-time fraud monitoring.",
     highlight: true,
   },
   {
     icon: <Zap className="w-6 h-6" />,
     title: "Instant Transfers",
     description:
-      "Send money anywhere in seconds. Our lightning-fast infrastructure ensures payments arrive when they need to.",
+      "Send money anywhere in seconds with lightning-fast infrastructure.",
     highlight: false,
   },
   {
@@ -28,7 +28,7 @@ const benefits = [
     icon: <HeadphonesIcon className="w-6 h-6" />,
     title: "24/7 Support",
     description:
-      "Our dedicated support team is always available to help you with any questions or issues.",
+      "Our team is available 24/7 to help with any questions or issues.",
     highlight: false,
   },
 ];
@@ -42,7 +42,7 @@ const WhyChooseUs = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <Badge className="mb-4" variant="outline">
             Why Choose Us
