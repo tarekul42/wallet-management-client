@@ -19,20 +19,16 @@ import { Textarea } from "@/components/ui/textarea";
 import logger from "@/utils/logger";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
-import { useEffect } from "react";
-import { useSendEmailOtpMutation } from "@/redux/features/auth/auth.api";
 import {
-  setCanResendOtp,
   setCurrentStep,
   setIsLoading,
-  setOtpTimer,
   updateRegistrationData,
 } from "@/redux/features/registrationSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 
 const Step1Register = () => {
   const dispatch = useAppDispatch();
-  const { isLoading, otpTimer } = useAppSelector((state) => state.registration);
+  const { isLoading } = useAppSelector((state) => state.registration);
 
   const step1Form = useForm<z.infer<typeof step1Schema>>({
     resolver: zodResolver(step1Schema),
@@ -46,33 +42,13 @@ const Step1Register = () => {
     },
   });
 
-  const [sendEmailOtp] = useSendEmailOtpMutation();
-
-  useEffect(() => {
-    if (otpTimer > 0) {
-      const timer = setTimeout(() => {
-        dispatch(setOtpTimer(otpTimer - 1));
-      }, 1000);
-      return () => clearTimeout(timer);
-    } else {
-      dispatch(setCanResendOtp(true));
-    }
-  }, [otpTimer, dispatch]);
-
   const handleStep1Submit = async (data: z.infer<typeof step1Schema>) => {
     dispatch(setIsLoading(true));
     try {
-      await sendEmailOtp({ email: data.email }).unwrap();
-
       dispatch(updateRegistrationData(data));
-      toast.success("Verification code sent to your email!");
       dispatch(setCurrentStep(2));
-
-      // Start OTP timer
-      dispatch(setOtpTimer(60));
-      dispatch(setCanResendOtp(false));
     } catch (error) {
-      toast.error("Failed to send verification code. Please try again.");
+      toast.error("Failed to save information. Please try again.");
       logger.error(error);
     } finally {
       dispatch(setIsLoading(false));

@@ -55,26 +55,19 @@ export interface IAdminSummary {
   };
 }
 
-export interface ISystemConfig {
-  _id: string;
-  sendMoneyFee: number;
-  cashInFee: number;
-  withdrawFee: number;
-  dailyLimit: number;
-}
-
-export interface IUserProfile {
-  _id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  address?: string;
+export interface IUserProfile extends Omit<import("./user").IUser, "role" | "status"> {
   role: string;
   isActive: string;
   isVerified: boolean;
   approvalStatus?: string;
   commissionRate?: number;
   wallet?: string;
-  createdAt: string;
-  updatedAt: string;
+}
+
+export interface ISystemConfig {
+  _id: string;
+  sendMoneyFee: number;
+  cashInFee: number;
+  withdrawFee: number;
+  dailyLimit: number;
 }

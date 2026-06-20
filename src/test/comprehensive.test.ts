@@ -109,10 +109,6 @@ describe("All source modules import successfully", () => {
     expect(m.useLoginMutation).toBeDefined();
     expect(m.useLogoutMutation).toBeDefined();
     expect(m.useRegisterMutation).toBeDefined();
-    expect(m.useSendEmailOtpMutation).toBeDefined();
-    expect(m.useVerifyEmailOtpMutation).toBeDefined();
-    expect(m.useSendPhoneOtpMutation).toBeDefined();
-    expect(m.useVerifyPhoneOtpMutation).toBeDefined();
   });
   it("redux/features/user/user.api", async () => {
     const m = await import("@/redux/features/user/user.api");
@@ -252,8 +248,6 @@ describe("All source modules import successfully", () => {
   it("pages/Register/RoleSelection", async () => { expect((await import("@/pages/Register/RoleSelection")).default).toBeDefined(); });
   it("pages/Register/SecurityFeatures", async () => { expect((await import("@/pages/Register/SecurityFeatures")).default).toBeDefined(); });
   it("pages/Register/Step1Register", async () => { expect((await import("@/pages/Register/Step1Register")).default).toBeDefined(); });
-  it("pages/Register/Step2Register", async () => { expect((await import("@/pages/Register/Step2Register")).default).toBeDefined(); });
-  it("pages/Register/Step3Register", async () => { expect((await import("@/pages/Register/Step3Register")).default).toBeDefined(); });
   it("pages/Register/Step4Register", async () => { expect((await import("@/pages/Register/Step4Register")).default).toBeDefined(); });
 
   // --- Dashboard User ---

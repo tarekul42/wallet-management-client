@@ -11,12 +11,6 @@ describe("auth API endpoints", () => {
     expect(endpoints).toBeDefined();
   });
 
-  it("sendEmailOtp mutation configured correctly", async () => {
-    const { useSendEmailOtpMutation } = await import("@/redux/features/auth/auth.api");
-    expect(useSendEmailOtpMutation).toBeDefined();
-    expect(typeof useSendEmailOtpMutation).toBe("function");
-  });
-
   it("login mutation configured correctly", async () => {
     const { useLoginMutation } = await import("@/redux/features/auth/auth.api");
     expect(useLoginMutation).toBeDefined();

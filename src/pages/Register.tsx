@@ -5,8 +5,6 @@ import Logo from "@/assets/icons/Logo";
 import { RegisterProgressSteps } from "./Register/RegisterProgressSteps";
 import SecurityFeatures from "./Register/SecurityFeatures";
 import Step1Register from "./Register/Step1Register";
-import Step2Register from "./Register/Step2Register";
-import Step3Register from "./Register/Step3Register";
 import Step4Register from "./Register/Step4Register";
 import { useAppSelector } from "@/redux/hook";
 
@@ -40,14 +38,8 @@ const Register = () => {
               {/* Step 1: Basic Information */}
               {currentStep === 1 && <Step1Register />}
 
-              {/* Step 2: Email Verification */}
-              {currentStep === 2 && <Step2Register />}
-
-              {/* Step 3: Phone Verification (Optional) */}
-              {currentStep === 3 && <Step3Register />}
-
-              {/* Step 4: Password & Terms */}
-              {currentStep === 4 && <Step4Register />}
+              {/* Step 2: Password & Terms */}
+              {currentStep === 2 && <Step4Register />}
             </AnimatePresence>
 
             {/* Login Link */}

@@ -16,7 +16,6 @@ import {
   EyeOff,
   CheckCircle,
   ArrowLeft,
-  AlertTriangle,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -223,37 +222,11 @@ const Step4Register = () => {
             )}
           />
 
-          {/* Verification Status Summary */}
-          <div className="bg-muted/50 rounded-lg p-4 space-y-2">
-            <h4 className="font-medium text-sm">Verification Status:</h4>
-            <div className="space-y-1 text-sm">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-600" />
-                <span>Email verified</span>
-              </div>
-              <div className="flex items-center gap-2">
-                {registrationData.phoneVerified ? (
-                  <>
-                    <CheckCircle className="w-4 h-4 text-green-600" />
-                    <span>Phone verified</span>
-                  </>
-                ) : (
-                  <>
-                    <AlertTriangle className="w-4 h-4 text-orange-500" />
-                    <span>
-                      Phone verification skipped - Transactions will be limited
-                    </span>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-
           <div className="flex justify-between">
             <Button
               type="button"
               variant="outline"
-              onClick={() => dispatch(setCurrentStep(3))}
+              onClick={() => dispatch(setCurrentStep(1))}
               className="flex items-center gap-2"
             >
               <ArrowLeft className="w-4 h-4" />

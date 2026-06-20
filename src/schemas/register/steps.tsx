@@ -17,22 +17,9 @@ export const step1Schema = z.object({
   agentDetails: z.string().optional(),
 });
 
-export const step2Schema = z.object({
-  emailOtp: z
-    .string()
-    .min(6, "OTP must be 6 digits.")
-    .max(6, "OTP must be 6 digits."),
-});
+export const step2Schema = z
 
-export const step3Schema = z.object({
-  phoneOtp: z
-    .string()
-    .min(6, "OTP must be 6 digits.")
-    .max(6, "OTP must be 6 digits.")
-    .optional(),
-});
-
-export const step4Schema = z
+export const step4Schema = step2Schema
   .object({
     password: z
       .string()
