@@ -44,7 +44,7 @@ const Footer = () => {
               <ul className="mt-6 space-y-4 text-sm">
                 <li>
                   <Link
-                    to="/send-money"
+                    to="/dashboard/user/send-money"
                     className="text-muted-foreground transition hover:text-primary"
                   >
                     Send Money
@@ -53,7 +53,7 @@ const Footer = () => {
 
                 <li>
                   <Link
-                    to="/deposit"
+                    to="/dashboard/user/deposit"
                     className="text-muted-foreground transition hover:text-primary"
                   >
                     Deposit
@@ -62,7 +62,7 @@ const Footer = () => {
 
                 <li>
                   <Link
-                    to="/withdraw"
+                    to="/dashboard/user/withdraw"
                     className="text-muted-foreground transition hover:text-primary"
                   >
                     Withdraw

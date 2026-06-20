@@ -1,9 +1,39 @@
-import { testimonials } from "@/assets/data/Home/testimonials";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { useState } from "react";
+
+const testimonials = [
+  {
+    name: "Alice Johnson",
+    role: "Small Business Owner",
+    content: "This platform has completely transformed how I manage my business finances. Sending invoices and tracking payments has never been easier.",
+    rating: 5,
+    image: "https://images.unsplash.com/photo-1494790108755-2616b9a1d78a?w=100&h=100&fit=crop&crop=face",
+  },
+  {
+    name: "Marcus Chen",
+    role: "Freelancer",
+    content: "The instant transfers and low fees make this my go-to wallet app. I've saved hundreds compared to traditional banking.",
+    rating: 5,
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+  },
+  {
+    name: "Sarah Williams",
+    role: "Digital Nomad",
+    content: "Managing multiple currencies while traveling abroad has never been smoother. The exchange rates are incredibly competitive.",
+    rating: 4,
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+  },
+  {
+    name: "David Park",
+    role: "E-commerce Entrepreneur",
+    content: "Integration with my online store was seamless. Now I can manage payments, refunds, and payouts all in one place.",
+    rating: 5,
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+  },
+];
 
 const Testimonials = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);

@@ -39,11 +39,8 @@ type ProfileFormValues = z.infer<typeof profileSchema>;
 
 const Profile = () => {
   const { user: authUser } = useAppSelector((state) => state.auth);
-  const { data: profileRes, isLoading: profileLoading, isError: profileError } = useGetProfileQuery();
+  const { data: profileRes, isLoading, isError: hasError } = useGetProfileQuery();
   const [updateProfile, { isLoading: isSaving }] = useUpdateProfileMutation();
-
-  const isLoading = profileLoading;
-  const hasError = profileError;
   const profileUser = (profileRes?.data as Record<string, unknown> | undefined) ?? authUser;
 
   const form = useForm<ProfileFormValues>({

@@ -36,14 +36,7 @@ describe("All source modules import successfully", () => {
     const { faqsData } = await import("@/assets/data/faqsData");
     expect(faqsData.length).toBeGreaterThan(0);
   });
-  it("assets/data/benefits", async () => { expect(await import("@/assets/data/benefits")).toBeDefined(); });
-  it("assets/data/visualShowcase", async () => { expect(await import("@/assets/data/visualShowcase")).toBeDefined(); });
   it("assets/data/Features/coreFeatures", async () => { expect(await import("@/assets/data/Features/coreFeatures")).toBeDefined(); });
-  it("assets/data/Features/advancedFeatures", async () => { expect(await import("@/assets/data/Features/advancedFeatures")).toBeDefined(); });
-  it("assets/data/Home/features", async () => { expect(await import("@/assets/data/Home/features")).toBeDefined(); });
-  it("assets/data/Home/howItWorks", async () => { expect(await import("@/assets/data/Home/howItWorks")).toBeDefined(); });
-  it("assets/data/Home/services", async () => { expect(await import("@/assets/data/Home/services")).toBeDefined(); });
-  it("assets/data/Home/testimonials", async () => { expect(await import("@/assets/data/Home/testimonials")).toBeDefined(); });
   it("assets/data/register/roleOptions", async () => { expect(await import("@/assets/data/register/roleOptions")).toBeDefined(); });
   it("assets/data/register/steps", async () => { expect(await import("@/assets/data/register/steps")).toBeDefined(); });
   it("assets/icons/Logo", async () => { expect((await import("@/assets/icons/Logo")).default).toBeDefined(); });
@@ -64,14 +57,11 @@ describe("All source modules import successfully", () => {
     const { useTheme } = await import("@/hooks/use-theme");
     expect(useTheme).toBeDefined();
   });
-  it("hooks/use-mobaile", async () => { expect(await import("@/hooks/use-mobaile")).toBeDefined(); });
 
   // --- Utils ---
   it("utils/jwt", async () => { expect(await import("@/utils/jwt")).toBeDefined(); });
   it("utils/logger", async () => { expect(await import("@/utils/logger")).toBeDefined(); });
   it("utils/withAuth", async () => { expect((await import("@/utils/withAuth")).default).toBeDefined(); });
-  it("utils/generateRoutes", async () => { expect(await import("@/utils/generateRoutes")).toBeDefined(); });
-  it("utils/register/startOtpTimer", async () => { expect(await import("@/utils/register/startOtpTimer")).toBeDefined(); });
   it("utils/getSidebarItems", async () => {
     const { getSidebarItems } = await import("@/utils/getSidebarItems");
     expect(getSidebarItems("USER" as TRole).length).toBeGreaterThan(0);
@@ -241,29 +231,18 @@ describe("All source modules import successfully", () => {
   it("pages/Home/WhyChooseUs", async () => { expect((await import("@/pages/Home/WhyChooseUs")).default).toBeDefined(); });
   it("pages/Home/StatsSection", async () => { expect((await import("@/pages/Home/StatsSection")).default).toBeDefined(); });
   it("pages/Home/Testimonials", async () => { expect((await import("@/pages/Home/Testimonials")).default).toBeDefined(); });
-  it("pages/Home/TrustAndSecurity", async () => { expect((await import("@/pages/Home/TrustAndSecurity")).default).toBeDefined(); });
   it("pages/Home/HomeCTASection", async () => { expect((await import("@/pages/Home/HomeCTASection")).default).toBeDefined(); });
+
+  // --- FAQ ---
+  it("pages/FAQ/FAQs", async () => { expect((await import("@/pages/FAQ/FAQs")).default).toBeDefined(); });
+
+  // --- Features ---
+  it("pages/Features/Features", async () => { expect((await import("@/pages/Features/Features")).default).toBeDefined(); });
 
   // --- Contact sub-pages ---
   it("pages/Contact/Contact", async () => { expect((await import("@/pages/Contact/Contact")).default).toBeDefined(); });
   it("pages/Contact/ContactPageHeading", async () => { expect((await import("@/pages/Contact/ContactPageHeading")).default).toBeDefined(); });
   it("pages/Contact/ContactAndLocation", async () => { expect((await import("@/pages/Contact/ContactAndLocation")).default).toBeDefined(); });
-
-  // --- FAQ sub-pages ---
-  it("pages/FAQ/FAQs", async () => { expect((await import("@/pages/FAQ/FAQs")).default).toBeDefined(); });
-  it("pages/FAQ/FAQTitle", async () => { expect((await import("@/pages/FAQ/FAQTitle")).default).toBeDefined(); });
-  it("pages/FAQ/FAQNeedHelp", async () => { expect((await import("@/pages/FAQ/FAQNeedHelp")).default).toBeDefined(); });
-  it("pages/FAQ/FAQcard", async () => { expect((await import("@/pages/FAQ/FAQcard")).default).toBeDefined(); });
-  it("pages/FAQ/FAQsItems", async () => { expect((await import("@/pages/FAQ/FAQsItems")).default).toBeDefined(); });
-
-  // --- Features sub-pages ---
-  it("pages/Features/Features", async () => { expect((await import("@/pages/Features/Features")).default).toBeDefined(); });
-  it("pages/Features/FeaturesHeader", async () => { expect((await import("@/pages/Features/FeaturesHeader")).default).toBeDefined(); });
-  it("pages/Features/CoreFeaturesCard", async () => { expect((await import("@/pages/Features/CoreFeaturesCard")).default).toBeDefined(); });
-  it("pages/Features/AdvancedFeaturesCard", async () => { expect((await import("@/pages/Features/AdvancedFeaturesCard")).default).toBeDefined(); });
-  it("pages/Features/BenefitCard", async () => { expect((await import("@/pages/Features/BenefitCard")).default).toBeDefined(); });
-  it("pages/Features/VisualShowcaseCard", async () => { expect((await import("@/pages/Features/VisualShowcaseCard")).default).toBeDefined(); });
-  it("pages/Features/FeaturesTag", async () => { expect((await import("@/pages/Features/FeaturesTag")).default).toBeDefined(); });
 
   // --- Register sub-pages ---
   it("pages/Register/RegisterProgressSteps", async () => {

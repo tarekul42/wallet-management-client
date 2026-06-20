@@ -172,7 +172,7 @@ export default function Navbar() {
                       className="justify-start gap-2 font-normal h-9"
                       asChild
                     >
-                      <Link to={`/dashboard/${user.role.toLowerCase()}/profile`}>
+                      <Link to={`/dashboard/${user.role === role.superAdmin || user.role === role.admin ? "admin" : user.role.toLowerCase()}/profile`}>
                         <UserIcon className="h-4 w-4" />
                         Profile
                       </Link>

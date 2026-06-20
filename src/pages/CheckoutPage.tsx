@@ -68,7 +68,7 @@ const CheckoutPage = () => {
       navigate("/dashboard");
     } catch (err: unknown) {
       const msg = (err as { data?: { message?: string } })?.data?.message || "Payment failed. Please try again.";
-      toast.error(msg);;
+      toast.error(msg);
     }
   };
 

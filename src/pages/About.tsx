@@ -436,14 +436,20 @@ const About = () => {
                         {member.bio}
                       </p>
                       <div className="flex justify-center gap-3">
-                        <Button size="icon" variant="ghost" className="w-8 h-8" aria-label={`${member.name} LinkedIn`}>
-                          <Linkedin className="w-4 h-4" />
+                        <Button size="icon" variant="ghost" className="w-8 h-8" asChild aria-label={`${member.name} LinkedIn`}>
+                          <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer">
+                            <Linkedin className="w-4 h-4" />
+                          </a>
                         </Button>
-                        <Button size="icon" variant="ghost" className="w-8 h-8" aria-label={`${member.name} GitHub`}>
-                          <Github className="w-4 h-4" />
+                        <Button size="icon" variant="ghost" className="w-8 h-8" asChild aria-label={`${member.name} GitHub`}>
+                          <a href={member.social.github} target="_blank" rel="noopener noreferrer">
+                            <Github className="w-4 h-4" />
+                          </a>
                         </Button>
-                        <Button size="icon" variant="ghost" className="w-8 h-8" aria-label={`Email ${member.name}`}>
-                          <Mail className="w-4 h-4" />
+                        <Button size="icon" variant="ghost" className="w-8 h-8" asChild aria-label={`Email ${member.name}`}>
+                          <a href={`mailto:${member.social.email}`}>
+                            <Mail className="w-4 h-4" />
+                          </a>
                         </Button>
                       </div>
                     </CardContent>

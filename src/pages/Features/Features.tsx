@@ -1,5 +1,6 @@
 import { coreFeatures } from "@/assets/data/Features/coreFeatures";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Sparkles, ArrowRight } from "lucide-react";
@@ -116,9 +117,11 @@ const Features = () => {
           <p className="text-sm opacity-90 mb-5">
             Sign up free and take control of your finances.
           </p>
-          <Button size="lg" variant="secondary" className="font-semibold">
-            Get Started Now
-            <ArrowRight className="w-4 h-4 ml-1" />
+          <Button size="lg" variant="secondary" className="font-semibold" asChild>
+            <Link to="/register">
+              Get Started Now
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </Link>
           </Button>
         </motion.div>
       </section>
