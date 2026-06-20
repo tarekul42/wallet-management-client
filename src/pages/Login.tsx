@@ -18,7 +18,7 @@ import { useState } from "react";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import { setCredentials } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hook";
-import { Link, useNavigate, useLocation } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Logo from "@/assets/icons/Logo";
 import config from "@/config";
 
@@ -28,8 +28,6 @@ import logger from "@/utils/logger";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = (location.state as { from?: string })?.from || "/";
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -49,7 +47,7 @@ const Login = () => {
       dispatch(setCredentials({ token: payload.accessToken, user: payload.user }));
       localStorage.setItem("token", payload.accessToken);
       toast.success("Login successful!");
-      navigate(from, { replace: true });
+      navigate(payload.redirect || "/dashboard", { replace: true });
     } catch (error) {
       toast.error("Failed to login. Please check your credentials.");
       logger.error(error);
@@ -67,12 +65,10 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    if (from !== "/") localStorage.setItem("loginRedirect", from);
     window.location.href = `${config.baseUrl}/auth/google`;
   };
 
   const handleFacebookLogin = () => {
-    if (from !== "/") localStorage.setItem("loginRedirect", from);
     window.location.href = `${config.baseUrl}/auth/facebook`;
   };
 
