@@ -47,9 +47,16 @@ const Login = () => {
       sessionStorage.setItem("token", payload.accessToken);
       toast.success("Login successful!");
       navigate(payload.redirect || "/dashboard", { replace: true });
-    } catch (error) {
-      toast.error("Failed to login. Please check your credentials.");
-      logger.error(error);
+    } catch (err: unknown) {
+      const apiErr = err as { data?: { message?: string; errorSources?: { path: string; message: string }[] } };
+      const errorSources = apiErr?.data?.errorSources;
+      if (errorSources && errorSources.length > 0) {
+        const msgs = errorSources.map((s) => s.message);
+        toast.error(msgs.join("\n"));
+      } else {
+        toast.error(apiErr?.data?.message || "Failed to login. Please check your credentials.");
+      }
+      logger.error(err);
     }
   };
 
