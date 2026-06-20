@@ -18,6 +18,7 @@ const NotFound = lazyPage(() => import("@/pages/NotFound"));
 const Register = lazyPage(() => import("@/pages/Register"));
 const Explore = lazyPage(() => import("@/pages/Explore"));
 const ServiceDetails = lazyPage(() => import("@/pages/ServiceDetails"));
+const CheckoutPage = lazyPage(() => import("@/pages/CheckoutPage"));
 const Privacy = lazyPage(() => import("@/pages/Privacy"));
 const Terms = lazyPage(() => import("@/pages/Terms"));
 const Support = lazyPage(() => import("@/pages/Support"));
@@ -37,6 +38,7 @@ export const router = createBrowserRouter([
           { path: "faqs", Component: FAQs },
           { path: "explore", Component: Explore },
           { path: "explore/:id", Component: ServiceDetails },
+          { path: "checkout/:id", Component: CheckoutPage },
           { path: "privacy-policy", Component: Privacy },
           { path: "terms-of-service", Component: Terms },
           { path: "support", Component: Support },

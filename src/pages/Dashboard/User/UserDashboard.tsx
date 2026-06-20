@@ -2,6 +2,7 @@ import DashboardShell from "@/components/modules/Dashboard/DashboardShell";
 import DashboardStats from "@/components/modules/Dashboard/DashboardStats";
 import SpendingChart from "@/components/modules/Dashboard/SpendingChart";
 import TransactionTable from "@/components/modules/Dashboard/TransactionTable";
+import MyPurchases from "@/components/modules/Dashboard/MyPurchases";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { SendHorizontal, PlusIcon, Copy, Snowflake, CreditCard, Wallet } from "lucide-react";
@@ -12,6 +13,7 @@ import {
   useGetTransactionHistoryQuery,
 } from "@/redux/features/user/user.api";
 import { useGetMyCardsQuery } from "@/redux/features/cards/cards.api";
+import { useGetMyPurchasesQuery } from "@/redux/features/services/services.api";
 import { useAppSelector } from "@/redux/hook";
 import { useMemo, useState, useCallback } from "react";
 import { toast } from "sonner";
@@ -43,6 +45,7 @@ const UserDashboard = () => {
   }, [txRes]);
 
   const txList = txRes?.data ?? [];
+  const { data: purchasesRes, isLoading: purchasesLoading } = useGetMyPurchasesQuery();
   const { data: cardsRes } = useGetMyCardsQuery();
   const cards = cardsRes?.data ?? [];
   const primaryCard = cards.find((c) => c.type === "VIRTUAL" && c.status === "ACTIVE") || cards[0];
@@ -98,6 +101,18 @@ const UserDashboard = () => {
         </CardHeader>
         <CardContent>
           <Skeleton className="h-64 w-full" />
+        </CardContent>
+      </Card>
+      <Card className="shadow-sm">
+        <CardHeader>
+          <Skeleton className="h-6 w-40" />
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Skeleton key={i} className="h-20 w-full rounded-lg" />
+            ))}
+          </div>
         </CardContent>
       </Card>
     </>
@@ -220,6 +235,8 @@ const UserDashboard = () => {
         </div>
 
         <TransactionTable transactions={txList} loading={txLoading} />
+
+        <MyPurchases purchases={purchasesRes?.data ?? []} loading={purchasesLoading} />
       </div>
     </DashboardShell>
   );

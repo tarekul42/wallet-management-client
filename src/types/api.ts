@@ -28,7 +28,7 @@ export interface ITransaction {
   amount: number;
   fee: number;
   commission?: number;
-  type: "SEND_MONEY" | "WITHDRAW" | "CASH_IN" | "CASH_OUT" | "COMMISSION";
+  type: "SEND_MONEY" | "WITHDRAW" | "CASH_IN" | "CASH_OUT" | "COMMISSION" | "SERVICE_PURCHASE";
   status: "PENDING" | "SUCCESSFUL" | "FAILED" | "REVERSED";
   referenceId: string;
   description?: string;

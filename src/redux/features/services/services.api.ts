@@ -1,4 +1,5 @@
 import { baseApi } from "@/redux/baseApi";
+import type { ApiResponse, IWallet } from "@/types/api";
 
 interface ServiceItem {
   _id: string;
@@ -42,6 +43,24 @@ interface RelatedItem {
   image: string;
 }
 
+export interface PurchaseItem {
+  _id: string;
+  amount: number;
+  fee: number;
+  type: "SERVICE_PURCHASE";
+  status: string;
+  referenceId: string;
+  description: string;
+  createdAt: string;
+  service: {
+    _id: string;
+    title: string;
+    image: string;
+    price: string;
+    category: string;
+  } | null;
+}
+
 const servicesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getServices: builder.query<PaginatedResponse<ServiceItem[]>, Record<string, unknown>>({
@@ -56,6 +75,26 @@ const servicesApi = baseApi.injectEndpoints({
     getServiceCategories: builder.query<{ data: string[] }, void>({
       query: () => ({ url: "/services/categories" }),
     }),
+    getMyPurchases: builder.query<ApiResponse<PurchaseItem[]>, void>({
+      query: () => ({ url: "/services/my-purchases" }),
+      providesTags: ["TRANSACTION"],
+    }),
+    buyService: builder.mutation<ApiResponse<{ balance: number }>, { serviceId: string; amount: number }>({
+      query: ({ serviceId, amount }) => ({
+        url: `/services/${serviceId}/purchase`,
+        method: "POST",
+        data: { amount },
+      }),
+      invalidatesTags: ["TRANSACTION"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        dispatch(
+          baseApi.util.updateQueryData<ApiResponse<IWallet>>("getAccountBalance", undefined, (draft) => {
+            if (draft.data) draft.data.balance = data.data.balance;
+          }),
+        );
+      },
+    }),
   }),
 });
 
@@ -64,4 +103,6 @@ export const {
   useGetServiceByIdQuery,
   useGetRelatedServicesQuery,
   useGetServiceCategoriesQuery,
+  useGetMyPurchasesQuery,
+  useBuyServiceMutation,
 } = servicesApi;
