@@ -80,8 +80,11 @@ const Step4Register = () => {
       dispatch(resetRegistration());
 
       navigateTimerRef.current = setTimeout(() => navigate("/login"), 2000);
-    } catch (error) {
-      toast.error("Registration failed. Please try again.");
+    } catch (error: unknown) {
+      const msg =
+        (error as { data?: { message?: string } })?.data?.message ||
+        "Registration failed. Please try again.";
+      toast.error(msg);
       logger.error(error);
     } finally {
       dispatch(setIsLoading(false));

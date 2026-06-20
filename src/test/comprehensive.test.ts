@@ -216,7 +216,7 @@ describe("All source modules import successfully", () => {
   it("pages/Register", async () => { expect((await import("@/pages/Register")).default).toBeDefined(); });
   it("pages/ForgotPassword", async () => { expect((await import("@/pages/ForgotPassword")).default).toBeDefined(); });
   it("pages/ResetPassword", async () => { expect((await import("@/pages/ResetPassword")).default).toBeDefined(); });
-  it("pages/AuthCallback", async () => { expect((await import("@/pages/AuthCallback")).default).toBeDefined(); });
+  // AuthCallback page removed — OAuth was removed for security reasons
   it("pages/NotFound", async () => { expect((await import("@/pages/NotFound")).default).toBeDefined(); });
   it("pages/ServiceDetails", async () => { expect((await import("@/pages/ServiceDetails")).default).toBeDefined(); });
 

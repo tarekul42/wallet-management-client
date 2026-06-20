@@ -46,12 +46,7 @@ describe("role constants", () => {
   });
 });
 
-describe("AuthCallback page", () => {
-  it("exports default component", async () => {
-    const mod = await import("@/pages/AuthCallback");
-    expect(mod.default).toBeDefined();
-  });
-});
+// AuthCallback page removed — OAuth was removed for security reasons
 
 describe("NotFound page", () => {
   it("exports default component", async () => {
