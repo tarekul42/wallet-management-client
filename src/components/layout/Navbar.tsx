@@ -94,12 +94,11 @@ export default function Navbar() {
 
           {/* Main nav */}
           <div className="flex items-center gap-8">
-            <Link to="/" className="flex items-center gap-2 font-semibold tracking-tight text-foreground hover:text-primary transition-colors" aria-label="Home">
-              <Logo />
-              <span className="hidden sm:inline">Wallet</span>
+            <Link to="/" className="flex items-center font-semibold tracking-tight text-foreground hover:text-primary transition-colors shrink-0" aria-label="Home">
+              <Logo className="block" />
             </Link>
-            <NavigationMenu className="max-md:hidden">
-              <NavigationMenuList className="gap-1">
+            <NavigationMenu className="max-md:hidden flex items-center">
+              <NavigationMenuList className="gap-1 flex items-center">
                 {authLinks.map((link) => (
                   <NavigationMenuItem key={link.href}>
                     <NavigationMenuLink

@@ -81,9 +81,8 @@ const Login = () => {
         className="w-full max-w-md"
       >
         <div className="text-center mb-8">
-          <Link to="/" className="flex items-center justify-center gap-3 mb-4">
+          <Link to="/" className="flex items-center justify-center mb-4">
             <Logo />
-            <span className="text-2xl font-bold">Wallet Management</span>
           </Link>
           <h1 className="text-3xl font-bold mb-2">Welcome Back!</h1>
           <p className="text-muted-foreground">Sign in to access your wallet</p>

@@ -106,6 +106,24 @@
 
 :root {
   --radius: 0.65rem;
+
+  /* Sonner toast tokens */
+  --normal-bg: var(--card);
+  --normal-border: var(--border);
+  --normal-text: var(--foreground);
+  --success-bg: color-mix(in oklch, var(--success) 8%, var(--background));
+  --success-border: color-mix(in oklch, var(--success) 25%, var(--background));
+  --success-text: var(--success-foreground);
+  --error-bg: color-mix(in oklch, var(--destructive) 8%, var(--background));
+  --error-border: color-mix(in oklch, var(--destructive) 25%, var(--background));
+  --error-text: var(--foreground);
+  --info-bg: color-mix(in oklch, var(--info) 8%, var(--background));
+  --info-border: color-mix(in oklch, var(--info) 25%, var(--background));
+  --info-text: var(--info-foreground);
+  --warning-bg: color-mix(in oklch, var(--warning) 8%, var(--background));
+  --warning-border: color-mix(in oklch, var(--warning) 25%, var(--background));
+  --warning-text: var(--warning-foreground);
+  --toast-border-radius: var(--radius);
   --background: oklch(1 0 0);
   --foreground: oklch(0.13 0.005 285);
   --card: oklch(1 0 0);

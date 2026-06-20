@@ -24,7 +24,11 @@ createRoot(document.getElementById("root")!).render(
         <ErrorBoundary>
           <RouterProvider router={router} />
         </ErrorBoundary>
-        <Toaster richColors />
+        <Toaster
+          toastOptions={{
+            style: { borderRadius: "var(--radius)" },
+          }}
+        />
       </ThemeProvider>
     </ReduxProvider>
   </StrictMode>,

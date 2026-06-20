@@ -45,7 +45,7 @@ const Sidebar = ({
     <div className="flex flex-col h-full bg-sidebar">
       <div className="flex items-center justify-between px-4 h-16 border-b border-sidebar-border/70 shrink-0">
         {!collapsed ? (
-          <Link to="/" className="flex items-center gap-2 font-semibold tracking-tight text-sidebar-foreground"><Logo /><span>Wallet</span></Link>
+          <Link to="/" className="flex items-center font-semibold tracking-tight text-sidebar-foreground"><Logo /></Link>
         ) : (
           <Link to="/" className="mx-auto" aria-label="Home"><Logo /></Link>
         )}

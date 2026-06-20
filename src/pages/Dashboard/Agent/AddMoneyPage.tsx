@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type Resolver } from "react-hook-form";
 import { z } from "zod";
@@ -13,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Loader2, PlusCircle } from "lucide-react";
+import { Loader2, PlusCircle, Copy, Check } from "lucide-react";
 import { useAddMoneyToUserMutation } from "@/redux/features/agent/agent.api";
 
 const addMoneySchema = z.object({
@@ -21,8 +22,18 @@ const addMoneySchema = z.object({
   amount: z.coerce.number().min(0.01, "Minimum deposit is $0.01").max(1000000, "Maximum deposit is $1,000,000"),
 });
 
+const DEMO_USERS = [
+  { name: "Demo User", email: "demo.user@example.com" },
+  { name: "Alice Rahman", email: "alice@example.com" },
+  { name: "Bob Hossain", email: "bob@example.com" },
+  { name: "Carol Islam", email: "carol@example.com" },
+  { name: "Dave Khan", email: "dave@example.com" },
+  { name: "Eva Sultana", email: "eva@example.com" },
+];
+
 const AddMoneyPage = () => {
   const [addMoney, { isLoading }] = useAddMoneyToUserMutation();
+  const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
 
   type FormData = z.infer<typeof addMoneySchema>;
 
@@ -39,6 +50,13 @@ const AddMoneyPage = () => {
     } catch {
       toast.error("Failed to add money. Please check the user ID and try again.");
     }
+  };
+
+  const copyEmail = async (email: string) => {
+    await navigator.clipboard.writeText(email);
+    setCopiedEmail(email);
+    setTimeout(() => setCopiedEmail(null), 2000);
+    toast.info(`Copied ${email}`);
   };
 
   return (
@@ -97,6 +115,28 @@ const AddMoneyPage = () => {
               </Button>
             </form>
           </Form>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Demo Users</CardTitle>
+          <CardDescription>Use these demo accounts for testing. Get user IDs from the seed script output or database.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            {DEMO_USERS.map((u) => (
+              <div key={u.email} className="flex items-center justify-between rounded-lg border px-3 py-2 text-sm">
+                <div>
+                  <span className="font-medium">{u.name}</span>
+                  <span className="text-muted-foreground ml-2">{u.email}</span>
+                </div>
+                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => copyEmail(u.email)}>
+                  {copiedEmail === u.email ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                </Button>
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
     </div>
