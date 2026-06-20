@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import {
@@ -10,6 +10,7 @@ import {
   Info,
   ShieldCheck,
   Clock,
+  Lock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,14 +19,29 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGetServiceByIdQuery, useBuyServiceMutation } from "@/redux/features/services/services.api";
 import { toast } from "sonner";
 
+const parseServicePrice = (priceStr: string): number | null => {
+  const match = priceStr.match(/(\d+(?:\.\d{1,2})?)/);
+  if (!match) return null;
+  const num = parseFloat(match[1]);
+  return isNaN(num) ? null : num;
+};
+
 const CheckoutPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: serviceRes, isLoading } = useGetServiceByIdQuery(id || "");
   const [buyService, { isLoading: isBuying }] = useBuyServiceMutation();
-  const [amount, setAmount] = useState("");
 
   const service = serviceRes?.data;
+  const defaultPrice = service ? parseServicePrice(service.price) : null;
+  const [amount, setAmount] = useState("");
+  const isFixedPrice = defaultPrice !== null;
+
+  useEffect(() => {
+    if (defaultPrice !== null) {
+      setAmount(defaultPrice.toFixed(2));
+    }
+  }, [defaultPrice]);
 
   if (isLoading) {
     return (
@@ -52,7 +68,7 @@ const CheckoutPage = () => {
     );
   }
 
-  const parsedAmount = parseFloat(amount);
+  const parsedAmount = parseFloat(amount) || defaultPrice || 0;
   const feeRate = 0.015;
   const fee = parsedAmount > 0 ? parsedAmount * feeRate : 0;
   const total = parsedAmount > 0 ? parsedAmount + fee : 0;
@@ -109,20 +125,37 @@ const CheckoutPage = () => {
 
             <CardContent className="p-6 space-y-5">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Payment amount ($)</label>
+                <label className="text-sm font-medium">
+                  {isFixedPrice ? "Service amount ($)" : "Payment amount ($)"}
+                </label>
                 <div className="relative">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-semibold text-muted-foreground">$</span>
                   <Input
                     type="number"
                     min="0.01"
                     step="0.01"
-                    placeholder="0.00"
+                    placeholder={defaultPrice?.toFixed(2) ?? "0.00"}
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    className="h-14 text-2xl font-bold pl-8 pr-4"
-                    autoFocus
+                    onChange={(e) => !isFixedPrice && setAmount(e.target.value)}
+                    className={`h-14 text-2xl font-bold pl-8 pr-4 ${isFixedPrice ? "bg-muted/50 cursor-not-allowed" : ""}`}
+                    disabled={isFixedPrice}
+                    readOnly={isFixedPrice}
                   />
+                  {isFixedPrice && (
+                    <Lock className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  )}
                 </div>
+                {isFixedPrice && (
+                  <p className="text-xs text-muted-foreground flex items-center gap-1">
+                    <Lock className="h-3 w-3" />
+                    Price set by provider — not editable
+                  </p>
+                )}
+                {!isFixedPrice && (
+                  <p className="text-xs text-muted-foreground">
+                    This service has a variable price — enter the amount you wish to pay.
+                  </p>
+                )}
               </div>
 
               <div className="rounded-xl bg-muted/30 p-4 space-y-2.5 text-sm">
