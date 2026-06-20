@@ -2,27 +2,27 @@ import { test, expect, Page } from "@playwright/test";
 import { loginAs, mockCommonApis } from "./helpers";
 
 async function mockDepositWithdrawApis(page: Page) {
-  await page.route("**/accounts/deposit", async (route) => {
+  await page.route("**/api/v1/transactions/add-money", async (route) => {
     await route.fulfill({
       status: 200,
       contentType: "application/json",
-      body: JSON.stringify({ success: true, data: { message: "Deposit successful" } }),
+      body: JSON.stringify({ success: true, data: { balance: 5100 } }),
     });
   });
 
-  await page.route("**/accounts/withdraw", async (route) => {
+  await page.route("**/api/v1/transactions/withdraw-money", async (route) => {
     await route.fulfill({
       status: 200,
       contentType: "application/json",
-      body: JSON.stringify({ success: true, data: { message: "Withdrawal successful" } }),
+      body: JSON.stringify({ success: true, data: { balance: 4950 } }),
     });
   });
 
-  await page.route("**/transactions/send", async (route) => {
+  await page.route("**/api/v1/transactions/send-money", async (route) => {
     await route.fulfill({
       status: 200,
       contentType: "application/json",
-      body: JSON.stringify({ success: true, data: { message: "Money sent successfully" } }),
+      body: JSON.stringify({ success: true, data: { balance: 4900 } }),
     });
   });
 }

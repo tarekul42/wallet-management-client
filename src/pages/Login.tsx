@@ -45,7 +45,7 @@ const Login = () => {
       const result = await login(data).unwrap();
       const payload = result?.data || result;
       dispatch(setCredentials({ token: payload.accessToken, user: payload.user }));
-      localStorage.setItem("token", payload.accessToken);
+      sessionStorage.setItem("token", payload.accessToken);
       toast.success("Login successful!");
       navigate(payload.redirect || "/dashboard", { replace: true });
     } catch (error) {

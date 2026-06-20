@@ -12,7 +12,6 @@ const AuthCallback = () => {
   const processed = useRef(false);
 
   const token = searchParams.get("token");
-  const refreshToken = searchParams.get("refreshToken");
   const redirectTo = searchParams.get("redirect") || "/dashboard";
 
   useEffect(() => {
@@ -23,10 +22,7 @@ const AuthCallback = () => {
       try {
         const user = decodedToken(token);
         dispatch(setCredentials({ token, user }));
-        localStorage.setItem("token", token);
-        if (refreshToken) {
-          localStorage.setItem("refreshToken", refreshToken);
-        }
+        sessionStorage.setItem("token", token);
         navigate(redirectTo, { replace: true });
       } catch {
         navigate("/login?error=auth_failed", { replace: true });
@@ -34,7 +30,7 @@ const AuthCallback = () => {
     } else {
       navigate("/login?error=auth_failed", { replace: true });
     }
-  }, [token, refreshToken, dispatch, navigate, redirectTo]);
+  }, [token, dispatch, navigate, redirectTo]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

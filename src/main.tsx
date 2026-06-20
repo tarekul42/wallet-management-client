@@ -11,7 +11,7 @@ import ErrorBoundary from "./components/ErrorBoundary.tsx";
 import { setCredentials } from "./redux/features/auth/authSlice.ts";
 import { decodedToken } from "./utils/jwt.ts";
 
-const token = localStorage.getItem("token");
+const token = sessionStorage.getItem("token");
 if (token) {
   const user = decodedToken(token);
   store.dispatch(setCredentials({ token, user }));

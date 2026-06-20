@@ -9,7 +9,7 @@ export const axiosInstance = axios.create({
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   function (config) {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -49,43 +49,46 @@ axiosInstance.interceptors.response.use(
       _retry: boolean;
     };
 
-    if (
-      error.response?.status === 401 &&
-      (error.response?.data?.message as string)?.includes("expired") &&
-      !originalRequest._retry
-    ) {
-      originalRequest._retry = true;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      const msg = (error.response?.data?.message as string) ?? "";
 
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          pendingQueue.push({ resolve, reject });
-        })
-          .then(() => axiosInstance(originalRequest))
-          .catch((error) => Promise.reject(error));
-      }
+      if (msg.includes("expired")) {
+        originalRequest._retry = true;
 
-      isRefreshing = true;
-      try {
-        const refreshRes = await axiosInstance.post("/auth/refresh-token");
-        const newToken = refreshRes.data?.data?.accessToken;
-        if (newToken) {
-          localStorage.setItem("token", newToken);
-          originalRequest.headers = originalRequest.headers || {};
-          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        if (isRefreshing) {
+          return new Promise((resolve, reject) => {
+            pendingQueue.push({ resolve, reject });
+          })
+            .then(() => axiosInstance(originalRequest))
+            .catch((error) => Promise.reject(error));
         }
 
-        processQueue(null);
+        isRefreshing = true;
+        try {
+          const refreshRes = await axiosInstance.post("/auth/refresh-token");
+          const newToken = refreshRes.data?.data?.accessToken;
+          if (newToken) {
+            sessionStorage.setItem("token", newToken);
+            originalRequest.headers = originalRequest.headers || {};
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          }
 
-        return axiosInstance(originalRequest);
-      } catch (refreshError) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("refreshToken");
-        window.location.href = "/login";
-        processQueue(refreshError);
-        return Promise.reject(refreshError);
-      } finally {
-        isRefreshing = false;
+          processQueue(null);
+
+          return axiosInstance(originalRequest);
+        } catch (refreshError) {
+          sessionStorage.removeItem("token");
+          window.location.href = "/login";
+          processQueue(refreshError);
+          return Promise.reject(refreshError);
+        } finally {
+          isRefreshing = false;
+        }
       }
+
+      sessionStorage.removeItem("token");
+      window.location.href = "/login";
+      return Promise.reject(error);
     }
 
     return Promise.reject(error);

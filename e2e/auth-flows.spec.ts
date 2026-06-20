@@ -12,7 +12,7 @@ test.describe("Auth flows", () => {
       await expect(page.getByText(/valid email|required/i).first()).toBeVisible({ timeout: 5000 });
     });
 
-    test("successful login with mocked API redirects to home", async ({ page }) => {
+    test("successful login with mocked API redirects to dashboard", async ({ page }) => {
       await mockCommonApis(page);
       await page.goto("/login", { waitUntil: "networkidle" });
       await expect(page.locator("h1")).toBeVisible({ timeout: 15000 });
@@ -21,7 +21,7 @@ test.describe("Auth flows", () => {
       await page.fill('input[type="password"]', "password123");
       await page.click('button[type="submit"]');
 
-      await page.waitForURL("http://localhost:3000/", { timeout: 10000 });
+      await page.waitForURL("**/dashboard/**", { timeout: 15000 });
     });
   });
 
