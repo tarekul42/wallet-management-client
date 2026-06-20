@@ -28,7 +28,6 @@ A full-featured digital wallet management SPA built with React 19, Redux Toolkit
 - Axios interceptor auto-attaches `Authorization: Bearer` header and handles 401 with refresh
 - Role-based route protection
 - Multi-step registration (email → OTP → phone OTP → password)
-- Social login with Google OAuth
 - Forgot/reset password flow
 
 ### 🎨 UX
@@ -162,3 +161,21 @@ Connects to the [wallet-management-api](https://github.com/tarekul42/wallet-mana
 | `useSendMoneyMutation` | `POST /transactions/send-money` | Send money to another user |
 | `useGetDashboardSummaryQuery` | `GET /agent/summary` | Agent dashboard summary |
 | `useGetMyCardsQuery` | `GET /cards/my-cards` | User's virtual/physical cards |
+
+---
+
+## Security Notes
+
+### Why Third-Party Login (Google / Facebook OAuth) Was Removed
+
+This application previously supported Google and Facebook OAuth for social login. These were removed to maintain the highest level of security and control over authentication in a financial application:
+
+1. **Dependency on external identity providers** — OAuth relies on third-party services whose availability, security posture, and data-handling policies are outside our control. A compromise at the provider level could affect user accounts.
+
+2. **Account recovery complexity** — For a wallet app handling real or simulated funds, having multiple auth paths (email/password + social logins) creates ambiguity in account recovery and password reset flows. Users who signed up via OAuth may not have a password, complicating support scenarios.
+
+3. **Attack surface reduction** — Removing OAuth eliminates the need for `passport-google-oauth20`, `passport-facebook`, and their associated session/callback handling. This reduces the dependency footprint, the number of HTTP endpoints exposed, and the potential for SSRF or redirect-based attacks.
+
+4. **Simpler threat model** — With only email/password + JWT-based auth, the security model is straightforward: rate-limited login, bcrypt-hashed passwords, httpOnly refresh tokens, and sessionStorage access tokens. No additional OAuth token management or state parameter handling is required.
+
+Authentication is now limited to email/password credentials with JWT access/refresh token rotation, providing a fully self-contained auth system.

@@ -13,7 +13,6 @@ const Home = lazyPage(() => import("@/pages/Home/Home"));
 const Login = lazyPage(() => import("@/pages/Login"));
 const ForgotPassword = lazyPage(() => import("@/pages/ForgotPassword"));
 const ResetPassword = lazyPage(() => import("@/pages/ResetPassword"));
-const AuthCallback = lazyPage(() => import("@/pages/AuthCallback"));
 const NotFound = lazyPage(() => import("@/pages/NotFound"));
 const Register = lazyPage(() => import("@/pages/Register"));
 const Explore = lazyPage(() => import("@/pages/Explore"));
@@ -49,7 +48,6 @@ export const router = createBrowserRouter([
       { path: "/register", Component: Register },
       { path: "/forgot-password", Component: ForgotPassword },
       { path: "/reset-password", Component: ResetPassword },
-      { path: "/auth/callback", Component: AuthCallback },
       { path: "*", Component: NotFound },
     ],
   },
