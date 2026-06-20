@@ -1,25 +1,22 @@
 const Logo = ({ className }: { className?: string }) => {
   return (
     <svg
-      id="logo-35"
       width="50"
       height="39"
-      viewBox="0 0 50 39"
+      viewBox="0 0 100 78"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       aria-hidden="true"
     >
-      <path
-        d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z"
-        className="ccompli1"
-        fill="oklch(0.62 0.08 230)"
-      />
-      <path
-        d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z"
-        className="ccustom"
-        fill="oklch(0.514 0.075 230)"
-      />
+      <rect x="8" y="18" width="84" height="52" rx="10" fill="oklch(0.514 0.075 230)" />
+      <rect x="8" y="32" width="84" height="12" rx="6" fill="oklch(0.62 0.08 230)" />
+      <circle cx="72" cy="44" r="12" fill="#fff" />
+      <circle cx="72" cy="44" r="8" fill="oklch(0.514 0.075 230)" />
+      <circle cx="72" cy="44" r="4" fill="#fff" />
+      <rect x="8" y="18" width="84" height="52" rx="10" stroke="oklch(0.62 0.08 230)" strokeWidth="2" fill="none" />
+      <line x1="24" y1="14" x2="32" y2="24" stroke="oklch(0.62 0.08 230)" strokeWidth="3" strokeLinecap="round" />
+      <line x1="76" y1="14" x2="68" y2="24" stroke="oklch(0.62 0.08 230)" strokeWidth="3" strokeLinecap="round" />
     </svg>
   );
 };
