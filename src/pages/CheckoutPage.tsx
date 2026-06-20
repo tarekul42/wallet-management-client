@@ -66,8 +66,9 @@ const CheckoutPage = () => {
       await buyService({ serviceId: service._id, amount: parsedAmount }).unwrap();
       toast.success(`Successfully paid $${parsedAmount.toFixed(2)} for ${service.title}`);
       navigate("/dashboard");
-    } catch (err: any) {
-      toast.error(err?.data?.message || "Payment failed. Please try again.");
+    } catch (err: unknown) {
+      const msg = (err as { data?: { message?: string } })?.data?.message || "Payment failed. Please try again.";
+      toast.error(msg);;
     }
   };
 

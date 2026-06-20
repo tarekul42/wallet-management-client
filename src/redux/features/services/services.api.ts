@@ -1,5 +1,5 @@
 import { baseApi } from "@/redux/baseApi";
-import type { ApiResponse, IWallet } from "@/types/api";
+import type { ApiResponse } from "@/types/api";
 
 interface ServiceItem {
   _id: string;
@@ -85,15 +85,7 @@ const servicesApi = baseApi.injectEndpoints({
         method: "POST",
         data: { amount },
       }),
-      invalidatesTags: ["TRANSACTION"],
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        dispatch(
-          baseApi.util.updateQueryData<ApiResponse<IWallet>>("getAccountBalance", undefined, (draft) => {
-            if (draft.data) draft.data.balance = data.data.balance;
-          }),
-        );
-      },
+      invalidatesTags: ["TRANSACTION", "WALLET"],
     }),
   }),
 });

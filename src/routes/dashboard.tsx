@@ -1,9 +1,7 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import DashboardIndex from "@/components/modules/Dashboard/DashboardIndex";
 import { lazyPage } from "@/utils/lazyLoad";
 import withAuth from "@/utils/withAuth";
-import { Navigate } from "react-router";
-import { useAppSelector } from "@/redux/hook";
-import { role } from "@/constants/role";
 
 const AdminDashboard = lazyPage(() => import("@/pages/Dashboard/Admin/AdminDashboard"));
 const AgentDashboard = lazyPage(() => import("@/pages/Dashboard/Agent/AgentDashboard"));
@@ -24,19 +22,6 @@ const ManageWalletsPage = lazyPage(() => import("@/pages/Dashboard/Admin/ManageW
 const AllTransactionsPage = lazyPage(() => import("@/pages/Dashboard/Admin/AllTransactionsPage"));
 const SystemConfigPage = lazyPage(() => import("@/pages/Dashboard/Admin/SystemConfigPage"));
 const CreateAdminPage = lazyPage(() => import("@/pages/Dashboard/Admin/CreateAdminPage"));
-
-const dashboardRedirect: Record<string, string> = {
-  [role.superAdmin]: "/dashboard/admin",
-  [role.admin]: "/dashboard/admin",
-  [role.agent]: "/dashboard/agent",
-  [role.user]: "/dashboard/user",
-};
-
-const DashboardIndex = () => {
-  const user = useAppSelector((state) => state.auth.user);
-  const redirect = dashboardRedirect[user?.role ?? ""] || "/login";
-  return <Navigate to={redirect} replace />;
-};
 
 export const dashboardRoutes = [
   {
