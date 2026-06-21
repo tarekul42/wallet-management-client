@@ -1,7 +1,9 @@
 import { test, expect } from "@playwright/test";
+import { mockCommonApis } from "./helpers";
 
 test.describe("Theme toggle", () => {
   test("theme toggle button exists and toggles dark mode", async ({ page }) => {
+    await mockCommonApis(page);
     await page.goto("/", { waitUntil: "networkidle" });
 
     // Find the theme toggle button (sun/moon icon button)
@@ -10,6 +12,7 @@ test.describe("Theme toggle", () => {
   });
 
   test("theme preference persists across pages", async ({ page }) => {
+    await mockCommonApis(page);
     await page.goto("/", { waitUntil: "networkidle" });
 
     // Get initial theme class

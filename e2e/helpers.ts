@@ -34,6 +34,7 @@ export async function loginAs(
     iat: 1516239022,
     exp: 9999999999,
   });
+  await mockCommonApis(page);
   await page.goto("/");
   await page.evaluate(
     ({ t }) => {
