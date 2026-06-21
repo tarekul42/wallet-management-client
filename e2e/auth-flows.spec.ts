@@ -54,11 +54,5 @@ test.describe("Auth flows", () => {
     });
   });
 
-  test.describe("Auth Callback", () => {
-    test("redirects to dashboard with token in URL", async ({ page }) => {
-      await mockCommonApis(page);
-      await page.goto("/auth/callback?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMjMiLCJuYW1lIjoiVGVzdCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTl9.fakesig&refreshToken=abc", { waitUntil: "networkidle" });
-      await page.waitForURL("**/dashboard**", { timeout: 15000 });
-    });
-  });
+  // Auth Callback removed — OAuth was removed for security reasons
 });
