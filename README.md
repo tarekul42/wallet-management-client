@@ -1,51 +1,25 @@
-# Wallet Management Client
+# Wallet Management System — Client
 
-A full-featured digital wallet management SPA built with React 19, Redux Toolkit, and TypeScript. Features role-based dashboards for users, agents, and admins with secure transaction handling, a service marketplace, and package purchase flow.
+> A full-featured digital wallet SPA built with **React 19**, **Redux Toolkit + RTK Query**, and **TypeScript**. Features role-based dashboards for Users, Agents, and Admins, a service marketplace with 1.5% fee checkout, virtual/physical card management, and a token refresh queue that prevents concurrent-refresh race conditions.
 
-## Features
+[![Live Demo](https://img.shields.io/badge/Live_Demo-vercel.app-000000?style=flat-square&logo=vercel&logoColor=white)](https://wallet-management-client.vercel.app)
+[![Backend Repo](https://img.shields.io/badge/Backend_Repo-GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/tarekul42/wallet-management-api)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-### 💰 Core Wallet
-- **Dashboard**: Real-time balance, income/expense chart, transaction table, quick actions
-- **Send Money**: Transfer funds to other users with fee calculation
-- **Deposit / Withdraw**: Add or withdraw money from your wallet
-- **Transaction History**: Paginated, filterable, searchable transaction log
-- **Cards**: Virtual and physical card management (copy, freeze/unfreeze)
+---
 
-### 🛒 Service Marketplace
-- **Browse Services**: Explore available services with search, category filter, rating filter, and sort
-- **Service Details**: Full service page with description, reviews, related services, pricing
-- **Checkout**: Dedicated checkout page with amount input, live fee calculation (1.5%), and wallet payment
-- **My Purchases**: View purchased services with service image, title, date, amount, and fee on the dashboard
+## 📋 Overview
 
-### 👥 Role-Based Dashboards
-- **User Dashboard**: Balance overview, spending chart, card management, transaction table, purchases
-- **Agent Dashboard**: Current balance, total commission, active customers, success rate, cash-in/out to users, commission history
-- **Admin Dashboard**: Total users, active agents, transaction volume, user/agent/wallet management, system config
+This is the client-side SPA for the **Wallet Management System** — a digital wallet platform where users send money, deposit/withdraw, browse a service marketplace, and manage virtual/physical cards. Agents handle cash-in/cash-out and earn commissions. Admins manage users, agents, and system configuration (fees, commission rates, daily/monthly limits).
 
-### 🔐 Auth & Security
-- JWT-based authentication with access/refresh token rotation
-- Token refresh queue prevents concurrent refresh race conditions
-- Axios interceptor auto-attaches `Authorization: Bearer` header and handles 401 with refresh
-- Role-based route protection
-- Multi-step registration (email → OTP → phone OTP → password)
-- Forgot/reset password flow
+The frontend is built on **React 19 + Vite 7** with **Redux Toolkit + RTK Query** for state and data fetching. It ships with a **token refresh queue** that prevents one of the most common JWT race conditions, and **one-click demo login** for User / Agent / Admin roles so reviewers can explore every dashboard instantly.
 
-### 🎨 UX
-- **Light / Dark / System** theme toggle
-- Responsive design with mobile sidebar
-- Framer Motion animations
-- Toast notifications via Sonner
-- One-click demo login (User / Agent / Admin) using env-configured credentials
+---
 
-### 📊 Charts & Data
-- Area chart for daily income/expenses (last 30 days)
-- Dashboard stat cards with animated counters
-- Paginated data tables with search and date filtering
+## 🛠️ Tech Stack
 
-## Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
+| Category | Technology |
+|----------|-----------|
 | Framework | React 19 + Vite 7 |
 | Language | TypeScript 5.8 |
 | State | Redux Toolkit + RTK Query |
@@ -53,87 +27,104 @@ A full-featured digital wallet management SPA built with React 19, Redux Toolkit
 | Styling | Tailwind CSS 4 + shadcn/ui (Radix) |
 | Forms | React Hook Form + Zod |
 | HTTP | Axios with interceptors (auth, refresh) |
-| Animation | Framer Motion |
-| Charts | Recharts |
-| UI | Sonner (toast), Lucide React (icons) |
+| Animation | Motion (v12) |
+| Charts | Recharts 3 |
+| Notifications | Sonner |
+| Icons | Lucide React |
+| Theme | Light / Dark / System |
+| Testing | Vitest + Playwright (E2E) |
+| Package Manager | Bun |
 
-## Getting Started
+---
 
-### 1. Clone & Install
+## ✨ Main Features
+
+- **Token refresh queue** — when multiple RTK Query mutations fail with 401 simultaneously, only the first refresh request goes through; the rest queue and replay once the new token arrives. Prevents the classic "refresh race condition" where concurrent refreshes invalidate each other (each refresh rotates the refresh token, killing the previous one).
+- **One-click demo login** — three buttons (User / Agent / Admin) auto-fill seeded credentials from env vars, so reviewers can explore every dashboard without registering. Seeded with realistic data ($7,177.50 user balance, $9,630 agent balance) so charts and tables look real immediately.
+- **Role-based dashboards** — User (balance, spending chart, cards, transactions, purchases), Agent (balance, commission, customers, success rate, cash-in/out, commission history), Admin (totals, user/agent/wallet management, system config)
+- **Service marketplace** — browse with search/category/rating filters + sort, service details with reviews + related services, dedicated checkout with live 1.5% fee calculation, "My Purchases" view
+- **Virtual & physical card management** — copy card details, freeze/unfreeze cards
+- **Multi-step registration** — email → OTP → phone OTP → password flow
+- **Axios interceptor with auto-refresh** — auto-attaches `Authorization: Bearer` header, handles 401 with silent refresh
+- **Light / Dark / System theme** with persisted preference
+- **Animated charts** — area chart for last-30-days income/expenses, animated counter stat cards
+- **E2E test coverage** — auth flows, dashboard interactions, public pages, registration flow, role-based access, theme switching
+
+---
+
+## 📦 Main Dependencies
+
+### Runtime Dependencies
+| Package | Purpose |
+|---------|---------|
+| `react@^19.1.1` / `react-dom@^19.1.1` | UI runtime |
+| `vite@^7.1.2` + `@vitejs/plugin-react@^5.0.0` | Build tool & dev server |
+| `@reduxjs/toolkit@^2.8.2` + `react-redux@^9.2.0` | State management |
+| `react-router@^7.8.1` | Routing |
+| `axios@^1.13.1` | HTTP client (with auth interceptors) |
+| `react-hook-form@^7.62.0` + `@hookform/resolvers@^5.2.1` | Form management |
+| `zod@^4.0.17` | Schema validation |
+| `motion@^12.23.12` | Animations |
+| `recharts@^3.8.1` | Charts (income/expense, analytics) |
+| `radix-ui@^1.4.3` + `@radix-ui/react-toast` + `@radix-ui/react-tooltip` + `@radix-ui/react-label` + `@radix-ui/react-slot` | Accessible UI primitives |
+| `lucide-react@^0.540.0` | Icons |
+| `sonner@^2.0.7` | Toast notifications |
+| `jwt-decode@^4.0.0` | Client-side JWT decoding |
+| `tailwindcss@^4.1.12` + `@tailwindcss/vite` | Styling |
+| `class-variance-authority` + `clsx` + `tailwind-merge` | Class utilities |
+| `tw-animate-css` | Tailwind animation utilities |
+
+### Dev Dependencies (key ones)
+| Package | Purpose |
+|---------|---------|
+| `vitest@^4.1.9` + `@vitest/coverage-v8` | Unit testing |
+| `@playwright/test@^1.61.0` | E2E testing |
+| `@testing-library/react@^16.3.2` + `@testing-library/user-event@^14.6.1` | Component testing |
+| `eslint@^9.33.0` + `eslint-plugin-react-hooks` + `eslint-plugin-react-refresh` | Linting |
+| `typescript@~5.8.3` | Type safety |
+| `happy-dom@^20.10.6` + `jsdom@^29.1.1` | DOM environments for tests |
+
+---
+
+## 🚀 Run Locally
+
+### Prerequisites
+- [Bun](https://bun.sh/) (recommended) or Node.js 18+
+- Backend API running — see the [Backend Repository](https://github.com/tarekul42/wallet-management-api)
+
+### Installation
 
 ```bash
-git clone https://github.com/tarekul42/wallet-management-client
+# 1. Clone
+git clone https://github.com/tarekul42/wallet-management-client.git
 cd wallet-management-client
+
+# 2. Install dependencies
 bun install
-```
 
-### 2. Environment Setup
-
-```bash
+# 3. Configure environment
 cp .env.example .env.local
+# Edit .env.local with your values (see table below)
+
+# 4. Run dev server
+bun run dev
 ```
 
-Configure the environment variables:
+Open http://localhost:5173 in your browser.
+
+### Environment Variables
 
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `VITE_BASE_URL` | Backend API base URL | `http://localhost:5000/api/v1` |
-| `VITE_DEMO_USER_EMAIL` | Demo user email for quick login | `demo.user@example.com` |
+| `VITE_DEMO_USER_EMAIL` | Demo user email (one-click login) | `demo.user@example.com` |
 | `VITE_DEMO_USER_PASSWORD` | Demo user password | `DemoUser123!` |
 | `VITE_DEMO_AGENT_EMAIL` | Demo agent email | `demo.agent@example.com` |
 | `VITE_DEMO_AGENT_PASSWORD` | Demo agent password | `DemoAgent123!` |
 | `VITE_DEMO_ADMIN_EMAIL` | Demo admin email | `demo.admin@example.com` |
 | `VITE_DEMO_ADMIN_PASSWORD` | Demo admin password | `DemoAdmin123!` |
 
-### 3. Run
-
-```bash
-bun run dev
-```
-
-The app is available at `http://localhost:5173`.
-
-## User Flow
-
-```
-/explore                 → Browse all services
-/explore/:id             → Service details & reviews
-/checkout/:id            → Enter amount, see fee, pay with wallet
-/dashboard               → Auto-redirects to role dashboard
-/dashboard/user          → Full user dashboard with My Purchases
-```
-
-### Quick Login
-The Login page has one-click buttons for **User**, **Agent**, and **Admin** that auto-fill credentials from `VITE_DEMO_*` environment variables.
-
-## Project Structure
-
-```
-src/
-├── assets/           # Static data, images
-├── components/       # Reusable UI components
-│   ├── layout/       # RootLayout, DashboardLayout, Sidebar
-│   ├── modules/      # Dashboard modules (DashboardShell, DashboardStats,
-│   │                 # SpendingChart, TransactionTable, MyPurchases, DashboardIndex)
-│   └── ui/           # shadcn/ui components (Button, Card, Input, Badge, etc.)
-├── config/           # App configuration
-├── constants/        # Role constants, route paths
-├── context/          # Theme context provider
-├── hooks/            # Custom React hooks
-├── lib/              # Axios instance, cn() utility
-├── pages/            # Route pages
-│   ├── Dashboard/    # User, Agent, Admin dashboards + sub-pages
-│   └── Register/     # Multi-step registration
-├── providers/        # Theme provider
-├── redux/            # Redux store, slices, RTK Query APIs
-│   └── features/     # auth, user, agent, admin, services, cards
-├── routes/           # Router config, dashboard routes, withAuth HOC
-├── schemas/          # Zod validation schemas for forms
-├── types/            # Shared TypeScript interfaces
-└── utils/            # JWT decode, lazy loading
-```
-
-## Scripts
+### Available Scripts
 
 | Command | Description |
 |---------|-------------|
@@ -141,41 +132,33 @@ src/
 | `bun run build` | TypeScript check + Vite production build |
 | `bun run preview` | Preview production build on port 3000 |
 | `bun run lint` | Run ESLint |
-| `bun run typecheck` | Run TypeScript compiler check |
-| `bun test` | Run unit tests (Vitest) |
-| `bun run test:e2e` | Run Playwright e2e tests |
-
-## API
-
-Connects to the [wallet-management-api](https://github.com/tarekul42/wallet-management-api) backend at the URL configured in `VITE_BASE_URL`.
-
-### Key RTK Query Endpoints (Frontend)
-
-| Hook | Endpoint | Description |
-|------|----------|-------------|
-| `useGetServicesQuery` | `GET /services` | Paginated services with search/filter |
-| `useGetServiceByIdQuery` | `GET /services/:id` | Single service details |
-| `useGetMyPurchasesQuery` | `GET /services/my-purchases` | Purchase history with populated service |
-| `useBuyServiceMutation` | `POST /services/:id/purchase` | Purchase a service (invalidates WALLET + TRANSACTION) |
-| `useGetAccountBalanceQuery` | `GET /wallets/me` | Current wallet balance |
-| `useSendMoneyMutation` | `POST /transactions/send-money` | Send money to another user |
-| `useGetDashboardSummaryQuery` | `GET /agent/summary` | Agent dashboard summary |
-| `useGetMyCardsQuery` | `GET /cards/my-cards` | User's virtual/physical cards |
+| `bun run typecheck` | TypeScript compiler check |
+| `bun run test` | Run Vitest unit tests |
+| `bun run test:watch` | Run Vitest in watch mode |
+| `bun run test:e2e` | Run Playwright E2E tests |
 
 ---
 
-## Security Notes
+## 🔗 Links
 
-### Why Third-Party Login (Google / Facebook OAuth) Was Removed
+| Resource | URL |
+|----------|-----|
+| 🌐 **Live Demo** | https://wallet-management-client.vercel.app |
+| 🖥️ **Backend Repo** | https://github.com/tarekul42/wallet-management-api |
+| 📧 **Contact** | tarekulrifat142@gmail.com |
 
-This application previously supported Google and Facebook OAuth for social login. These were removed to maintain the highest level of security and control over authentication in a financial application:
+---
 
-1. **Dependency on external identity providers** — OAuth relies on third-party services whose availability, security posture, and data-handling policies are outside our control. A compromise at the provider level could affect user accounts.
+## 📄 License
 
-2. **Account recovery complexity** — For a wallet app handling real or simulated funds, having multiple auth paths (email/password + social logins) creates ambiguity in account recovery and password reset flows. Users who signed up via OAuth may not have a password, complicating support scenarios.
+MIT © Tarekul Islam Rifat
 
-3. **Attack surface reduction** — Removing OAuth eliminates the need for `passport-google-oauth20`, `passport-facebook`, and their associated session/callback handling. This reduces the dependency footprint, the number of HTTP endpoints exposed, and the potential for SSRF or redirect-based attacks.
+---
 
-4. **Simpler threat model** — With only email/password + JWT-based auth, the security model is straightforward: rate-limited login, bcrypt-hashed passwords, httpOnly refresh tokens, and sessionStorage access tokens. No additional OAuth token management or state parameter handling is required.
+<div align="center">
 
-Authentication is now limited to email/password credentials with JWT access/refresh token rotation, providing a fully self-contained auth system.
+**⭐ If this project helped you, give it a star!**
+
+Built with ❤️ by [Tarekul Islam Rifat](https://github.com/tarekul42)
+
+</div>
