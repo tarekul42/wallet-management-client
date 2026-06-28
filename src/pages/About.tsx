@@ -18,12 +18,9 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
-import { useGetPlatformStatsQuery } from "@/redux/features/public/public.api";
 import { useState } from "react";
 
 const About = () => {
-  const { data: statsRes } = useGetPlatformStatsQuery();
-  const s = statsRes?.data;
   const [imgErrors, setImgErrors] = useState<Record<number, boolean>>({});
 
   const handleImgError = (index: number) => {
@@ -38,31 +35,25 @@ const About = () => {
       .toUpperCase();
   };
 
-  const formatNum = (n: number) => {
-    if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M+`;
-    if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K+`;
-    return `${n}+`;
-  };
-
   const stats = [
     {
       label: "Active Users",
-      value: s ? formatNum(s.activeUsers) : "2.5M+",
+      value: "2.5M+",
       icon: <Users className="w-6 h-6" />,
     },
     {
       label: "Transactions Daily",
-      value: s ? `${(s.transactionsDaily / 1000).toFixed(0)}K+` : "50K+",
+      value: "50K+",
       icon: <Zap className="w-6 h-6" />,
     },
     {
       label: "Countries Served",
-      value: `${s?.countriesServed || 45}+`,
+      value: "45+",
       icon: <Globe className="w-6 h-6" />,
     },
     {
       label: "Security Rating",
-      value: s?.securityRating || "99.9%",
+      value: "99.9%",
       icon: <Shield className="w-6 h-6" />,
     },
   ];
@@ -563,17 +554,17 @@ const About = () => {
                   },
                   {
                     icon: <Users className="w-8 h-8" />,
-                    title: s ? `${formatNum(s.activeUsers)} Users` : "2.5M+ Users",
+                    title: "2.5M+ Users",
                     desc: "Trusted worldwide",
                   },
                   {
                     icon: <Globe className="w-8 h-8" />,
-                    title: `${s?.countriesServed || 45}+ Countries`,
+                    title: "45+ Countries",
                     desc: "Global presence",
                   },
                   {
                     icon: <Trophy className="w-8 h-8" />,
-                    title: s?.uptime || "99.9%",
+                    title: "99.9%",
                     desc: "Always available",
                   },
                 ].map((item, index) => (
