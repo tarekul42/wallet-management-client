@@ -21,6 +21,7 @@ const TYPE_LABELS: Record<string, string> = {
   CASH_IN: "Cash In",
   CASH_OUT: "Cash Out",
   COMMISSION: "Commission",
+  SERVICE_PURCHASE: "Service Purchase",
 };
 
 const STATUS_VARIANT: Record<string, "success" | "outline" | "destructive" | "warning"> = {

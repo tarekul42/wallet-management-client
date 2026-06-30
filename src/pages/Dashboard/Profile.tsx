@@ -27,6 +27,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
+import type { IUserProfile } from "@/types/api";
 
 const profileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -41,7 +42,7 @@ const Profile = () => {
   const { user: authUser } = useAppSelector((state) => state.auth);
   const { data: profileRes, isLoading, isError: hasError } = useGetProfileQuery();
   const [updateProfile, { isLoading: isSaving }] = useUpdateProfileMutation();
-  const profileUser = (profileRes?.data as Record<string, unknown> | undefined) ?? authUser;
+  const profileUser = profileRes?.data ?? authUser as unknown as IUserProfile;
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -56,10 +57,10 @@ const Profile = () => {
   useEffect(() => {
     if (profileUser) {
       form.reset({
-        name: (profileUser?.name as string) || "",
-        email: (profileUser?.email as string) || "",
-        phone: (profileUser?.phone as string) || "",
-        address: (profileUser?.address as string) || "",
+        name: profileUser.name || "",
+        email: profileUser.email || "",
+        phone: profileUser.phone || "",
+        address: profileUser.address || "",
       });
     }
   }, [profileUser, form]);
@@ -74,10 +75,10 @@ const Profile = () => {
   };
 
   const memberSince = profileUser?.createdAt
-    ? new Date(profileUser.createdAt as string).toLocaleDateString("en-US", { month: "long", year: "numeric" })
+    ? new Date(profileUser.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
     : "N/A";
 
-  const avatarSrc = `https://api.dicebear.com/7.x/avataaars/svg?seed=${(profileUser?.name as string) || "User"}`;
+  const avatarSrc = `https://api.dicebear.com/7.x/avataaars/svg?seed=${profileUser?.name || "User"}`;
 
   const profileSkeleton = (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -153,8 +154,8 @@ const Profile = () => {
                     <Camera className="h-5 w-5" />
                   </button>
                 </div>
-                <h3 className="text-lg font-bold">{(profileUser?.name as string) || "User"}</h3>
-                <p className="text-sm text-muted-foreground mb-3">{(profileUser?.role as string) || "USER"}</p>
+                <h3 className="text-lg font-bold">{profileUser?.name || "User"}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{profileUser?.role || "USER"}</p>
                 <Badge variant="secondary" className="bg-success/10 text-success hover:bg-success/15 gap-1">
                   <BadgeCheck className="h-3 w-3" />
                   Verified Account

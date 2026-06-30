@@ -35,7 +35,10 @@ const SendMoneyPage = () => {
 
 
 
-  type FormData = z.infer<typeof sendMoneySchema>;
+  interface FormData {
+    receiverEmail: string;
+    amount: number;
+  }
 
   const form = useForm<FormData>({
     resolver: zodResolver(sendMoneySchema) as Resolver<FormData>,

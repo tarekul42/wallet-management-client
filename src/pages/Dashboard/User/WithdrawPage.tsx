@@ -26,14 +26,16 @@ const WithdrawPage = () => {
   const { data: balanceRes, isLoading: balanceLoading } = useGetAccountBalanceQuery();
   const balance = balanceRes?.data?.balance ?? 0;
 
-  type FormData = z.infer<typeof withdrawSchema>;
+  interface FormData {
+    amount: number;
+  }
 
   const form = useForm<FormData>({
     resolver: zodResolver(withdrawSchema) as Resolver<FormData>,
     defaultValues: { amount: "" as unknown as number },
   });
 
-  const onSubmit = async (data: z.infer<typeof withdrawSchema>) => {
+  const onSubmit = async (data: FormData) => {
     try {
       await withdrawMoney({ amount: data.amount }).unwrap();
       toast.success(`Successfully withdrew $${data.amount.toFixed(2)}`);

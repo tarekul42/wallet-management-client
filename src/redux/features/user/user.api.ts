@@ -1,5 +1,5 @@
 import { baseApi } from "@/redux/baseApi";
-import type { ApiResponse, IWallet, ITransaction } from "@/types/api";
+import type { ApiResponse, IWallet, ITransaction, IUserProfile } from "@/types/api";
 
 type QueryParams = Record<string, unknown>;
 
@@ -64,7 +64,7 @@ const userApi = baseApi.injectEndpoints({
         );
       },
     }),
-    updateProfile: builder.mutation<ApiResponse<unknown>, Record<string, unknown>>({
+    updateProfile: builder.mutation<ApiResponse<IUserProfile>, Partial<IUserProfile>>({
       query: (data) => ({
         url: "/users/me",
         method: "PATCH",
@@ -72,7 +72,7 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"],
     }),
-    getProfile: builder.query<ApiResponse<unknown>, void>({
+    getProfile: builder.query<ApiResponse<IUserProfile>, void>({
       query: () => ({ url: "/users/me" }),
       providesTags: ["USER"],
     }),

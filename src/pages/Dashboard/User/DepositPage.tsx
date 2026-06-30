@@ -26,14 +26,16 @@ const DepositPage = () => {
   const { data: balanceRes, isLoading: balanceLoading } = useGetAccountBalanceQuery();
   const balance = balanceRes?.data?.balance ?? 0;
 
-  type FormData = z.infer<typeof depositSchema>;
+  interface FormData {
+    amount: number;
+  }
 
   const form = useForm<FormData>({
     resolver: zodResolver(depositSchema) as Resolver<FormData>,
     defaultValues: { amount: "" as unknown as number },
   });
 
-  const onSubmit = async (data: z.infer<typeof depositSchema>) => {
+  const onSubmit = async (data: FormData) => {
     try {
       await depositMoney({ amount: data.amount }).unwrap();
       toast.success(`Successfully deposited $${data.amount.toFixed(2)}`);

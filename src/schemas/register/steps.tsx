@@ -17,26 +17,24 @@ export const step1Schema = z.object({
   agentDetails: z.string().optional(),
 });
 
-export const step2Schema = z
+export const step2Schema = z.object({
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters.")
+    .regex(
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={[}\]:;"'`~<>,.?/\\-]).{6,}$/,
+      "Password must include an uppercase letter, a number, and a special character.",
+    ),
+  confirmPassword: z.string(),
+  termsAccepted: z
+    .boolean()
+    .refine(
+      (val) => val === true,
+      "You must accept the terms and conditions.",
+    ),
+});
 
-export const step4Schema = step2Schema
-  .object({
-    password: z
-      .string()
-      .min(6, "Password must be at least 6 characters.")
-      .regex(
-        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={[}\]:;"'`~<>,.?/\\-]).{6,}$/,
-        "Password must include an uppercase letter, a number, and a special character.",
-      ),
-    confirmPassword: z.string(),
-    termsAccepted: z
-      .boolean()
-      .refine(
-        (val) => val === true,
-        "You must accept the terms and conditions.",
-      ),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
+export const step4Schema = step2Schema.refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
