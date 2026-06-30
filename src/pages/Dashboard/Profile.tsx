@@ -54,16 +54,21 @@ const Profile = () => {
     },
   });
 
+  const profileName = profileUser?.name;
+  const profileEmail = profileUser?.email;
+  const profilePhone = profileUser?.phone;
+  const profileAddress = profileUser?.address;
+
   useEffect(() => {
     if (profileUser) {
       form.reset({
-        name: profileUser.name || "",
-        email: profileUser.email || "",
-        phone: profileUser.phone || "",
-        address: profileUser.address || "",
+        name: profileName || "",
+        email: profileEmail || "",
+        phone: profilePhone || "",
+        address: profileAddress || "",
       });
     }
-  }, [profileUser, form]);
+  }, [profileName, profileEmail, profilePhone, profileAddress, form]);
 
   const onSubmit = async (data: ProfileFormValues) => {
     try {

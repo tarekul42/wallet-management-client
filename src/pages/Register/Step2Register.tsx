@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import logger from "@/utils/logger";
-import { step4Schema } from "@/schemas/register/steps";
+import { step2SchemaRefined as stepSchema } from "@/schemas/register/steps";
 import {
   Lock,
   Eye,
@@ -32,7 +32,7 @@ import {
   setCurrentStep,
 } from "@/redux/features/registrationSlice";
 
-const Step4Register = () => {
+const Step2Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
@@ -43,8 +43,8 @@ const Step4Register = () => {
     (state) => state.registration,
   );
 
-  const step4Form = useForm<z.infer<typeof step4Schema>>({
-    resolver: zodResolver(step4Schema),
+  const stepForm = useForm<z.infer<typeof stepSchema>>({
+    resolver: zodResolver(stepSchema),
     defaultValues: {
       password: "",
       confirmPassword: "",
@@ -61,7 +61,7 @@ const Step4Register = () => {
   }, []);
 
   // Handle Step 4 Submission (Final)
-  const handleStep4Submit = async (data: z.infer<typeof step4Schema>) => {
+  const handleStep4Submit = async (data: z.infer<typeof stepSchema>) => {
     dispatch(setIsLoading(true));
     try {
       const finalData = {
@@ -113,13 +113,13 @@ const Step4Register = () => {
         </p>
       </div>
 
-      <Form {...step4Form}>
+      <Form {...stepForm}>
         <form
-          onSubmit={step4Form.handleSubmit(handleStep4Submit)}
+          onSubmit={stepForm.handleSubmit(handleStep4Submit)}
           className="space-y-6"
         >
           <FormField
-            control={step4Form.control}
+            control={stepForm.control}
             name="password"
             render={({ field }) => (
               <FormItem>
@@ -156,7 +156,7 @@ const Step4Register = () => {
           />
 
           <FormField
-            control={step4Form.control}
+            control={stepForm.control}
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
@@ -191,7 +191,7 @@ const Step4Register = () => {
           />
 
           <FormField
-            control={step4Form.control}
+            control={stepForm.control}
             name="termsAccepted"
             render={({ field }) => (
               <FormItem>
@@ -256,4 +256,4 @@ const Step4Register = () => {
   );
 };
 
-export default Step4Register;
+export default Step2Register;

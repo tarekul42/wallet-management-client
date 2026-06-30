@@ -24,12 +24,16 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["TRANSACTION"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        dispatch(
-          userApi.util.updateQueryData("getAccountBalance", undefined, (draft) => {
-            if (draft.data) draft.data.balance = data.data.balance;
-          }),
-        );
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            userApi.util.updateQueryData("getAccountBalance", undefined, (draft) => {
+              if (draft.data) draft.data.balance = data.data.balance;
+            }),
+          );
+        } catch {
+          // Mutation failed; cache will be refreshed via invalidatesTags
+        }
       },
     }),
     depositMoney: builder.mutation<ApiResponse<{ balance: number }>, { amount: number }>({
@@ -40,12 +44,16 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["TRANSACTION"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        dispatch(
-          userApi.util.updateQueryData("getAccountBalance", undefined, (draft) => {
-            if (draft.data) draft.data.balance = data.data.balance;
-          }),
-        );
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            userApi.util.updateQueryData("getAccountBalance", undefined, (draft) => {
+              if (draft.data) draft.data.balance = data.data.balance;
+            }),
+          );
+        } catch {
+          // Mutation failed; cache will be refreshed via invalidatesTags
+        }
       },
     }),
     withdrawMoney: builder.mutation<ApiResponse<{ balance: number }>, { amount: number }>({
@@ -56,12 +64,16 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["TRANSACTION"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        dispatch(
-          userApi.util.updateQueryData("getAccountBalance", undefined, (draft) => {
-            if (draft.data) draft.data.balance = data.data.balance;
-          }),
-        );
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            userApi.util.updateQueryData("getAccountBalance", undefined, (draft) => {
+              if (draft.data) draft.data.balance = data.data.balance;
+            }),
+          );
+        } catch {
+          // Mutation failed; cache will be refreshed via invalidatesTags
+        }
       },
     }),
     updateProfile: builder.mutation<ApiResponse<IUserProfile>, Partial<IUserProfile>>({

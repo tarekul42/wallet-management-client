@@ -20,9 +20,9 @@ export const step1Schema = z.object({
 export const step2Schema = z.object({
   password: z
     .string()
-    .min(6, "Password must be at least 6 characters.")
+    .min(8, "Password must be at least 8 characters.")
     .regex(
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={[}\]:;"'`~<>,.?/\\-]).{6,}$/,
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={[}\]:;"'`~<>,.?/\\-]).{8,}$/,
       "Password must include an uppercase letter, a number, and a special character.",
     ),
   confirmPassword: z.string(),
@@ -34,7 +34,7 @@ export const step2Schema = z.object({
     ),
 });
 
-export const step4Schema = step2Schema.refine((data) => data.password === data.confirmPassword, {
+export const step2SchemaRefined = step2Schema.refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
 });

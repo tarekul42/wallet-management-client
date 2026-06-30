@@ -13,8 +13,12 @@ import { decodedToken } from "./utils/jwt.ts";
 
 const token = sessionStorage.getItem("token");
 if (token) {
-  const user = decodedToken(token);
-  store.dispatch(setCredentials({ token, user }));
+  try {
+    const user = decodedToken(token);
+    store.dispatch(setCredentials({ token, user }));
+  } catch {
+    sessionStorage.removeItem("token");
+  }
 }
 
 createRoot(document.getElementById("root")!).render(

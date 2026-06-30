@@ -55,7 +55,7 @@ export interface IAdminSummary {
   };
 }
 
-export interface IUserProfile extends Omit<import("./user").IUser, "role" | "status"> {
+export interface IUserProfile extends Omit<import("./user").IUser, "role" | "status" | "isActive"> {
   role: string;
   isActive: string;
   isVerified: boolean;
